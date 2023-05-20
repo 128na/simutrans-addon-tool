@@ -1,6 +1,9 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 import path from 'path';
 import os from 'os';
+import registerMenu from './services/Menu';
+import registerElectronApi from './services/ElectronApi';
+import registerAutoPakApi from './services/AutoPakApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -11,7 +14,7 @@ try {
       path.join(app.getPath('userData'), 'DevTools Extensions')
     );
   }
-} catch (_) {}
+} catch (_) { }
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -21,8 +24,8 @@ function createWindow() {
    */
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
-    width: 1000,
-    height: 600,
+    width: 1024,
+    height: 768,
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
@@ -30,6 +33,10 @@ function createWindow() {
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     },
   });
+
+  registerMenu(mainWindow);
+  registerElectronApi(mainWindow);
+  registerAutoPakApi(mainWindow);
 
   mainWindow.loadURL(process.env.APP_URL);
 
