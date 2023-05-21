@@ -27,6 +27,7 @@
  *   }
  * }
  */
+import { pakOption, startPakOption } from 'app/interface';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -36,6 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectDir: () => ipcRenderer.invoke('selectDir'),
   selectSingleFile: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
   saveFile: (options: SaveDialogOptions) => ipcRenderer.invoke('saveFile', options),
+  openUrl: (path: string) => ipcRenderer.invoke('openUrl', path),
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),
   getCache: (key: string) => ipcRenderer.invoke('getCache', key),
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),

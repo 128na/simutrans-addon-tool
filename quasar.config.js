@@ -12,7 +12,7 @@
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       // fix: true,
@@ -31,7 +31,7 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
       'i18n',
-      
+
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -69,7 +69,13 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        APP_NAME: 'Simutrans Addon Tool',
+        APP_VERSION: '0.0',
+        CSP: ctx.prod
+          ? "default-src 'unsafe-inline' 'self'"
+          : "default-src 'unsafe-inline' 'unsafe-eval' 'self'", // unsafe-inline need for i18n
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -89,9 +95,26 @@ module.exports = configure(function (/* ctx */) {
           // runtimeOnly: false,
 
           // you need to set i18n resource including paths !
-          include: path.resolve(__dirname, './src/i18n/**')
+          include: path.resolve(__dirname, './src/i18n/**'),
         }]
-      ]
+      ],
+      // https://quasar.dev/options/app-internationalization#introduction
+      chainWebpack: chain => {
+        chain.module
+          .rule('i18n-resource')
+          .test(/\.(json5?|ya?ml)$/)
+          .include.add(path.resolve(__dirname, './src/i18n'))
+          .end()
+          .type('javascript/auto')
+          .use('i18n-resource')
+          .loader('@intlify/vue-i18n-loader');
+        chain.module
+          .rule('i18n')
+          .resourceQuery(/blockType=i18n/)
+          .type('javascript/auto')
+          .use('i18n')
+          .loader('@intlify/vue-i18n-loader');
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
@@ -105,7 +128,7 @@ module.exports = configure(function (/* ctx */) {
       config: {},
 
       // iconSet: 'material-icons', // Quasar icon set
-      // lang: 'en-US', // Quasar language pack
+      lang: 'ja', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
       // (like functional components as one of the examples),
@@ -115,7 +138,9 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Notify'
+      ]
     },
 
     // animations: 'all', // --- includes all animations

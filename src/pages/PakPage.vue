@@ -1,59 +1,39 @@
 <template>
-  <h1>Pak化</h1>
-  <div class="row">
-    <div class="col-6">
-      <div class="mb-3">
-        <SelectDir
-          v-model="sourcePath"
-          input-id="sourcePath"
-          title="ソースフォルダ"
-          @update:model-value="updatecache('sourcePath', $event)"
-        />
-        <p><small>datファイルのあるフォルダを選択します。</small></p>
-      </div>
-      <div class="mb-3">
-        <SelectFile
-          v-model="makeobjPath"
-          input-id="makeobjPath"
-          title="makeobj"
-          :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
-          @update:model-value="updatecache('makeobjPath', $event)"
-        />
-        <p><small>makeobjの場所を指定します。</small></p>
-      </div>
-      <div class="mb-3">
-        <InputPakSize
-          v-model="size"
-          input-id="size"
-          title="pakサイズ"
-          @update:model-value="updatecache('size', $event)"
-        />
-        <p><small>pakサイズを指定します。(16~32767)</small></p>
-      </div>
-      <div class="mb-3">
-        <SaveFile
-          v-model="pakPath"
-          input-id="pakPath"
-          title="pak出力先"
-          default-path="output.pak"
-          @update:model-value="updatecache('pakPath', $event)"
-        />
-        <p><small>生成したpakの保存先を指定します。</small></p>
-      </div>
-      <div class="mb-3">
-        <button
-          class="btn btn-primary"
-          @click="handlePak"
-        >
-          Pak化
-        </button>
-      </div>
-    </div>
-    <div class="col-6">
-      実行ログ
-      <LogViewer :logger="logger" />
-    </div>
-  </div>
+  <q-page>
+    <q-splitter v-model="splitterModel" class="max-height-without-header">
+      <template v-slot:before>
+        <q-page padding>
+          <MainTitle>
+            {{ $t('Pak化') }}
+          </MainTitle>
+
+          <SelectDir v-model="sourcePath" :title="$t('ソースフォルダ')"
+            @update:model-value="updatecache('sourcePath', $event)" />
+          <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
+
+          <SelectFile v-model="makeobjPath" :title="$t('makeobj')" :filters="[{ name: 'makeobj', extensions: ['exe'] }]"
+            @update:model-value="updatecache('makeobjPath', $event)" />
+          <InfoText>{{ $t('makeobjファイルを指定します。') }}</InfoText>
+
+          <InputPakSize v-model="size" :title="$t('pakサイズ')" @update:model-value="updatecache('size', $event)" />
+          <InfoText>{{ $t('pakサイズを指定します。（16～32767）') }}</InfoText>
+
+          <SaveFile v-model="pakPath" :title="$t('pak出力先')" default-path="output.pak"
+            @update:model-value="updatecache('pakPath', $event)" />
+          <InfoText>{{ $t('生成したpakファイルの保存先を指定します。') }}</InfoText>
+
+          <q-btn color="primary" @click="handlePak">{{ $t('実行') }}</q-btn>
+        </q-page>
+      </template>
+
+      <template v-slot:after>
+        <q-page padding class="bg-dark">
+          <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
+          <LogViewer :logger="logger" />
+        </q-page>
+      </template>
+    </q-splitter>
+  </q-page>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -63,6 +43,11 @@ import SelectDir from '../components/SelectDir.vue';
 import SelectFile from '../components/SelectFile.vue';
 import InputPakSize from '../components/InputPakSize.vue';
 import SaveFile from '../components/SaveFile.vue';
+import MainTitle from 'src/components/MainTitle.vue';
+import InfoText from 'src/components/InfoText.vue';
+import SubTitle from 'src/components/SubTitle.vue';
+
+const splitterModel = ref(50);
 
 const sourcePath = ref((await window.electronAPI.getCache('sourcePath') || '') as string);
 const makeobjPath = ref((await window.electronAPI.getCache('makeobjPath') || '') as string);

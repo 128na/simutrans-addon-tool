@@ -1,44 +1,52 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>
-          Quasar App
+          {{ appName }}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>v{{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
+        <q-item-label header>
+          <switch-lang />
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item clickable :to="{ name: 'about' }">
+          <q-item-section avatar><q-icon name="help" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('ツールについて') }}</q-item-label>
+            <q-item-label caption>{{ $t('使い方、更新情報') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable :to="{ name: 'pak' }">
+          <q-item-section avatar><q-icon name="refresh" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('Pak化') }}</q-item-label>
+            <q-item-label caption>{{ $t('Pakファイル作成') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable :to="{ name: 'autoPak' }">
+          <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('自動Pak化') }}</q-item-label>
+            <q-item-label caption>{{ $t('ソース更新を検知して自動Pak化') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable :to="{ name: 'links' }">
+          <q-item-section avatar><q-icon name="link" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('リンク集') }}</q-item-label>
+            <q-item-label caption>{{ $t('Simutrans関連のリンク集') }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -46,57 +54,11 @@
 </template>
 
 <script setup lang="ts">
+import SwitchLang from 'src/components/SwitchLang.vue';
 import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+const appName = process.env.APP_NAME;
+const appVersion = process.env.APP_VERSION;
+const leftDrawerOpen = ref(true);
 
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
 </script>

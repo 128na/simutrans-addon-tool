@@ -1,50 +1,34 @@
 <template>
-  <div
-    ref="viewer"
-    class="form-control viewer bg-light overflow-auto"
-  >
-    <div
-      v-for="(l, index) in logger.getLogs(10)"
-      :key="index"
-      class="mb-3"
-      :class="`text-${l.color}`"
-    >
-      <div>
-        <component
-          :is="l.icon"
-          v-if="l.icon"
-        />
-        [{{ l.datetime }}] [{{ l.level }}]
-      </div>
-      <div>
-        {{ l.message }}
-      </div>
-      <div v-if="l.args.length">
-        {{ JSON.stringify(l.args) }}
-      </div>
-    </div>
-  </div>
+  <q-list separator :dark="true">
+    <q-item v-for="(l, index) in logger.getLogs(100).reverse()" :key="index" clickable v-ripple @click="copy(l)">
+      <q-item-section>
+        <q-item-label :class="`text-${l.color}`">{{ l.datetime }} [{{ l.level.toUpperCase() }}]</q-item-label>
+        <q-item-label class="message" :class="`text-${l.color}`">{{ l.message }}</q-item-label>
+      </q-item-section>
+    </q-item>
+  </q-list>
 </template>
 <script setup lang="ts">
-import type { Ref} from 'vue';
-import { ref, watch } from 'vue';
 import Logger from '../services/logger';
-const props = defineProps({
-  logger: {type:Logger, required:true},
+import { copyToClipboard, useQuasar } from 'quasar'
+import { Log } from 'app/interface';
+
+defineProps({
+  logger: { type: Logger, required: true },
 });
 
-const viewer:Ref<Element|null> = ref(null);
-watch(props.logger, () => {
-  console.log('logger changed', viewer.value);
-  if (viewer.value) {
-    const el = viewer.value;
-    setTimeout(() => el.scrollTo({ top: el.scrollHeight}), 100);
+const $q = useQuasar();
+const copy = async (l: Log) => {
+  try {
+    await copyToClipboard(`${l.datetime} [${l.level.toUpperCase()}]\n${l.message}`);
+    $q.notify({ message: 'Copied.' })
+  } catch (error) {
+
   }
-});
+};
 </script>
 <style>
-.viewer {
-  height: 75vh;
+.message {
   white-space: pre-line;
 }
 </style>
