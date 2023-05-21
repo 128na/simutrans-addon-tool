@@ -1,19 +1,5 @@
 <template>
-  <div class="container-fluid">
-    <RouterView v-slot="{ Component }">
-      <template v-if="Component">
-        <KeepAlive>
-          <Suspense>
-            <component :is="Component"></component>
-
-            <template #fallback>
-              <div clas="q-pa-md">{{ $t('読み込み中...') }}</div>
-            </template>
-          </Suspense>
-        </KeepAlive>
-      </template>
-    </RouterView>
-  </div>
+  <RouterView />
 </template>
 
 <script lang="ts" setup>

@@ -48,7 +48,19 @@
       </q-list>
     </q-drawer>
     <q-page-container>
-      <router-view />
+      <RouterView v-slot="{ Component }">
+        <template v-if="Component">
+          <KeepAlive include="PakPage,AutoPakPage">
+            <Suspense>
+              <component :is="Component"></component>
+
+              <template #fallback>
+                <div clas="q-pa-md">{{ $t('読み込み中...') }}</div>
+              </template>
+            </Suspense>
+          </KeepAlive>
+        </template>
+      </RouterView>
     </q-page-container>
   </q-layout>
 </template>
