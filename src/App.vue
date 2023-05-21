@@ -3,7 +3,7 @@
     <Suspense>
       <template #default>
         <router-view v-slot="{ Component }">
-          <keep-alive>
+          <keep-alive include="PakPage,AutoPakPage">
             <component :is="Component" />
           </keep-alive>
         </router-view>

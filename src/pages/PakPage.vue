@@ -11,16 +11,16 @@
             @update:model-value="updatecache('sourcePath', $event)" />
           <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <SelectFile v-model="makeobjPath" :title="$t('makeobj')" :filters="[{ name: 'makeobj', extensions: ['exe'] }]"
-            @update:model-value="updatecache('makeobjPath', $event)" />
-          <InfoText>{{ $t('makeobjファイルを指定します。') }}</InfoText>
-
           <InputPakSize v-model="size" :title="$t('pakサイズ')" @update:model-value="updatecache('size', $event)" />
           <InfoText>{{ $t('pakサイズを指定します。（16～32767）') }}</InfoText>
 
           <SaveFile v-model="pakPath" :title="$t('pak出力先')" default-path="output.pak"
             @update:model-value="updatecache('pakPath', $event)" />
           <InfoText>{{ $t('生成したpakファイルの保存先を指定します。') }}</InfoText>
+
+          <SelectFile v-model="makeobjPath" :title="$t('makeobj')" :filters="[{ name: 'makeobj', extensions: ['exe'] }]"
+            @update:model-value="updatecache('makeobjPath', $event)" />
+          <InfoText>{{ $t('makeobjファイルを指定します。') }}</InfoText>
 
           <q-btn color="primary" @click="handlePak">{{ $t('実行') }}</q-btn>
         </q-page>
@@ -56,7 +56,6 @@ const pakPath = ref((await window.electronAPI.getCache('pakPath') || '') as stri
 const size = ref((await window.electronAPI.getCache('size') || 128) as number);
 const logger = ref(new Logger());
 
-
 const { t } = useI18n();
 logger.value.info(t('ここに実行結果が出力されます。'));
 
@@ -64,10 +63,10 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const handlePak = async () => {
   if (!sourcePath.value) {
-    return alert('ソースフォルダが選択されていません');
+    return alert(t('ソースフォルダが選択されていません'));
   }
   if (!makeobjPath.value) {
-    return alert('makeobjが選択されていません');
+    return alert(t('makeobjが選択されていません'));
   }
   try {
     const result = await window.autoPakAPI.pak({

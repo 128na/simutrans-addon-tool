@@ -1,5 +1,5 @@
 import type { BrowserWindow } from 'electron';
-import { dialog, ipcMain, shell } from 'electron';
+import { app, dialog, ipcMain, shell } from 'electron';
 import Store from 'electron-store';
 import { lstatSync } from 'node:fs';
 import { dirname } from 'node:path';
@@ -77,6 +77,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    *
    * @link https://github.com/sindresorhus/electron-store/issues/210
    */
+  console.log('store location is ', app.getPath('userData'));
   ipcMain.removeHandler('getCache');
   ipcMain.handle('getCache', (event, key: string) => {
     const value = store.get(`cache.${key}`);
