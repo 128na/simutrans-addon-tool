@@ -1,12 +1,14 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme, session } from 'electron';
 import path from 'path';
 import os from 'os';
 import registerMenu from './services/Menu';
 import registerElectronApi from './services/ElectronApi';
 import registerAutoPakApi from './services/AutoPakApi';
+import registerVue3DevToolForWin from './services/DevTool';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
+const inDev = process.env.DEV;
 
 try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
@@ -19,6 +21,7 @@ try {
 let mainWindow: BrowserWindow | undefined;
 
 function createWindow() {
+
   /**
    * Initial window options
    */
@@ -33,6 +36,9 @@ function createWindow() {
     },
   });
 
+  if (platform === 'win32' && inDev) {
+    registerVue3DevToolForWin();
+  }
   registerMenu(mainWindow);
   registerElectronApi(mainWindow);
   registerAutoPakApi(mainWindow);
