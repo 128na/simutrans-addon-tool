@@ -1,17 +1,18 @@
 <template>
   <div class="container-fluid">
-    <Suspense>
-      <template #default>
-        <router-view v-slot="{ Component }">
-          <keep-alive include="PakPage,AutoPakPage">
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
+    <RouterView v-slot="{ Component }">
+      <template v-if="Component">
+        <KeepAlive>
+          <Suspense>
+            <component :is="Component"></component>
+
+            <template #fallback>
+              <div clas="q-pa-md">{{ $t('読み込み中...') }}</div>
+            </template>
+          </Suspense>
+        </KeepAlive>
       </template>
-      <template #fallback>
-        {{ $t('読み込み中...') }}
-      </template>
-    </suspense>
+    </RouterView>
   </div>
 </template>
 
