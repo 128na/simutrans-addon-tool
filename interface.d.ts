@@ -10,16 +10,6 @@ interface startPakOption {
   makeobjPath: string, size: number, pakPath: string, sourcePath: string, simutransPath: string
 }
 
-type Level = 'debug' | 'info' | 'error';
-type Color = 'dark' | 'positive' | 'negative';
-interface Log {
-  datetime: string,
-  level: Level,
-  color: Color,
-  message: string,
-  args: unknown[]
-}
-
 declare global {
   interface Window {
     electronAPI: {

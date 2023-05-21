@@ -1,39 +1,50 @@
-import { Log } from 'app/interface';
 import { DateTime } from 'luxon';
 
 export default class logger {
   logs: Log[];
+  limit: number;
 
-  constructor() {
+  constructor(limit = 100) {
     this.logs = [];
+    this.limit = limit;
   }
 
-  public debug(message: string, ...args: unknown[]): void {
-    this.append('debug', 'dark', message, ...args);
+  public debug(message: string, args: unknown = undefined): void {
+    this.append('debug', 'white', null, message, args);
   }
 
-  public info(message: string, ...args: unknown[]): void {
-    this.append('info', 'positive', message, ...args);
+  public info(message: string, args: unknown = undefined): void {
+    this.append('info', 'info', 'info', message, args);
   }
 
-
-  public error(message: string, ...args: unknown[]): void {
-    this.append('error', 'negative', message, ...args);
+  public success(message: string, args: unknown = undefined): void {
+    this.append('success', 'positive', 'check', message, args);
   }
 
-  public append(level: Level, color: Color, message: string, ...args: unknown[]): void {
+  public error(message: string, args: unknown = undefined): void {
+    this.append('error', 'negative', 'close', message, args);
+  }
+
+  public append(level: Level, color: Color, icon: Icon, message: string, args: unknown = undefined): void {
+    console.log(level, color, icon, message, args);
     this.logs.push({
       datetime: DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
       level,
       color,
+      icon,
       message,
       args,
     });
+    if (this.logs.length > this.limit) {
+      this.logs.shift();
+    }
   }
 
-  public getLogs(limit = 0): Log[] {
-    return this.logs.length > limit
-      ? this.logs.slice(this.logs.length - limit)
-      : this.logs;
+  public getLogs(): Log[] {
+    return this.logs;
+  }
+
+  public getReverseLogs(): Log[] {
+    return [...this.getLogs()].reverse();
   }
 }

@@ -3,11 +3,10 @@
   <q-input :model-value="modelValue" type="number" :label="title" :min="16" :max="32767"
     @input:modelValue="$emit('update:modelValue', Number($event.target.value))"
     @change:modelValue="$emit('update:modelValue', Number($event.target.value))" class="q-mb-sm" />
+
   <q-btn-group outline>
-    <q-btn outline dense color="secondary" @click="$emit('update:modelValue', 64)">64</q-btn>
-    <q-btn outline dense color="secondary" @click="$emit('update:modelValue', 128)">128</q-btn>
-    <q-btn outline dense color="secondary" @click="$emit('update:modelValue', 192)">192</q-btn>
-    <q-btn outline dense color="secondary" @click="$emit('update:modelValue', 256)">256</q-btn>
+    <q-btn outline dense color="secondary" v-for="size in sizes" :key="size" @click="$emit('update:modelValue', size)">{{
+      size }}</q-btn>
   </q-btn-group>
 </template>
 <script setup lang="ts">
@@ -23,5 +22,7 @@ defineProps({
 defineEmits<{
   'update:modelValue': [value: number]
 }>();
+
+const sizes = [64, 128, 192, 256, 384, 512];
 
 </script>

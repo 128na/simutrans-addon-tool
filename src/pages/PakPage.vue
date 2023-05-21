@@ -46,6 +46,7 @@ import SaveFile from '../components/SaveFile.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
+import { useI18n } from 'vue-i18n';
 
 const splitterModel = ref(50);
 
@@ -54,6 +55,10 @@ const makeobjPath = ref((await window.electronAPI.getCache('makeobjPath') || '')
 const pakPath = ref((await window.electronAPI.getCache('pakPath') || '') as string);
 const size = ref((await window.electronAPI.getCache('size') || 128) as number);
 const logger = ref(new Logger());
+
+
+const { t } = useI18n();
+logger.value.info(t('ここに実行結果が出力されます。'));
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
@@ -71,16 +76,19 @@ const handlePak = async () => {
       pakPath: pakPath.value,
       sourcePath: sourcePath.value,
     });
-    console.log({ result });
 
     if (result.status === 0) {
-      logger.value.info(result.stdout);
+      logger.value.success(result.stdout);
     } else {
       logger.value.error(result.stderr);
     }
 
   } catch (error: unknown) {
-    alert('えらー');
+    if (error instanceof Error) {
+      logger.value.error(error.message);
+    } else {
+      logger.value.error(t('エラーが発生しました。'), error);
+    }
   }
 };
 
