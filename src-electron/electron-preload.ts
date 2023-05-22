@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { pakOption, startPakOption, updateAutoPakArgs } from 'app/interface';
+import { pakOption, startPakOption, updateAutoPakArgs, updatePakArgs } from 'app/interface';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -44,8 +44,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 });
 
 contextBridge.exposeInMainWorld('autoPakAPI', {
-  pak: (options: pakOption) => ipcRenderer.invoke('pak', options),
-  startAutoPak: (options: startPakOption) => ipcRenderer.invoke('startAutoPak', options),
-  stopAutoPak: () => ipcRenderer.invoke('stopAutoPak'),
+  startPak: (options: pakOption) => ipcRenderer.send('startPak', options),
+  updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
+  startAutoPak: (options: startPakOption) => ipcRenderer.send('startAutoPak', options),
+  stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
   updateAutoPak: (callback: updateAutoPakArgs) => ipcRenderer.on('updateAutoPak', callback),
 });

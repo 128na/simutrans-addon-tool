@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   unselectLabel?: string
   selectLabel?: string
   openLabel?: string
-  disable: boolean
+  disable?: boolean
 }>(), {
   unselectLabel: '未選択',
   selectLabel: '選択',

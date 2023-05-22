@@ -74,21 +74,12 @@ logger.value.info(t('ここに実行結果が出力されます。'));
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
 const watching = ref(false);
-const stopPak = async () => {
-  try {
-    await window.autoPakAPI.stopAutoPak();
-    watching.value = false;
-    logger.value.info(t('変更検知停止'));
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      logger.value.error(error.message);
-    } else {
-      logger.value.error(t('エラーが発生しました。'), error);
-    }
-  }
 
+const stopPak = () => {
+  window.autoPakAPI.stopAutoPak();
+  watching.value = false;
 };
-const startPak = async () => {
+const startPak = () => {
   if (!sourcePath.value) {
     return alert(t('ソースフォルダが選択されていません'));
   }
@@ -101,33 +92,17 @@ const startPak = async () => {
   if (!pakPath.value) {
     return alert('pak出力先が選択されていません');
   }
-  try {
-    watching.value = true;
-    logger.value.info(t('変更検知開始'));
-    const result = await window.autoPakAPI.startAutoPak({
-      simutransPath: simutransPath.value,
-      makeobjPath: makeobjPath.value,
-      size: size.value,
-      pakPath: pakPath.value,
-      sourcePath: sourcePath.value,
-    });
-    logger.value.success('開始', result);
 
-    // if (result.status === 0) {
-    //   logger.value.success(result.stdout);
-    // } else {
-    //   logger.value.error(result.stderr);
-    // }
-
-  } catch (error: unknown) {
-    watching.value = false;
-    if (error instanceof Error) {
-      logger.value.error(error.message);
-    } else {
-      logger.value.error(t('エラーが発生しました。'), error);
-    }
-  }
+  watching.value = true;
+  window.autoPakAPI.startAutoPak({
+    simutransPath: simutransPath.value,
+    makeobjPath: makeobjPath.value,
+    size: size.value,
+    pakPath: pakPath.value,
+    sourcePath: sourcePath.value,
+  });
 };
+
 window.autoPakAPI.updateAutoPak((event, level, message, args = undefined) => {
   logger.value[level](message, args);
 });

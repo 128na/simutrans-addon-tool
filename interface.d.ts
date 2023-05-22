@@ -1,5 +1,4 @@
 import type Electron from 'electron';
-import type MakeobjResult from 'simutrans-makeobj-wrapper/dist/src/MakeobjResponse';
 import type Router from 'vue-router';
 
 interface pakOption {
@@ -10,9 +9,11 @@ interface startPakOption {
   makeobjPath: string, size: number, pakPath: string, sourcePath: string, simutransPath: string
 }
 
-interface updateAutoPakArgs {
+
+interface updatePakArgs {
   (event: Electron.IpcRendererEvent, level: Level, message: string, args?: unknown): void
 }
+type updateAutoPakArgs = updatePakArgs
 
 declare global {
   interface Window {
@@ -27,9 +28,10 @@ declare global {
       setCache: (key: string, value: unknown) => Promise<void>,
     }
     autoPakAPI: {
-      pak: (options: pakOption) => Promise<MakeobjResult>,
-      startAutoPak: (options: startPakOption) => Promise<unknown>
-      stopAutoPak: () => Promise<void>
+      startPak: (options: pakOption) => void,
+      updatePak: (callback: updatePakArgs) => void,
+      startAutoPak: (options: startPakOption) => void
+      stopAutoPak: () => void
       updateAutoPak: (callback: updateAutoPakArgs) => void,
     }
   }

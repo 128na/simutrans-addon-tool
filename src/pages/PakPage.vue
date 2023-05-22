@@ -61,34 +61,23 @@ logger.value.info(t('ここに実行結果が出力されます。'));
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
-const handlePak = async () => {
+const handlePak = () => {
   if (!sourcePath.value) {
     return alert(t('ソースフォルダが選択されていません'));
   }
   if (!makeobjPath.value) {
     return alert(t('makeobjが選択されていません'));
   }
-  try {
-    const result = await window.autoPakAPI.pak({
-      makeobjPath: makeobjPath.value,
-      size: size.value,
-      pakPath: pakPath.value,
-      sourcePath: sourcePath.value,
-    });
 
-    if (result.status === 0) {
-      logger.value.success(result.stdout);
-    } else {
-      logger.value.error(result.stderr);
-    }
-
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      logger.value.error(error.message);
-    } else {
-      logger.value.error(t('エラーが発生しました。'), error);
-    }
-  }
+  window.autoPakAPI.startPak({
+    makeobjPath: makeobjPath.value,
+    size: size.value,
+    pakPath: pakPath.value,
+    sourcePath: sourcePath.value,
+  });
 };
 
+window.autoPakAPI.updatePak((event, level, message, args = undefined) => {
+  logger.value[level](message, args);
+});
 </script>

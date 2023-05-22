@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
   selectLabel?: string
   openLabel?: string
   filters?: FileFilter[]
-  disable: boolean
+  disable?: boolean
 }>(), {
   unselectLabel: '未選択',
   selectLabel: '選択',

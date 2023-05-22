@@ -5,15 +5,27 @@ import Simutrans from '../services/Simutrans';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
-  ipcMain.removeHandler('pak');
-  ipcMain.handle('pak', async (event, { makeobjPath, size, pakPath, sourcePath }) => {
+  ipcMain.removeHandler('startPak');
+  ipcMain.on('startPak', async (event, { makeobjPath, size, pakPath, sourcePath }) => {
     const builder = new Builder(makeobjPath);
 
-    const result = builder.pak(size, pakPath, sourcePath);
+    try {
+      mainWindow.webContents.send('updatePak', 'debug', 'Pakファイル作成開始');
+      const result = await builder.pak(size, pakPath, sourcePath);
 
-    console.log('pak result', { result });
-
-    return result;
+      if (result.status === 0) {
+        console.log('[startPak] pak result', { result })
+        mainWindow.webContents.send('updatePak', 'success', result.stdout);
+      } else {
+        mainWindow.webContents.send('updatePak', 'error', result.stderr);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        mainWindow.webContents.send('updatePak', 'error', error.message);
+      } else {
+        mainWindow.webContents.send('updatePak', 'エラーが発生しました', error);
+      }
+    }
   });
 
   const watcher = new Watcher();
@@ -21,8 +33,9 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   let timer: NodeJS.Timeout | null = null;
 
   ipcMain.removeHandler('startAutoPak');
-  ipcMain.handle('startAutoPak', async (event, { makeobjPath, size, pakPath, simutransPath, sourcePath }) => {
+  ipcMain.on('startAutoPak', async (event, { makeobjPath, size, pakPath, simutransPath, sourcePath }) => {
     console.log('[startAutoPak]');
+    mainWindow.webContents.send('updateAutoPak', 'debug', '監視準備開始');
     const builder = new Builder(makeobjPath);
     const simutrans = new Simutrans(simutransPath);
 
@@ -87,7 +100,7 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   });
 
   ipcMain.removeHandler('stopAutoPak');
-  ipcMain.handle('stopAutoPak', async () => {
+  ipcMain.on('stopAutoPak', async () => {
     console.log('[stopAutoPak]');
     watcher.stop();
     mainWindow.webContents.send('updateAutoPak', 'info', '監視停止');
