@@ -27,6 +27,7 @@ function createWindow() {
    */
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
+    show: false,
     width: 1024,
     height: 768,
     useContentSize: true,
@@ -58,6 +59,9 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = undefined;
   });
+  mainWindow.once('ready-to-show', () => {
+    mainWindow && mainWindow.show()
+  })
 }
 
 app.whenReady().then(createWindow);

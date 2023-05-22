@@ -92,4 +92,6 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
     watcher.stop();
     mainWindow.webContents.send('updateAutoPak', 'info', '監視停止');
   });
+
+  console.log('[AutoPakApi] registered');
 }

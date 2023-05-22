@@ -17,7 +17,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openDirectory'],
     });
-    console.log('directories selected', result.filePaths);
+    console.log('[ElectronApi] directories selected', result.filePaths);
 
     return result.filePaths[0] || '';
   });
@@ -27,7 +27,6 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    */
   ipcMain.removeHandler('selectFile');
   ipcMain.handle('selectFile', async (event, { multiSelections, filters }) => {
-    console.log({ filters });
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: multiSelections ? ['openFile', 'multiSelections'] : ['openFile'],
       filters: [
@@ -35,7 +34,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
         { name: 'All Files', extensions: ['*'] },
       ],
     });
-    console.log('files selected', result.filePaths);
+    console.log('[ElectronApi] files selected', result.filePaths);
 
     return multiSelections ? result.filePaths : result.filePaths[0] || '';
   });
@@ -49,7 +48,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
     const result = await dialog.showSaveDialog(mainWindow, {
       defaultPath,
     });
-    console.log('directories selected', result.filePath);
+    console.log('[ElectronApi] directories selected', result.filePath);
 
     return result.filePath || '';
   });
@@ -60,6 +59,8 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    */
   ipcMain.removeHandler('openUrl');
   ipcMain.handle('openUrl', (event, url: string) => {
+    console.log('[ElectronApi] openUrl', url);
+
     return shell.openExternal(url);
   });
 
@@ -69,6 +70,8 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    */
   ipcMain.removeHandler('openDir');
   ipcMain.handle('openDir', (event, path: string) => {
+    console.log('[ElectronApi] openDir', path);
+
     return shell.openPath(lstatSync(path).isDirectory() ? path : dirname(path));
   });
 
@@ -77,17 +80,21 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    *
    * @link https://github.com/sindresorhus/electron-store/issues/210
    */
-  console.log('store location is ', app.getPath('userData'));
+  console.log('[ElectronApi] store location is ', app.getPath('userData'));
   ipcMain.removeHandler('getCache');
   ipcMain.handle('getCache', (event, key: string) => {
     const value = store.get(`cache.${key}`);
-    console.log('getCache', { key, value });
+    console.log('[ElectronApi] getCache', { key, value });
+
     return value;
   });
+
   ipcMain.removeHandler('setCache');
   ipcMain.handle('setCache', (event, key: string, value: unknown) => {
-    console.log('setCache', { key, value });
+    console.log('[ElectronApi] setCache', { key, value });
+
     return store.set(`cache.${key}`, value);
   });
 
+  console.log('[ElectronApi] registered');
 }

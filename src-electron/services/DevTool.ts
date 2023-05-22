@@ -13,7 +13,7 @@ export default async function registerVue3DevToolForWin() {
   console.log('[DevTool] devToolsPath', devToolsPath);
 
   await session.defaultSession.loadExtension(devToolsPath);
-  console.log('[DevTool] load vue3 devtool');
+  console.log('[DevTool] vue3 devtool registered');
 }
 
 const getVersion = (path: string): string => {
