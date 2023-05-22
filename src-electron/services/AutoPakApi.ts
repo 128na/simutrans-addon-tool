@@ -13,4 +13,19 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
 
     return result;
   });
+
+  let timer: NodeJS.Timer | null = null;
+  ipcMain.removeHandler('startAutoPak');
+  ipcMain.handle('startAutoPak', async (event, { makeobjPath, size, pakPath, simutransPath, sourcePath }) => {
+
+    timer = setInterval(() => {
+      mainWindow.webContents.send('updateAutoPak', 'debug', 'ping');
+    }, 1000);
+    return 'testing';
+  });
+  ipcMain.removeHandler('stopAutoPak');
+  ipcMain.handle('stopAutoPak', async () => {
+    timer && clearInterval(timer);
+    // testging
+  });
 }

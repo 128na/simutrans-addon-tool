@@ -10,6 +10,10 @@ interface startPakOption {
   makeobjPath: string, size: number, pakPath: string, sourcePath: string, simutransPath: string
 }
 
+interface updateAutoPakArgs {
+  (event: Electron.IpcRendererEvent, level: Level, message: string, args?: unknown): void
+}
+
 declare global {
   interface Window {
     electronAPI: {
@@ -24,8 +28,9 @@ declare global {
     }
     autoPakAPI: {
       pak: (options: pakOption) => Promise<MakeobjResult>,
-      startAutoPak: (options: startPakOption) => Promise<MakeobjResult>
-      abortAutoPak: () => Promise<void>
+      startAutoPak: (options: startPakOption) => Promise<unknown>
+      stopAutoPak: () => Promise<void>
+      updateAutoPak: (callback: updateAutoPakArgs) => void,
     }
   }
 }
