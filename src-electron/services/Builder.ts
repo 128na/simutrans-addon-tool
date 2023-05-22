@@ -1,28 +1,36 @@
+import { spawn } from 'child_process';
 import { lstatSync, readdirSync } from 'fs';
 import { dirname, resolve, sep as s } from 'path';
 import { Makeobj } from 'simutrans-makeobj-wrapper';
+import MakeobjResult from 'simutrans-makeobj-wrapper/dist/src/MakeobjResponse';
 
-export class Builder {
+export default class Builder {
   makeobj: Makeobj;
+  makeobjPath: string;
 
   constructor(makeobjPath: string) {
+    this.makeobjPath = makeobjPath;
     this.makeobj = new Makeobj(resolve(makeobjPath));
   }
 
-  public pak(size: number, pakPath: string, sourcePath: string) {
-
+  public pak(size: number, pakPath: string, sourcePath: string): Promise<MakeobjResult> {
     const datFiles = this.findDatFiles(resolve(sourcePath));
 
     if (datFiles.length < 1) {
       throw new Error(`dat file not found in ${sourcePath}.`);
     }
-    pakPath = resolve(pakPath);
+    const resolvedPakPath = resolve(pakPath);
 
-    console.log({ pakPath, datFiles });
+    const child = spawn(this.makeobjPath, [`PAK${size}`, resolvedPakPath, ...datFiles], { cwd: dirname(datFiles[0]) });
 
-    const result = this.makeobj.exec({ cwd: dirname(datFiles[0]) }, `PAK${size}`, pakPath, ...datFiles);
-    console.log('pak result', { result });
-    return result;
+    return new Promise((resolve, reject) => {
+      let stdout = '';
+      let stderr = '';
+      child.stdout.on('data', (data) => { stdout += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n'); });
+      child.stderr.on('data', (data) => { stderr += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n'); });
+      child.on('close', (status) => { resolve(new MakeobjResult({ status, stdout, stderr })); });
+      child.on('error', (err) => { reject(err); });
+    });
   }
 
   private findDatFiles(folder: string): string[] {

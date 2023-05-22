@@ -1,9 +1,9 @@
-import { app, BrowserWindow, nativeTheme, session } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 import path from 'path';
 import os from 'os';
 import registerMenu from './services/Menu';
-import registerElectronApi from './services/ElectronApi';
-import registerAutoPakApi from './services/AutoPakApi';
+import registerElectronApi from './apis/ElectronApi';
+import registerAutoPakApi from './apis/AutoPakApi';
 import registerVue3DevToolForWin from './services/DevTool';
 
 // needed in case process is undefined under Linux

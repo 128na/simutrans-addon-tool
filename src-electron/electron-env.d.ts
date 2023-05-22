@@ -6,3 +6,7 @@ declare namespace NodeJS {
     APP_URL: string;
   }
 }
+
+interface onReadyArgs {
+  [directory: string]: string[];
+}
