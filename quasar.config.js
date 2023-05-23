@@ -10,7 +10,7 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
-
+const package = require('./package.json');
 module.exports = configure(function (ctx) {
   return {
     eslint: {
@@ -64,15 +64,16 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        APP_NAME: 'Simutrans Addon Tool',
-        APP_VERSION: '0.0',
+        APP_NAME:package.productName,
+        APP_REPOSITORY_URL:package.repository.url,
         CSP: ctx.prod
-          ? "default-src 'unsafe-inline' 'self'"
-          : "default-src 'unsafe-inline' 'unsafe-eval' 'self'", // unsafe-inline need for i18n
+        ? "default-src 'unsafe-inline' 'self'"
+        : "default-src 'unsafe-inline' 'unsafe-eval' 'self'", // unsafe-inline need for i18n
+        ...require('dotenv').config().parsed
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
-      // minify: false,
+      minify: true,
       // polyfillModulePreload: true,
       // distDir
 

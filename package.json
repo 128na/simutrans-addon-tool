@@ -21,6 +21,7 @@
     "@intlify/vue-i18n-loader": "^4.2.0",
     "@quasar/extras": "^1.0.0",
     "chokidar": "^3.5.3",
+    "dotenv": "^16.0.3",
     "electron-store": "^8.1.0",
     "luxon": "^3.3.0",
     "pinia": "^2.0.11",
