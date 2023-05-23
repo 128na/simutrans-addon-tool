@@ -11,7 +11,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
-    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\"",
+    "format": "prettier --write \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,scss,html,md}\"",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m electron",
     "build": "quasar build -m electron",
