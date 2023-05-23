@@ -17,6 +17,13 @@
       }}
     </p>
     <SubTitle>
+      {{ $t('開発情報') }}
+    </SubTitle>
+    <p>
+      {{ $t('最新版のリリースはこちらから確認できます。') }}<br />
+      <ExternalLink :url="releasePage" />
+    </p>
+    <SubTitle>
       {{ $t('更新情報') }}
     </SubTitle>
     <ul>
@@ -28,10 +35,12 @@
 </template>
 
 <script lang="ts" setup>
+import ExternalLink from 'src/components/ExternalLink.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 
 const histories = {
   '0.1': 'Pak化、自動Pak化機能を追加しました',
 };
+const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 </script>

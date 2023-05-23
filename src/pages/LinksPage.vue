@@ -33,7 +33,7 @@
       <ul>
         <li v-for="link in devLinks" :key="link.url">
           <p>
-            <ExternalLink :url="link.url">{{ link.title }}</ExternalLink>
+            <ExternalLink :url="link.url" />
           </p>
         </li>
       </ul>
@@ -79,27 +79,21 @@ const unofficialLinks = [
 const dev = process.env.DEV;
 const devLinks = [
   {
-    title: 'Vue.js',
     url: 'https://ja.vuejs.org/',
   },
   {
-    title: 'Vue router',
     url: 'https://v3.router.vuejs.org/ja/',
   },
   {
-    title: 'Quasar',
     url: 'https://quasar.dev/',
   },
   {
-    title: 'Electron',
     url: 'https://www.electronjs.org/ja/',
   },
   {
-    title: 'Material icon',
     url: 'https://fonts.google.com/icons',
   },
   {
-    title: 'DeepL',
     url: 'https://www.deepl.com/ja/translator#ja/en/',
   },
 ];
