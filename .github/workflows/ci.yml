@@ -33,6 +33,9 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   typechecking:
     uses: ./.github/workflows/typechecking.yml
