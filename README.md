@@ -2,6 +2,8 @@
 
 Simutrans のアドオン作成を支援するツール集です。
 
+![thumbail](./thumb.png "thumbail")
+
 ## 使い方
 
 動作には Simutrans 本体, makeobj が必要です。予め導入してください。
