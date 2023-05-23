@@ -11,7 +11,7 @@
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 const package = require('./package.json');
-module.exports = configure(function (ctx) {
+module.exports = configure(function (/* ctx */) {
   return {
     eslint: {
       // fix: true,
