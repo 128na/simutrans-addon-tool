@@ -3,9 +3,8 @@
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-      - 'renovate/**'
+    branches: [main]
+    tags: ["**"]
     paths-ignore:
       - '.github/**'
       - '!.github/workflows/ci.yml'
