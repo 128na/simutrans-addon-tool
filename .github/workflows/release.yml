@@ -17,11 +17,11 @@ defaults:
   run:
     shell: 'bash'
 
-permissions:
-  contents: write
 
 jobs:
   draft_release:
+    permissions:
+      contents: write
 
     strategy:
       fail-fast: false
