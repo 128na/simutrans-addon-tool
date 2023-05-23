@@ -2,7 +2,7 @@
 
 Simutrans のアドオン作成を支援するツール集です。
 
-![thumbail](./thumb.png "thumbail")
+![thumbail](./thumb.png 'thumbail')
 
 ## 使い方
 

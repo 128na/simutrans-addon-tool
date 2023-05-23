@@ -35,7 +35,10 @@ export default class Builder {
       cwd,
     });
 
-    const child = spawn(this.makeobjPath, command, { cwd, signal: this.abortControler.signal });
+    const child = spawn(this.makeobjPath, command, {
+      cwd,
+      signal: this.abortControler.signal,
+    });
 
     return new Promise((resolve, reject) => {
       let stdout = '';
