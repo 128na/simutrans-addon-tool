@@ -40,7 +40,7 @@ jobs:
   # tests:
   #   uses: ./.github/workflows/tests.yml
   draft_release:
-    # if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/')
     with:
       dry-run: ${{ github.event_name != 'push' || github.ref_name != 'main' }}
     needs: [ typechecking ]
