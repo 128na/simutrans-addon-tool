@@ -1,16 +1,17 @@
 ---
-name: Bug report
+name: バグ報告 / Bug report
 about: Create a report to help us improve
 title: ''
 labels: bug
-assignees: cawa-93
+assignees:
 
 ---
+日本語か英語で記載してください。/Please describe in Japanese or English.
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**バグの説明 / Describe the bug**
+A clear and concise description of what you expected to happen.
 
-**To Reproduce**
+**再現手順 / To Reproduce**
 Steps to reproduce the behavior:
 
 1. Go to '...'
@@ -18,11 +19,10 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**期待される動作/Expected behavior**
 
-**Screenshots**
+**スクリーンショット / Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Additional context**
+**追加情報 / Additional context**
 Add any other context about the problem here.
