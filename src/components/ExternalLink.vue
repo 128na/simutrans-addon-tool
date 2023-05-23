@@ -6,7 +6,7 @@
 </template>
 <script lang="ts" setup>
 const props = defineProps<{
-  url: string
+  url: string;
 }>();
 
 const handleLink = () => {

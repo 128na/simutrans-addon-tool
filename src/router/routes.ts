@@ -15,8 +15,7 @@ const routes: RouteRecordRaw[] = [
       { name: 'pak', path: '/pak', component: PakPage },
       { name: 'autoPak', path: '/autoPak', component: AutoPakPage },
       { name: 'links', path: '/links', component: LinksPage },
-    ]
-    ,
+    ],
   },
 ];
 export default routes;

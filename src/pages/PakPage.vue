@@ -7,19 +7,38 @@
             {{ $t('Pak化') }}
           </MainTitle>
 
-          <SelectDir v-model="sourcePath" :title="$t('ソースフォルダ')"
-            @update:model-value="updatecache('sourcePath', $event)" />
-          <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
+          <SelectDir
+            v-model="sourcePath"
+            :title="$t('ソースフォルダ')"
+            @update:model-value="updatecache('sourcePath', $event)"
+          />
+          <InfoText>{{
+            $t('datファイルのあるフォルダを選択します。')
+          }}</InfoText>
 
-          <InputPakSize v-model="size" :title="$t('Pakサイズ')" @update:model-value="updatecache('size', $event)" />
+          <InputPakSize
+            v-model="size"
+            :title="$t('Pakサイズ')"
+            @update:model-value="updatecache('size', $event)"
+          />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
-          <SaveFile v-model="pakPath" :title="$t('Pak出力先')" default-path="output.pak"
-            @update:model-value="updatecache('pakPath', $event)" />
-          <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
+          <SaveFile
+            v-model="pakPath"
+            :title="$t('Pak出力先')"
+            default-path="output.pak"
+            @update:model-value="updatecache('pakPath', $event)"
+          />
+          <InfoText>{{
+            $t('生成したPakファイルの保存先を選択します。')
+          }}</InfoText>
 
-          <SelectFile v-model="makeobjPath" :title="$t('Makeobj')" :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
-            @update:model-value="updatecache('makeobjPath', $event)" />
+          <SelectFile
+            v-model="makeobjPath"
+            :title="$t('Makeobj')"
+            :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
+            @update:model-value="updatecache('makeobjPath', $event)"
+          />
           <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
 
           <q-btn color="primary" @click="handlePak">{{ $t('実行') }}</q-btn>
@@ -50,16 +69,25 @@ import { useI18n } from 'vue-i18n';
 
 const splitterModel = ref(50);
 
-const sourcePath = ref((await window.electronAPI.getCache('sourcePath') || '') as string);
-const makeobjPath = ref((await window.electronAPI.getCache('makeobjPath') || '') as string);
-const pakPath = ref((await window.electronAPI.getCache('pakPath') || '') as string);
-const size = ref((await window.electronAPI.getCache('size') || 128) as number);
+const sourcePath = ref(
+  ((await window.electronAPI.getCache('sourcePath')) || '') as string
+);
+const makeobjPath = ref(
+  ((await window.electronAPI.getCache('makeobjPath')) || '') as string
+);
+const pakPath = ref(
+  ((await window.electronAPI.getCache('pakPath')) || '') as string
+);
+const size = ref(
+  ((await window.electronAPI.getCache('size')) || 128) as number
+);
 const logger = ref(new Logger());
 
 const { t } = useI18n();
 logger.value.info('ここに実行結果が出力されます。');
 
-const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
+const updatecache = (key: string, val: unknown) =>
+  window.electronAPI.setCache(key, val);
 
 const handlePak = () => {
   if (!sourcePath.value) {

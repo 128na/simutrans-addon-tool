@@ -17,12 +17,11 @@ try {
       path.join(app.getPath('userData'), 'DevTools Extensions')
     );
   }
-} catch (_) { }
+} catch (_) {}
 
 let mainWindow: BrowserWindow | undefined;
 
 function createWindow() {
-
   /**
    * Initial window options
    */
@@ -68,8 +67,8 @@ function createWindow() {
     mainWindow = undefined;
   });
   mainWindow.once('ready-to-show', () => {
-    mainWindow && mainWindow.show()
-  })
+    mainWindow && mainWindow.show();
+  });
 }
 
 app.whenReady().then(createWindow);

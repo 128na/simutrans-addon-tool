@@ -27,26 +27,42 @@
  *   }
  * }
  */
-import { pakOption, startPakOption, updateAutoPakArgs, updatePakArgs } from 'app/interface';
-import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
+import {
+  pakOption,
+  startPakOption,
+  updateAutoPakArgs,
+  updatePakArgs,
+} from 'app/interface';
+import type {
+  IpcRendererEvent,
+  OpenDialogOptions,
+  SaveDialogOptions,
+} from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  router: (callback: (event: IpcRendererEvent, value: RouteRecordRaw) => void) => ipcRenderer.on('router', callback),
+  router: (
+    callback: (event: IpcRendererEvent, value: RouteRecordRaw) => void
+  ) => ipcRenderer.on('router', callback),
   selectDir: () => ipcRenderer.invoke('selectDir'),
-  selectSingleFile: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
-  saveFile: (options: SaveDialogOptions) => ipcRenderer.invoke('saveFile', options),
+  selectSingleFile: (options?: OpenDialogOptions) =>
+    ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
+  saveFile: (options: SaveDialogOptions) =>
+    ipcRenderer.invoke('saveFile', options),
   openUrl: (path: string) => ipcRenderer.invoke('openUrl', path),
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),
   getCache: (key: string) => ipcRenderer.invoke('getCache', key),
-  setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
+  setCache: (key: string, value: unknown) =>
+    ipcRenderer.invoke('setCache', key, value),
 });
 
 contextBridge.exposeInMainWorld('autoPakAPI', {
   startPak: (options: pakOption) => ipcRenderer.send('startPak', options),
   updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
-  startAutoPak: (options: startPakOption) => ipcRenderer.send('startAutoPak', options),
+  startAutoPak: (options: startPakOption) =>
+    ipcRenderer.send('startAutoPak', options),
   stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
-  updateAutoPak: (callback: updateAutoPakArgs) => ipcRenderer.on('updateAutoPak', callback),
+  updateAutoPak: (callback: updateAutoPakArgs) =>
+    ipcRenderer.on('updateAutoPak', callback),
 });

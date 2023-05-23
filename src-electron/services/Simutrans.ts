@@ -1,7 +1,6 @@
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
 export default class Simutrans {
-
   private simutransPath: string;
   private childProcess?: ChildProcessWithoutNullStreams;
 

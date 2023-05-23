@@ -1,0 +1,9 @@
+**/dist
+**/dist
+**/.vscode
+**/.github
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/i18n

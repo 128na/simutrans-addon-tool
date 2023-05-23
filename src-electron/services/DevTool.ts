@@ -24,4 +24,4 @@ const getVersion = (path: string): string => {
   }
 
   return files[0];
-}
+};

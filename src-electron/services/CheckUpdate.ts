@@ -3,4 +3,3 @@ export default function registerCheckUpdate() {
     updateInterval: '1 hour',
   });
 }
-

@@ -25,10 +25,18 @@ export default class logger {
     this.append('error', 'negative', 'close', message, args);
   }
 
-  public append(level: Level, color: Color, icon: Icon, message: string, args: unknown = undefined): void {
+  public append(
+    level: Level,
+    color: Color,
+    icon: Icon,
+    message: string,
+    args: unknown = undefined
+  ): void {
     console.log(level, color, icon, message, args);
     this.logs.push({
-      datetime: DateTime.now().toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
+      datetime: DateTime.now().toLocaleString(
+        DateTime.DATETIME_SHORT_WITH_SECONDS
+      ),
       level,
       color,
       icon,

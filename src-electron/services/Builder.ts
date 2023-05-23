@@ -13,7 +13,11 @@ export default class Builder {
     this.makeobj = new Makeobj(resolve(makeobjPath));
   }
 
-  public pak(size: number, pakPath: string, sourcePath: string): Promise<MakeobjResult> {
+  public pak(
+    size: number,
+    pakPath: string,
+    sourcePath: string
+  ): Promise<MakeobjResult> {
     const datFiles = this.findDatFiles(resolve(sourcePath));
 
     if (datFiles.length < 1) {
@@ -23,30 +27,41 @@ export default class Builder {
 
     const cwd = dirname(datFiles[0]);
     const command = [`PAK${size}`, resolvedPakPath, ...datFiles];
-    console.log('[Builder] execute makeobj', { makeobj: this.makeobjPath, command, cwd });
+    console.log('[Builder] execute makeobj', {
+      makeobj: this.makeobjPath,
+      command,
+      cwd,
+    });
 
     const child = spawn(this.makeobjPath, command, { cwd });
 
     return new Promise((resolve, reject) => {
       let stdout = '';
       let stderr = '';
-      child.stdout.on('data', (data) => { stdout += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n'); });
-      child.stderr.on('data', (data) => { stderr += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n'); });
-      child.on('close', (status) => { resolve(new MakeobjResult({ status, stdout, stderr })); });
-      child.on('error', (err) => { reject(err); });
+      child.stdout.on('data', (data) => {
+        stdout += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n');
+      });
+      child.stderr.on('data', (data) => {
+        stderr += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n');
+      });
+      child.on('close', (status) => {
+        resolve(new MakeobjResult({ status, stdout, stderr }));
+      });
+      child.on('error', (err) => {
+        reject(err);
+      });
     });
   }
 
   private findDatFiles(folder: string): string[] {
     return readdirSync(folder)
-      .map(f => resolve(`${folder}${s}${f}`))
-      .filter(f => lstatSync(f).isFile() && f.endsWith('.dat'))
-      ;
+      .map((f) => resolve(`${folder}${s}${f}`))
+      .filter((f) => lstatSync(f).isFile() && f.endsWith('.dat'));
   }
 
   private getAllFiles(folder: string): string[] {
-    return readdirSync(folder)
-      .flatMap(f => lstatSync(f).isDirectory() ? this.getAllFiles(f) : f);
+    return readdirSync(folder).flatMap((f) =>
+      lstatSync(f).isDirectory() ? this.getAllFiles(f) : f
+    );
   }
-
 }
