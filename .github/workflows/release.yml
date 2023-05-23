@@ -22,7 +22,7 @@ jobs:
   draft_release:
 
     strategy:
-      # fail-fast: true
+      fail-fast: false
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
 
@@ -58,4 +58,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files:
-            release.zip
+            release-${{ matrix.os }}.zip
