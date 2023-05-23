@@ -64,12 +64,12 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        APP_NAME:package.productName,
-        APP_REPOSITORY_URL:package.repository.url,
+        APP_NAME: package.productName,
+        APP_REPOSITORY_URL: package.repository.url,
         CSP: ctx.prod
-        ? "default-src 'unsafe-inline' 'self'"
-        : "default-src 'unsafe-inline' 'unsafe-eval' 'self'", // unsafe-inline need for i18n
-        ...require('dotenv').config().parsed
+          ? "default-src 'unsafe-inline' 'self'"
+          : "default-src 'unsafe-inline' 'unsafe-eval' 'self'", // unsafe-inline need for i18n
+        ...require('dotenv').config().parsed,
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
