@@ -51,4 +51,9 @@ export default {
   '開始': 'start',
   '開発情報': 'Development Information',
   '非公式サイト': 'Unofficial sites',
+  '（日本語）wiki。鉄道会社別のアドオン一覧が便利。': '(Japanese) wiki with useful list of add-ons by railroad company.',
+  '（日本語）アドオン投稿サイト': '(Japanese) Addon posting site.',
+  '（日本語）古くからある日本語wiki': '(Japanese) Japanese wiki that has been around for a long time.',
+  '（英語など）公式wiki。dat情報など日本語wikiよりも最新なことが多い。': '(English, etc.) Official wiki, often more up-to-date than the Japanese wiki, including dat information.',
+  '（英語）公式フォーラム': '(English) Official Forum',
 };
