@@ -7,10 +7,12 @@ import MakeobjResult from 'simutrans-makeobj-wrapper/dist/src/MakeobjResponse';
 export default class Builder {
   makeobj: Makeobj;
   makeobjPath: string;
+  abortControler: AbortController;
 
-  constructor(makeobjPath: string) {
+  constructor(makeobjPath: string, abortControler: AbortController) {
     this.makeobjPath = makeobjPath;
     this.makeobj = new Makeobj(resolve(makeobjPath));
+    this.abortControler = abortControler;
   }
 
   public pak(
@@ -33,7 +35,7 @@ export default class Builder {
       cwd,
     });
 
-    const child = spawn(this.makeobjPath, command, { cwd });
+    const child = spawn(this.makeobjPath, command, { cwd, signal: this.abortControler.signal });
 
     return new Promise((resolve, reject) => {
       let stdout = '';

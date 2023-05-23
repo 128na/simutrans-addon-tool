@@ -3,13 +3,15 @@ import Builder from '../services/Builder';
 import Watcher from '../services/Watcher';
 import Simutrans from '../services/Simutrans';
 
+const abortControler = new AbortController();
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   ipcMain.removeHandler('startPak');
   ipcMain.on(
     'startPak',
     async (event, { makeobjPath, size, pakPath, sourcePath }) => {
-      const builder = new Builder(makeobjPath);
+      const builder = new Builder(makeobjPath, abortControler);
 
       try {
         mainWindow.webContents.send(
@@ -52,7 +54,7 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
     ) => {
       console.log('[startAutoPak]');
       mainWindow.webContents.send('updateAutoPak', 'debug', '監視準備開始');
-      const builder = new Builder(makeobjPath);
+      const builder = new Builder(makeobjPath, abortControler);
       const simutrans = new Simutrans(simutransPath);
 
       const onReady = (pathes: onReadyArgs) => {
@@ -104,6 +106,9 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
             'Pakファイル作成開始'
           );
           const result = await builder.pak(size, pakPath, sourcePath);
+          if (!running) {
+            return;
+          }
 
           if (result.status === 0) {
             console.log('[doProcess] pak result', { result });
@@ -152,8 +157,9 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   ipcMain.removeHandler('stopAutoPak');
   ipcMain.on('stopAutoPak', async () => {
     console.log('[stopAutoPak]');
-    watcher.stop();
+    abortControler.abort();
     mainWindow.webContents.send('updateAutoPak', 'info', '監視停止');
+    running = false;
   });
 
   console.log('[AutoPakApi] registered');
