@@ -5,7 +5,7 @@ export default class Watcher {
   options: chokidar.WatchOptions | undefined;
   watcher: chokidar.FSWatcher | undefined;
 
-  constructor(options = { ignoreInitial: true, awaitWriteFinish: { stabilityThreshold: 500 }, depth: 0 }) {
+  constructor(options = { ignoreInitial: true, awaitWriteFinish: { stabilityThreshold: 1000 }, depth: 0 }) {
     this.options = options;
   }
 

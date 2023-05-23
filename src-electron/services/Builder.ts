@@ -21,7 +21,11 @@ export default class Builder {
     }
     const resolvedPakPath = resolve(pakPath);
 
-    const child = spawn(this.makeobjPath, [`PAK${size}`, resolvedPakPath, ...datFiles], { cwd: dirname(datFiles[0]) });
+    const cwd = dirname(datFiles[0]);
+    const command = [`PAK${size}`, resolvedPakPath, ...datFiles];
+    console.log('[Builder] execute makeobj', { makeobj: this.makeobjPath, command, cwd });
+
+    const child = spawn(this.makeobjPath, command, { cwd });
 
     return new Promise((resolve, reject) => {
       let stdout = '';

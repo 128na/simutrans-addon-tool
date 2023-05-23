@@ -10,7 +10,9 @@
       {{ $t('更新情報') }}
     </SubTitle>
     <ul>
-      <li>{{ $t('v0.0 pak化機能を追加しました') }}</li>
+      <li v-for="(value, key) in histories" :key="key">
+        v{{ key }} {{ $t(value) }}
+      </li>
     </ul>
   </q-page>
 </template>
@@ -18,4 +20,8 @@
 <script lang="ts" setup>
 import MainTitle from 'src/components/MainTitle.vue';
 import SubTitle from 'src/components/SubTitle.vue';
+
+const histories = {
+  '0.1': 'Pak化、自動Pak化機能を追加しました',
+};
 </script>

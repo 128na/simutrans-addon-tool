@@ -6,8 +6,8 @@
           <q-icon v-if="l.icon" :name="l.icon" class="q-mr-xs" />
           {{ l.datetime }} [{{ l.level.toUpperCase() }}]
         </q-item-label>
-        <q-item-label class="message">{{ l.message }}</q-item-label>
-        <q-item-label class="message" v-if="l.args">{{ $t(JSON.stringify(l.args, null, 4)) }}</q-item-label>
+        <q-item-label class="message">{{ $t(l.message) }}</q-item-label>
+        <q-item-label class="message" v-if="l.args">{{ formatArgs(l.args) }}</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>
@@ -31,9 +31,23 @@ const copy = async (l: Log) => {
     $q.notify({ type: 'negative', message: t('コピーに失敗しました') })
   }
 };
+
+const formatArgs = (args: unknown) => {
+  switch (typeof args) {
+    case 'string':
+      return args;
+    case 'number':
+      return String(args);
+    case 'boolean':
+      return args ? 'true' : 'false';
+
+    default:
+      return JSON.stringify(args, null, 4)
+  }
+}
 </script>
 <style>
 .message {
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 </style>

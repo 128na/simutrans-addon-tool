@@ -11,22 +11,22 @@
             @update:model-value="updatecache('sourcePath', $event)" />
           <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <InputPakSize v-model="size" :title="$t('pakサイズ')" :disable="watching"
+          <InputPakSize v-model="size" :title="$t('Pakサイズ')" :disable="watching"
             @update:model-value="updatecache('size', $event)" />
-          <InfoText>{{ $t('pakサイズを指定します。（16～32767）') }}</InfoText>
+          <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
-          <SaveFile v-model="pakPath" :title="$t('pak出力先')" default-path="output.pak" :disable="watching"
+          <SaveFile v-model="pakPath" :title="$t('Pak出力先')" default-path="output.pak" :disable="watching"
             @update:model-value="updatecache('pakPath', $event)" />
-          <InfoText>{{ $t('生成したpakファイルの保存先を指定します。') }}</InfoText>
+          <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
-          <SelectFile v-model="makeobjPath" :title="$t('makeobj')" :filters="[{ name: 'makeobj', extensions: ['exe'] }]"
+          <SelectFile v-model="makeobjPath" :title="$t('Makeobj')" :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
             :disable="watching" @update:model-value="updatecache('makeobjPath', $event)" />
-          <InfoText>{{ $t('makeobj実行ファイルを指定します。') }}</InfoText>
+          <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
 
-          <SelectFile v-model="simutransPath" :title="$t('simutrans')" :disable="watching"
-            :filters="[{ name: 'simutrans', extensions: ['exe'] }]"
+          <SelectFile v-model="simutransPath" :title="$t('Simutrans')" :disable="watching"
+            :filters="[{ name: 'Simutrans', extensions: ['exe'] }]"
             @update:model-value="updatecache('simutransPath', $event)" />
-          <InfoText>{{ $t('simutrans実行ファイルを指定します。') }}</InfoText>
+          <InfoText>{{ $t('Simutrans実行ファイルを選択します。') }}</InfoText>
 
           <template v-if="watching">
             <q-btn color="negative" @click="stopPak">{{ $t('停止') }}</q-btn>
@@ -69,7 +69,7 @@ const size = ref((await window.electronAPI.getCache('size') || 128) as number);
 const logger = ref(new Logger());
 
 const { t } = useI18n();
-logger.value.info(t('ここに実行結果が出力されます。'));
+logger.value.info('ここに実行結果が出力されます。');
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
@@ -84,10 +84,10 @@ const startPak = () => {
     return alert(t('ソースフォルダが選択されていません'));
   }
   if (!makeobjPath.value) {
-    return alert(t('makeobjが選択されていません'));
+    return alert(t('Makeobjが選択されていません'));
   }
   if (!simutransPath.value) {
-    return alert(t('simutransが選択されていません'));
+    return alert(t('Simutransが選択されていません'));
   }
   if (!pakPath.value) {
     return alert('pak出力先が選択されていません');
