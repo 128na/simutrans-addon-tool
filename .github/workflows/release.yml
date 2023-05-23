@@ -22,7 +22,7 @@ jobs:
   draft_release:
 
     strategy:
-      fail-fast: true
+      # fail-fast: true
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
 
@@ -40,7 +40,12 @@ jobs:
         run: cp .env.ci .env
 
       - name: set app version
+        if: ${{ matrix.os == 'macos-latest' }}
         run: sed -i "" "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
+
+      - name: set app version
+        if: ${{ matrix.os == 'ubuntu-latest' ||matrix.os == 'windows-latest' }}
+        run: sed -i "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
 
       - run: npm ci
 
