@@ -15,7 +15,7 @@ try {
       path.join(app.getPath('userData'), 'DevTools Extensions')
     );
   }
-} catch (_) {}
+} catch (_) { }
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -26,8 +26,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     show: false,
-    width: 1024,
-    height: 768,
+    width: 1200,
+    height: 960,
     useContentSize: true,
     webPreferences: {
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
