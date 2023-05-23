@@ -14,7 +14,13 @@
         $t(
           'このツールでは日本語をベースに作成しています。そのため翻訳が不完全な個所がある場合があります。'
         )
-      }}
+      }}<br />
+      {{
+        $t(
+          '翻訳に協力いただける方を募集しています。こちらから提案できます。'
+        )
+      }}<br />
+      <ExternalLink :url="issuePage" />
     </p>
     <SubTitle>
       {{ $t('開発情報') }}
@@ -43,4 +49,5 @@ const histories = {
   '0.1': 'Pak化、自動Pak化機能を追加しました',
 };
 const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
+const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
 </script>
