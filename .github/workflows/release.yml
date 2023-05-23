@@ -52,15 +52,16 @@ jobs:
 
       - name: make release file(mac,linux)
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
-        run: zip -r release-${{ matrix.os }}.zip ./dist
+        run: zip -r release-${{ matrix.os }}.zip ./dist/electron/Packaged
 
       - name: make release file(win)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          powershell Compress-Archive -Path dist/ -DestinationPath release-${{ matrix.os }}.zip
+          powershell Compress-Archive -Path dist/electron/Packaged -DestinationPath release-${{ matrix.os }}.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/v') == false }}
           files:
             release-${{ matrix.os }}.zip
