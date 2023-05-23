@@ -40,7 +40,7 @@ jobs:
         run: cp .env.ci .env
 
       - name: set app version
-        run: sed -i "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
+        run: sed -i "" "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
 
       - run: npm ci
 
