@@ -47,4 +47,5 @@ export default {
   '選択': 'Select',
   '開始': 'start',
   '非公式サイト': 'Unofficial sites',
+  'このツールでは日本語をベースに作成しています。そのため翻訳が不完全な個所がある場合があります。': 'This tool is based on Japanese. Therefore, some parts of the translation may be incomplete.',
 };
