@@ -1,43 +1,13 @@
-# Simutrans Addon Tool (simutrans-addon-tool)
+# Simutrans Addon Tool
 
-Simutrans Addon Tool.
+Simutransのアドオン作成を支援するツール集です。
 
-## Install the dependencies
+## 使い方
 
-```bash
-yarn
-# or
-npm install
-```
+動作にはSimutrans本体, makeobjが必要です。予め導入してください。
+https://forum.simutrans.com/index.php?board=3.0
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+リリースページから最新バージョンを選び `release-{OS名}-latest.zip` をダウンロード、解凍して実行してください。
+https://github.com/128na/simutrans-addon-tool/releases
 
-```bash
-quasar dev
-```
-
-### Lint the files
-
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-### Format the files
-
-```bash
-yarn format
-# or
-npm run format
-```
-
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+※ Windows, Mac, Linux に対応していますが、動作検証をしているのはWindowsのみです。
