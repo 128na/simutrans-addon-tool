@@ -4,14 +4,11 @@
     "baseUrl": ".",
     "skipLibCheck": true
   },
-  "include": [
-    "src/*",
-    "src-electron/*"
-  ],
+  "include": ["src/*", "src-electron/*"],
   "exclude": [
     "node_modules",
     "./node_modules",
     "./node_modules/*",
-    "./node_modules/@types/node/index.d.ts",
+    "./node_modules/@types/node/index.d.ts"
   ]
 }
