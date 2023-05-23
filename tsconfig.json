@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "skipLibCheck": true
   },
-  "include": ["src/*", "src-electron/*"],
   "exclude": [
     "node_modules",
     "./node_modules",
