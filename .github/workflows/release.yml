@@ -39,11 +39,11 @@ jobs:
       - name: copy env
         run: cp .env.ci .env
 
-      - name: set app version
+      - name: set app version(mac)
         if: ${{ matrix.os == 'macos-latest' }}
         run: sed -i "" "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
 
-      - name: set app version
+      - name: set app version(win,linux)
         if: ${{ matrix.os == 'ubuntu-latest' ||matrix.os == 'windows-latest' }}
         run: sed -i "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags --abbrev=0 )/" .env
 
