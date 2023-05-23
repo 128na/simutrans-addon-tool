@@ -5,6 +5,7 @@ import registerMenu from './services/Menu';
 import registerElectronApi from './apis/ElectronApi';
 import registerAutoPakApi from './apis/AutoPakApi';
 import registerVue3DevToolForWin from './services/DevTool';
+import registerCheckUpdate from './services/CheckUpdate';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -37,9 +38,16 @@ function createWindow() {
     },
   });
 
-  if (platform === 'win32' && inDev) {
-    registerVue3DevToolForWin();
+  if (inDev) {
+    if (platform === 'win32') {
+      registerVue3DevToolForWin();
+    }
+  } else {
+    // コード署名に年会費がかかるので保留
+    // https://www.electronjs.org/ja/docs/latest/tutorial/updates
+    // registerCheckUpdate();
   }
+
   registerMenu(mainWindow);
   registerElectronApi(mainWindow);
   registerAutoPakApi(mainWindow);

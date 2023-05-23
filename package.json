@@ -5,12 +5,17 @@
   "productName": "Simutrans Addon Tool",
   "author": "128na <simutrans.128na@gmail.com>",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/128na/simutrans-addon-tool"
+  },
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m electron",
-    "build": "quasar build -m electron"
+    "build": "quasar build -m electron",
+    "typecheck:main": "tsc --noEmit -p packages/main/tsconfig.json"
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",
@@ -21,6 +26,7 @@
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "simutrans-makeobj-wrapper": "^1.1.0",
+    "update-electron-app": "^2.0.1",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0"
@@ -38,7 +44,7 @@
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.8",
     "typescript": "^4.5.4"
   },
   "engines": {
