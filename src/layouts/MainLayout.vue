@@ -2,7 +2,13 @@
   <q-layout view="hHh Lpr lff">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>
           {{ appName }}
@@ -12,33 +18,44 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" :show-if-above="false" bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      :show-if-above="false"
+      bordered>
       <q-list>
         <q-item-label header>
           <switch-lang />
         </q-item-label>
-        <q-item clickable :to="{ name: 'about' }">
+        <q-item
+          clickable
+          :to="{ name: 'about' }">
           <q-item-section avatar><q-icon name="help" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('ツールについて') }}</q-item-label>
             <q-item-label caption>{{ $t('使い方、更新情報') }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable :to="{ name: 'pak' }">
+        <q-item
+          clickable
+          :to="{ name: 'pak' }">
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('Pak化') }}</q-item-label>
             <q-item-label caption>{{ $t('Pakファイル作成') }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable :to="{ name: 'autoPak' }">
+        <q-item
+          clickable
+          :to="{ name: 'autoPak' }">
           <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('自動Pak化') }}</q-item-label>
             <q-item-label caption>{{ $t('ソース更新を検知して自動Pak化') }}</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable :to="{ name: 'links' }">
+        <q-item
+          clickable
+          :to="{ name: 'links' }">
           <q-item-section avatar><q-icon name="link" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('リンク集') }}</q-item-label>

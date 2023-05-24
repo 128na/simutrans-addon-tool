@@ -1,13 +1,25 @@
 <template>
-  <q-list separator :dark="true">
-    <q-item v-for="(l, index) in logger.getReverseLogs()" :key="index" @click="copy(l)" clickable v-ripple>
+  <q-list
+    separator
+    :dark="true">
+    <q-item
+      v-for="(l, index) in logger.getReverseLogs()"
+      :key="index"
+      v-ripple
+      clickable
+      @click="copy(l)">
       <q-item-section :class="`text-${l.color}`">
         <q-item-label>
-          <q-icon v-if="l.icon" :name="l.icon" class="q-mr-xs" />
+          <q-icon
+            v-if="l.icon"
+            :name="l.icon"
+            class="q-mr-xs" />
           {{ l.datetime }} [{{ l.level.toUpperCase() }}]
         </q-item-label>
         <q-item-label class="message">{{ $t(l.message) }}</q-item-label>
-        <q-item-label class="message" v-if="l.args">{{ formatArgs(l.args) }}</q-item-label>
+        <q-item-label
+          v-if="l.args"
+          class="message">{{ formatArgs(l.args) }}</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>

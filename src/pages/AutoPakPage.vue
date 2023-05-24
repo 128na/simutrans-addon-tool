@@ -1,38 +1,69 @@
 <template>
   <q-page>
-    <q-splitter v-model="splitterModel" class="max-height-without-header">
-      <template v-slot:before>
+    <q-splitter
+      v-model="splitterModel"
+      class="max-height-without-header">
+      <template #before>
         <q-page padding>
           <MainTitle>
             {{ $t('自動Pak化') }}
           </MainTitle>
 
-          <SelectDir v-model="sourcePath" :title="$t('ソースフォルダ')" :disable="watching" @update:model-value="updatecache('sourcePath', $event)" />
+          <SelectDir
+            v-model="sourcePath"
+            :title="$t('ソースフォルダ')"
+            :disable="watching"
+            @update:model-value="updatecache('sourcePath', $event)" />
           <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <InputPakSize v-model="size" :title="$t('Pakサイズ')" :disable="watching" @update:model-value="updatecache('size', $event)" />
+          <InputPakSize
+            v-model="size"
+            :title="$t('Pakサイズ')"
+            :disable="watching"
+            @update:model-value="updatecache('size', $event)" />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
-          <SaveFile v-model="pakPath" :title="$t('Pak出力先')" default-path="output.pak" :disable="watching" @update:model-value="updatecache('pakPath', $event)" />
+          <SaveFile
+            v-model="pakPath"
+            :title="$t('Pak出力先')"
+            default-path="output.pak"
+            :disable="watching"
+            @update:model-value="updatecache('pakPath', $event)" />
           <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
-          <SelectFile v-model="makeobjPath" :title="$t('Makeobj')" :filters="[{ name: 'Makeobj', extensions: ['exe'] }]" :disable="watching" @update:model-value="updatecache('makeobjPath', $event)" />
+          <SelectFile
+            v-model="makeobjPath"
+            :title="$t('Makeobj')"
+            :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
+            :disable="watching"
+            @update:model-value="updatecache('makeobjPath', $event)" />
           <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
 
-          <SelectFile v-model="simutransPath" :title="$t('Simutrans')" :disable="watching" :filters="[{ name: 'Simutrans', extensions: ['exe'] }]" @update:model-value="updatecache('simutransPath', $event)" />
+          <SelectFile
+            v-model="simutransPath"
+            :title="$t('Simutrans')"
+            :disable="watching"
+            :filters="[{ name: 'Simutrans', extensions: ['exe'] }]"
+            @update:model-value="updatecache('simutransPath', $event)" />
           <InfoText>{{ $t('Simutrans実行ファイルを選択します。') }}</InfoText>
 
           <template v-if="watching">
-            <q-btn color="negative" @click="stopPak">{{ $t('停止') }}</q-btn>
+            <q-btn
+              color="negative"
+              @click="stopPak">{{ $t('停止') }}</q-btn>
           </template>
           <template v-else>
-            <q-btn color="primary" @click="startPak">{{ $t('開始') }}</q-btn>
+            <q-btn
+              color="primary"
+              @click="startPak">{{ $t('開始') }}</q-btn>
           </template>
         </q-page>
       </template>
 
-      <template v-slot:after>
-        <q-page padding class="bg-dark">
+      <template #after>
+        <q-page
+          padding
+          class="bg-dark">
           <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
           <LogViewer :logger="logger" />
         </q-page>

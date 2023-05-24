@@ -25,7 +25,9 @@
       {{ $t('更新情報') }}
     </SubTitle>
     <ul>
-      <li v-for="(value, key) in histories" :key="key">v{{ key }} {{ $t(value) }}</li>
+      <li
+        v-for="(value, key) in histories"
+        :key="key">v{{ key }} {{ $t(value) }}</li>
     </ul>
   </q-page>
 </template>

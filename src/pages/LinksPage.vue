@@ -8,7 +8,9 @@
       {{ $t('公式サイト') }}
     </SubTitle>
     <ul>
-      <li v-for="link in officialLinks" :key="link.url">
+      <li
+        v-for="link in officialLinks"
+        :key="link.url">
         <p>
           <ExternalLink :url="link.url">{{ link.title }}</ExternalLink>
           {{ $t(link.description) }}
@@ -20,7 +22,9 @@
       {{ $t('非公式サイト') }}
     </SubTitle>
     <ul>
-      <li v-for="link in unofficialLinks" :key="link.url">
+      <li
+        v-for="link in unofficialLinks"
+        :key="link.url">
         <p>
           <ExternalLink :url="link.url">{{ link.title }}</ExternalLink>
           {{ $t(link.description) }}
@@ -31,7 +35,9 @@
     <template v-if="dev">
       <SubTitle> Links for development </SubTitle>
       <ul>
-        <li v-for="link in devLinks" :key="link.url">
+        <li
+          v-for="link in devLinks"
+          :key="link.url">
           <p>
             <ExternalLink :url="link.url" />
           </p>

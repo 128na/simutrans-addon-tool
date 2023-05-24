@@ -1,6 +1,11 @@
 <template>
-  <a href="#" @click.prevent="handleLink" class="text-primary">
-    <q-icon name="output" class="q-mr-xs" />
+  <a
+    href="#"
+    class="text-primary"
+    @click.prevent="handleLink">
+    <q-icon
+      name="output"
+      class="q-mr-xs" />
     <slot />
     <template v-if="!$slots.default">{{ url }}</template>
   </a>
