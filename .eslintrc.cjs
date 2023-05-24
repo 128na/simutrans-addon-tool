@@ -92,12 +92,12 @@ module.exports = {
         'max': 1
       },
     }],
-    "vue/html-indent": ["error", 2, {
-      "attribute": 1,
-      "baseIndent": 1,
-      "closeBracket": 0,
-      "alignAttributesVertically": false,
-      "ignores": []
+    'vue/html-indent': ['error', 2, {
+      'attribute': 1,
+      'baseIndent': 1,
+      'closeBracket': 0,
+      'alignAttributesVertically': false,
+      'ignores': []
     }],
   },
 };

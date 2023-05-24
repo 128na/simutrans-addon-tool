@@ -10,9 +10,9 @@
     "url": "https://github.com/128na/simutrans-addon-tool"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.vue ./",
-    "lint:fix": "eslint --fix --ext .js,.ts,.vue ./",
-    "format": "prettier --write \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,scss,html,md}\"",
+    "lint:check": "eslint --ext .js,.ts,.vue ./",
+    "lint": "eslint --fix --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{scss,html,md}\"",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m electron",
     "build": "quasar build -m electron",
