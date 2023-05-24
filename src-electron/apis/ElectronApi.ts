@@ -1,7 +1,7 @@
 import type { BrowserWindow } from 'electron';
 import { app, dialog, ipcMain, shell } from 'electron';
 import Store from 'electron-store';
-import { lstatSync } from 'node:fs';
+import { existsSync, lstatSync } from 'node:fs';
 import { dirname } from 'node:path';
 const store = new Store();
 /**
@@ -69,8 +69,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
   ipcMain.removeHandler('openDir');
   ipcMain.handle('openDir', (event, path: string) => {
     console.log('[ElectronApi] openDir', path);
-
-    return shell.openPath(lstatSync(path).isDirectory() ? path : dirname(path));
+    return shell.openPath(dirname(path));
   });
 
   /**
