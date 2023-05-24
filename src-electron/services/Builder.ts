@@ -6,12 +6,7 @@ import MakeobjResult from 'simutrans-makeobj-wrapper/dist/src/MakeobjResponse';
 export default class Builder {
   abortControler?: AbortController;
 
-  public pak(
-    makeobjPath: string,
-    size: number,
-    pakPath: string,
-    sourcePath: string
-  ): Promise<MakeobjResult> {
+  public async pak(makeobjPath: string, size: number, pakPath: string, sourcePath: string): Promise<MakeobjResult> {
     const datFiles = this.findDatFiles(resolve(sourcePath));
 
     if (datFiles.length < 1) {
@@ -21,7 +16,6 @@ export default class Builder {
 
     const cwd = dirname(datFiles[0]);
 
-    this.stop();
     this.abortControler = new AbortController();
     const makeobj = new MakeobjAsync(resolve(makeobjPath), this.abortControler);
     return makeobj.exec(
@@ -35,9 +29,10 @@ export default class Builder {
     );
   }
 
-  public stop(): void {
+  public stop(): void | Promise<void> {
     if (this.abortControler && this.abortControler.signal.aborted === false) {
       this.abortControler.abort();
+      return new Promise((ok) => setTimeout(ok, 500));
     }
   }
 
@@ -48,8 +43,6 @@ export default class Builder {
   }
 
   private getAllFiles(folder: string): string[] {
-    return readdirSync(folder).flatMap((f) =>
-      lstatSync(f).isDirectory() ? this.getAllFiles(f) : f
-    );
+    return readdirSync(folder).flatMap((f) => (lstatSync(f).isDirectory() ? this.getAllFiles(f) : f));
   }
 }

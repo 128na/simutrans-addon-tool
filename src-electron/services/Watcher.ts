@@ -15,11 +15,7 @@ export default class Watcher {
     this.options = options;
   }
 
-  public start(
-    target: string[],
-    onReady: (pathes: onReadyArgs) => void,
-    onUpdate: (path: string, stats?: fs.Stats) => void
-  ) {
+  public start(target: string[], onReady: (pathes: onReadyArgs) => void, onUpdate: (path: string, stats?: fs.Stats) => void) {
     this.watcher = chokidar
       .watch(target, this.options)
       .on('ready', () => {

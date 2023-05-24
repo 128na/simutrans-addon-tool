@@ -1,11 +1,5 @@
 <template>
-  <q-input
-    :model-value="modelValue || $t(unselectLabel)"
-    :readonly="true"
-    :label="title"
-    @click="modelValue || handle()"
-    class="q-mb-sm"
-  />
+  <q-input :model-value="modelValue || $t(unselectLabel)" :readonly="true" :label="title" @click="modelValue || handle()" class="q-mb-sm" />
   <q-btn-group outline>
     <q-btn outline dense color="secondary" :disable="disable" @click="handle">
       {{ $t(selectLabel) }}
@@ -38,11 +32,6 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:modelValue': [value: string | null];
 }>();
-const handle = async () =>
-  props.disable === false &&
-  emit(
-    'update:modelValue',
-    await window.electronAPI.saveFile({ defaultPath: props.defaultPath })
-  );
+const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.saveFile({ defaultPath: props.defaultPath }));
 const open = () => window.electronAPI.openDir(props.modelValue);
 </script>

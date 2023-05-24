@@ -10,13 +10,8 @@
       {{ $t('翻訳について') }}
     </SubTitle>
     <p>
-      {{
-        $t(
-          'このツールでは日本語をベースに作成しています。そのため翻訳が不完全な個所がある場合があります。'
-        )
-      }}<br />
-      {{ $t('翻訳に協力いただける方を募集しています。こちらから提案できます。')
-      }}<br />
+      {{ $t('このツールでは日本語をベースに作成しています。そのため翻訳が不完全な個所がある場合があります。') }}<br />
+      {{ $t('翻訳に協力いただける方を募集しています。こちらから提案できます。') }}<br />
       <ExternalLink :url="issuePage" />
     </p>
     <SubTitle>
@@ -30,9 +25,7 @@
       {{ $t('更新情報') }}
     </SubTitle>
     <ul>
-      <li v-for="(value, key) in histories" :key="key">
-        v{{ key }} {{ $t(value) }}
-      </li>
+      <li v-for="(value, key) in histories" :key="key">v{{ key }} {{ $t(value) }}</li>
     </ul>
   </q-page>
 </template>

@@ -3,12 +3,7 @@ import { readdirSync } from 'fs';
 import path from 'path';
 
 export default async function registerVue3DevToolForWin() {
-  const devToolsDir = path.join(
-    process.env.APPDATA || '',
-    '..',
-    'Local\\Google\\Chrome\\User Data\\Default\\Extensions',
-    'nhdogjmejiglipccpnnnanhbledajbpd'
-  );
+  const devToolsDir = path.join(process.env.APPDATA || '', '..', 'Local\\Google\\Chrome\\User Data\\Default\\Extensions', 'nhdogjmejiglipccpnnnanhbledajbpd');
   const devToolsPath = path.join(devToolsDir, getVersion(devToolsDir));
   console.log('[DevTool] devToolsPath', devToolsPath);
 

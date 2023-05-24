@@ -53,8 +53,7 @@ const officialLinks = [
   },
   {
     title: 'English Simutrans Wiki',
-    description:
-      '（英語など）公式wiki。dat情報など日本語wikiよりも最新なことが多い。',
+    description: '（英語など）公式wiki。dat情報など日本語wikiよりも最新なことが多い。',
     url: 'http://wiki.simutrans-germany.com/',
   },
 ];

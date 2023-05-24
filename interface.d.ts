@@ -17,28 +17,16 @@ interface startPakOption {
 }
 
 interface updatePakArgs {
-  (
-    event: Electron.IpcRendererEvent,
-    level: Level,
-    message: string,
-    args?: unknown
-  ): void;
+  (event: Electron.IpcRendererEvent, level: Level, message: string, args?: unknown): void;
 }
 type updateAutoPakArgs = updatePakArgs;
 
 declare global {
   interface Window {
     electronAPI: {
-      router: (
-        callback: (
-          event: Electron.IpcRendererEvent,
-          value: Router.RouteRecordRaw
-        ) => void
-      ) => void;
+      router: (callback: (event: Electron.IpcRendererEvent, value: Router.RouteRecordRaw) => void) => void;
       selectDir: () => Promise<string>;
-      selectSingleFile: (
-        options: Electron.OpenDialogOptions
-      ) => Promise<string>;
+      selectSingleFile: (options: Electron.OpenDialogOptions) => Promise<string>;
       saveFile: (options: Electron.SaveDialogOptions) => Promise<string>;
       openUrl: (url: string) => Promise<void>;
       openDir: (path: string) => Promise<string>;

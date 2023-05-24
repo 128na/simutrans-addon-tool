@@ -27,9 +27,7 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
   ipcMain.removeHandler('selectFile');
   ipcMain.handle('selectFile', async (event, { multiSelections, filters }) => {
     const result = await dialog.showOpenDialog(mainWindow, {
-      properties: multiSelections
-        ? ['openFile', 'multiSelections']
-        : ['openFile'],
+      properties: multiSelections ? ['openFile', 'multiSelections'] : ['openFile'],
       filters: [...filters, { name: 'All Files', extensions: ['*'] }],
     });
     console.log('[ElectronApi] files selected', result.filePaths);

@@ -2,14 +2,7 @@
   <q-layout view="hHh Lpr lff">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>
           {{ appName }}
@@ -42,18 +35,14 @@
           <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('自動Pak化') }}</q-item-label>
-            <q-item-label caption>{{
-              $t('ソース更新を検知して自動Pak化')
-            }}</q-item-label>
+            <q-item-label caption>{{ $t('ソース更新を検知して自動Pak化') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable :to="{ name: 'links' }">
           <q-item-section avatar><q-icon name="link" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('リンク集') }}</q-item-label>
-            <q-item-label caption>{{
-              $t('Simutrans関連のリンク集')
-            }}</q-item-label>
+            <q-item-label caption>{{ $t('Simutrans関連のリンク集') }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

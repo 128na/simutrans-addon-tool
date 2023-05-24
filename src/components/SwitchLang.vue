@@ -1,14 +1,5 @@
 <template>
-  <q-select
-    v-model="locale"
-    :options="localeOptions"
-    label="Language"
-    dense
-    emit-value
-    map-options
-    options-dense
-    @update:model-value="handle"
-  />
+  <q-select v-model="locale" :options="localeOptions" label="Language" dense emit-value map-options options-dense @update:model-value="handle" />
 </template>
 <script setup type="ts">
 import { useI18n } from 'vue-i18n';
