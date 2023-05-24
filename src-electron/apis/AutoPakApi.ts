@@ -3,23 +3,26 @@ import Builder from '../services/Builder';
 import Watcher from '../services/Watcher';
 import Simutrans from '../services/Simutrans';
 
-const abortControler = new AbortController();
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
+  const builder = new Builder();
+
   ipcMain.removeHandler('startPak');
   ipcMain.on(
     'startPak',
     async (event, { makeobjPath, size, pakPath, sourcePath }) => {
-      const builder = new Builder(makeobjPath, abortControler);
-
       try {
         mainWindow.webContents.send(
           'updatePak',
           'debug',
           'Pakファイル作成開始'
         );
-        const result = await builder.pak(size, pakPath, sourcePath);
+        const result = await builder.pak(
+          makeobjPath,
+          size,
+          pakPath,
+          sourcePath
+        );
 
         if (result.status === 0) {
           console.log('[startPak] pak result', { result });
@@ -54,7 +57,6 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
     ) => {
       console.log('[startAutoPak]');
       mainWindow.webContents.send('updateAutoPak', 'debug', '監視準備開始');
-      const builder = new Builder(makeobjPath, abortControler);
       const simutrans = new Simutrans(simutransPath);
 
       const onReady = (pathes: onReadyArgs) => {
@@ -105,7 +107,13 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
             'debug',
             'Pakファイル作成開始'
           );
-          const result = await builder.pak(size, pakPath, sourcePath);
+
+          const result = await builder.pak(
+            makeobjPath,
+            size,
+            pakPath,
+            sourcePath
+          );
           if (!running) {
             return;
           }
@@ -157,7 +165,7 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   ipcMain.removeHandler('stopAutoPak');
   ipcMain.on('stopAutoPak', async () => {
     console.log('[stopAutoPak]');
-    abortControler.abort();
+    builder.stop();
     mainWindow.webContents.send('updateAutoPak', 'info', '監視停止');
     running = false;
   });

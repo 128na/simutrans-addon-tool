@@ -1,21 +1,13 @@
-import { spawn } from 'child_process';
 import { lstatSync, readdirSync } from 'fs';
 import { dirname, resolve, sep as s } from 'path';
-import { Makeobj } from 'simutrans-makeobj-wrapper';
+import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
 import MakeobjResult from 'simutrans-makeobj-wrapper/dist/src/MakeobjResponse';
 
 export default class Builder {
-  makeobj: Makeobj;
-  makeobjPath: string;
-  abortControler: AbortController;
-
-  constructor(makeobjPath: string, abortControler: AbortController) {
-    this.makeobjPath = makeobjPath;
-    this.makeobj = new Makeobj(resolve(makeobjPath));
-    this.abortControler = abortControler;
-  }
+  abortControler?: AbortController;
 
   public pak(
+    makeobjPath: string,
     size: number,
     pakPath: string,
     sourcePath: string
@@ -28,34 +20,25 @@ export default class Builder {
     const resolvedPakPath = resolve(pakPath);
 
     const cwd = dirname(datFiles[0]);
-    const command = [`PAK${size}`, resolvedPakPath, ...datFiles];
-    console.log('[Builder] execute makeobj', {
-      makeobj: this.makeobjPath,
-      command,
-      cwd,
-    });
 
-    const child = spawn(this.makeobjPath, command, {
-      cwd,
-      signal: this.abortControler.signal,
-    });
+    this.stop();
+    this.abortControler = new AbortController();
+    const makeobj = new MakeobjAsync(resolve(makeobjPath), this.abortControler);
+    return makeobj.exec(
+      {
+        cwd,
+        signal: this.abortControler.signal,
+      },
+      `PAK${size}`,
+      resolvedPakPath,
+      ...datFiles
+    );
+  }
 
-    return new Promise((resolve, reject) => {
-      let stdout = '';
-      let stderr = '';
-      child.stdout.on('data', (data) => {
-        stdout += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n');
-      });
-      child.stderr.on('data', (data) => {
-        stderr += data.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n');
-      });
-      child.on('close', (status) => {
-        resolve(new MakeobjResult({ status, stdout, stderr }));
-      });
-      child.on('error', (err) => {
-        reject(err);
-      });
-    });
+  public stop(): void {
+    if (this.abortControler && this.abortControler.signal.aborted === false) {
+      this.abortControler.abort();
+    }
   }
 
   private findDatFiles(folder: string): string[] {
