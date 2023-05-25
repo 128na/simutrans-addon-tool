@@ -19,10 +19,51 @@ export default class PakManager {
     this.fileManager = fileManager;
   }
 
+  public async startPak(options: { makeobjPath: string, size: number, pakPath: string, sourcePath: string }) {
+    this.makeobjPath = options.makeobjPath;
+    this.size = options.size;
+    this.pakPath = options.pakPath;
+    this.sourcePath = options.sourcePath;
+
+    try {
+      await this.beginAbortTransaction();
+      const dirs = await this.findDirectories(this.sourcePath);
+
+      if (this.pakPath) {
+        await this.doPakWithMerge(dirs);
+      } else {
+        await this.doPakWithoutMerge(dirs);
+      }
+
+    } catch (error: unknown) {
+      this.errorHandler(error);
+    }
+  }
+
+  private async doPakWithoutMerge(dirs: string[][]) {
+    const { hasFailed } = await this.doPakWithoutTmp(dirs);
+    if (hasFailed) {
+      this.messenger.send('warning', 'Pak化に失敗したものがあります');
+    }
+    this.messenger.send('success', 'Pak化成功');
+  }
+
+  private async doPakWithMerge(dirs: string[][]) {
+    const { hasFailed, tmpPaks } = await this.doPak(dirs);
+
+    if (hasFailed) {
+      return this.pakFailed(tmpPaks);
+    }
+    if (tmpPaks.length < 2) {
+      return this.tmpPakMove(tmpPaks);
+    }
+    return this.tmpPakMege(tmpPaks);
+  }
+
   /**
    * 開始済みのabortControllerがあれば中断して新たなabortControllerを作成する
    */
-  public async beginAbortTransaction(): Promise<AbortController> {
+  protected async beginAbortTransaction(): Promise<AbortController> {
     if (this.abortController && this.abortController.signal.aborted === false) {
       console.log('[PakManager.errorHandler] abortController exists, abort');
       this.abortController.abort();
@@ -36,7 +77,7 @@ export default class PakManager {
   /**
    * ソースディレクトリからdat一覧をサブディレクトリ単位で取得する
    */
-  public async findDirectories(path: string): Promise<string[][]> {
+  protected async findDirectories(path: string): Promise<string[][]> {
     this.messenger.send('debug', 'Pakファイル作成開始');
 
     const dirs = await this.fileManager.findDatDirectories(path);
@@ -48,24 +89,13 @@ export default class PakManager {
   }
 
   /**
-   * エラーキャッチ
-   */
-  public errorHandler(error: unknown) {
-    if (error instanceof Error) {
-      console.log('[PakManager.errorHandler] type is ', error?.name);
-      if (error.name === 'AbortError') {
-        return this.messenger.send('warning', '処理を中断しました');
-      }
-      return this.messenger.send('error', error.message);
-    }
-    console.log('[PakManager.errorHandler] unknown error', error);
-    this.messenger.send('error', 'エラーが発生しました', error);
-  };
-
-  /**
    * ディレクトリごとにpak化する
    */
-  public async doPak(makeobjPath: string, size: number, dirs: string[][]) {
+  protected async doPak(dirs: string[][]) {
+    if (!this.makeobjPath || !this.size) {
+      throw new Error('動作に必要な設定が不足しています');
+    }
+
     let hasFailed = false;
     const tmpPaks = [];
     for (const files of dirs) {
@@ -75,7 +105,7 @@ export default class PakManager {
       const dir = this.fileManager.getDirname(files[0]);
       this.messenger.send('debug', dir);
       const tmpPak = this.fileManager.createTmpPath(dir);
-      const result = await this.builder.pak(makeobjPath, size, tmpPak, files, this.abortController);
+      const result = await this.builder.pak(this.makeobjPath, this.size, tmpPak, files, this.abortController);
       if (result.isSuccess) {
         this.messenger.send('success', result.stdout);
         tmpPaks.push(tmpPak);
@@ -88,9 +118,32 @@ export default class PakManager {
   };
 
   /**
-   * pak化失敗したらtmppaksを削除する
+   * ディレクトリごとにpak化する
    */
-  public async pakFailed(tmpPaks: string[]) {
+  protected async doPakWithoutTmp(dirs: string[][]) {
+    if (!this.makeobjPath || !this.size) {
+      throw new Error('動作に必要な設定が不足しています');
+    }
+
+    let hasFailed = false;
+    for (const files of dirs) {
+      const dir = this.fileManager.getDirname(files[0]);
+      this.messenger.send('debug', dir);
+      const result = await this.builder.pakByDirectory(this.makeobjPath, this.size, files, this.abortController);
+      if (result.isSuccess) {
+        this.messenger.send('success', result.stdout);
+      } else {
+        this.messenger.send('error', result.stderr);
+        hasFailed = true;
+      }
+    }
+    return { hasFailed };
+  };
+
+  /**
+   * pak化失敗したらtmpPaksを削除する
+   */
+  protected async pakFailed(tmpPaks: string[]) {
     await this.deleteFiles(tmpPaks);
     this.messenger.send('error', 'Pak化失敗したフォルダがあるため中断しました');
   }
@@ -98,17 +151,23 @@ export default class PakManager {
   /**
    * pakファイルが1つならpakPathへ移動する
    */
-  public async tmpPakMove(tmpPaks: string[], pakPath: string) {
+  protected async tmpPakMove(tmpPaks: string[]) {
+    if (!this.pakPath) {
+      throw new Error('動作に必要な設定が不足しています');
+    }
     this.messenger.send('debug', 'pakファイル移動');
-    return this.fileManager.rename(tmpPaks[0], pakPath);
+    return this.fileManager.rename(tmpPaks[0], this.pakPath);
   }
 
   /**
    * pakファイルが複数ならマージしてtmp.pakを削除
    */
-  public async tmpPakMege(tmpPaks: string[], makeobjPath: string, pakPath: string) {
+  protected async tmpPakMege(tmpPaks: string[]) {
+    if (!this.makeobjPath || !this.pakPath) {
+      throw new Error('動作に必要な設定が不足しています');
+    }
     this.messenger.send('debug', '各フォルダのpakマージ');
-    const result = await this.builder.merge(makeobjPath, tmpPaks, pakPath);
+    const result = await this.builder.merge(this.makeobjPath, tmpPaks, this.pakPath);
     if (result.isSuccess) {
       this.messenger.send('success', result.stdout);
     } else {
@@ -120,33 +179,23 @@ export default class PakManager {
   /**
    * ファイルの削除
    */
-  public deleteFiles(files: string[]): Promise<void[]> {
+  private deleteFiles(files: string[]): Promise<void[]> {
     this.messenger.send('debug', 'ファイル削除', files);
     return this.fileManager.deletefiles(files);
   }
 
-  public async startPak(options: { makeobjPath: string, size: number, pakPath: string, sourcePath: string }) {
-    this.makeobjPath = options.makeobjPath;
-    this.size = options.size;
-    this.pakPath = options.pakPath;
-    this.sourcePath = options.sourcePath;
-
-    try {
-      await this.beginAbortTransaction();
-      const dirs = await this.findDirectories(this.sourcePath);
-
-      const { hasFailed, tmpPaks } = await this.doPak(this.makeobjPath, this.size, dirs);
-
-      if (hasFailed) {
-        return this.pakFailed(tmpPaks);
+  /**
+   * エラーキャッチ
+   */
+  protected errorHandler(error: unknown) {
+    if (error instanceof Error) {
+      console.log('[PakManager.errorHandler] type is ', error.name);
+      if (error.name === 'AbortError') {
+        return this.messenger.send('warning', '処理を中断しました');
       }
-      if (tmpPaks.length < 2) {
-        return this.tmpPakMove(tmpPaks, this.pakPath);
-      }
-      return this.tmpPakMege(tmpPaks, this.makeobjPath, this.pakPath);
-
-    } catch (error: unknown) {
-      this.errorHandler(error);
+      return this.messenger.send('error', error.message);
     }
-  }
+    console.log('[PakManager.errorHandler] unknown error', error);
+    this.messenger.send('error', 'エラーが発生しました', error);
+  };
 }

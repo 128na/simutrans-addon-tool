@@ -8,6 +8,11 @@ export default class Builder {
     return makeobj.exec({ cwd: dirname(datPathes[0]) }, `PAK${size}`, pakPath, ...datPathes);
   }
 
+  public async pakByDirectory(makeobjPath: string, size: number, datPathes: string[], abortController?: AbortController): Promise<MakeobjResult> {
+    const makeobj = new MakeobjAsync(makeobjPath, abortController);
+    return makeobj.exec({ cwd: dirname(datPathes[0]) }, `PAK${size}`);
+  }
+
   public async merge(makeobjPath: string, pakPathes: string[], mergedPakPath: string, abortController?: AbortController): Promise<MakeobjResult> {
     const makeobj = new MakeobjAsync(makeobjPath, abortController);
     return makeobj.merge(mergedPakPath, ...pakPathes);

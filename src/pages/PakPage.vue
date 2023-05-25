@@ -26,7 +26,10 @@
             :title="$t('Pak出力先')"
             default-path="output.pak"
             @update:model-value="updatecache('pakPath', $event)" />
-          <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
+          <InfoText>
+            {{ $t('生成したPakファイルの保存先を選択します。') }}<br />
+            {{ $t('未選択の場合はソースフォルダに生成されます。') }}
+          </InfoText>
 
           <SelectFile
             v-model="makeobjPath"

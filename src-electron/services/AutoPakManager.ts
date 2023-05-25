@@ -32,21 +32,21 @@ export default class AutoPakManager extends PakManager {
   private async doProcess() {
     console.log('[AutoPakManager.doProcess] start');
     try {
-      if (!this.makeobjPath || !this.simutrans || !this.size || !this.pakPath || !this.sourcePath) {
-        throw new Error('設定に問題があります');
+      if (!this.sourcePath) {
+        throw new Error('動作に必要な設定が不足しています');
       }
       await this.beginAbortTransaction();
       const dirs = await this.findDirectories(this.sourcePath);
 
-      const { hasFailed, tmpPaks } = await this.doPak(this.makeobjPath, this.size, dirs);
+      const { hasFailed, tmpPaks } = await this.doPak(dirs);
 
       if (hasFailed) {
         return this.pakFailed(tmpPaks);
       }
       if (tmpPaks.length < 2) {
-        await this.tmpPakMove(tmpPaks, this.pakPath);
+        await this.tmpPakMove(tmpPaks);
       } else {
-        await this.tmpPakMege(tmpPaks, this.makeobjPath, this.pakPath);
+        await this.tmpPakMege(tmpPaks);
       }
       this.messenger.send('debug', 'simutrans起動');
       this.simutrans?.run();

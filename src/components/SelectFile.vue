@@ -18,6 +18,15 @@
       outline
       dense
       color="secondary"
+      :disable="disable"
+      @click="clear">
+      {{ $t(clearLabel) }}
+    </q-btn>
+    <q-btn
+      outline
+      dense
+      color="secondary"
+      :disable="!modelValue"
       @click="open">
       {{ $t(openLabel) }}
     </q-btn>
@@ -33,6 +42,7 @@ const props = withDefaults(
     unselectLabel?: string;
     selectLabel?: string;
     openLabel?: string;
+    clearLabel?: string;
     filters?: FileFilter[];
     disable?: boolean;
   }>(),
@@ -40,6 +50,7 @@ const props = withDefaults(
     unselectLabel: '未選択',
     selectLabel: '選択',
     openLabel: 'フォルダ表示',
+    clearLabel: 'クリア',
     filters: () => [],
     disable: false,
   }
@@ -49,5 +60,6 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.selectSingleFile({ filters: props.filters }));
+const clear = async () => props.disable === false && emit('update:modelValue', '');
 const open = () => window.electronAPI.openDir(props.modelValue);
 </script>
