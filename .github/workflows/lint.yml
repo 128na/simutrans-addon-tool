@@ -12,6 +12,9 @@ on:
       - '**.tsx'
       - '**.vue'
       - '**.json'
+      - '**.scss'
+      - '**.html'
+      - '**.md'
   pull_request:
     paths:
       - '**.js'
@@ -24,6 +27,9 @@ on:
       - '**.tsx'
       - '**.vue'
       - '**.json'
+      - '**.scss'
+      - '**.html'
+      - '**.md'
 
 concurrency:
   group: lint-${{ github.ref }}
