@@ -11,6 +11,15 @@ export default function registerElectronApi(mainWindow: BrowserWindow): void {
    * ディレクトリ選択
    * @see https://www.electronjs.org/ja/docs/latest/api/dialog#dialogshowopendialogbrowserwindow-options
    */
+  ipcMain.removeHandler('showError');
+  ipcMain.handle('showError', (event, message) => {
+    console.log('[ElectronApi] showError', message);
+    dialog.showErrorBox('Error', message);
+  });
+  /**
+   * ディレクトリ選択
+   * @see https://www.electronjs.org/ja/docs/latest/api/dialog#dialogshowopendialogbrowserwindow-options
+   */
   ipcMain.removeHandler('selectDir');
   ipcMain.handle('selectDir', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {

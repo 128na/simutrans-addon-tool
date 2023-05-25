@@ -35,6 +35,7 @@ import type { RouteRecordRaw } from 'vue-router';
 contextBridge.exposeInMainWorld('electronAPI', {
   router: (callback: (event: IpcRendererEvent, value: RouteRecordRaw) => void) => ipcRenderer.on('router', callback),
   selectDir: () => ipcRenderer.invoke('selectDir'),
+  showError: (message: string) => ipcRenderer.invoke('showError', message),
   selectSingleFile: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
   saveFile: (options: SaveDialogOptions) => ipcRenderer.invoke('saveFile', options),
   openUrl: (path: string) => ipcRenderer.invoke('openUrl', path),

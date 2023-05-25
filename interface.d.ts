@@ -25,6 +25,7 @@ declare global {
   interface Window {
     electronAPI: {
       router: (callback: (event: Electron.IpcRendererEvent, value: Router.RouteRecordRaw) => void) => void;
+      showError: (message: string) => Promise<string>;
       selectDir: () => Promise<string>;
       selectSingleFile: (options: Electron.OpenDialogOptions) => Promise<string>;
       saveFile: (options: Electron.SaveDialogOptions) => Promise<string>;

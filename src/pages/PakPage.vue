@@ -88,10 +88,10 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const startPak = () => {
   if (!sourcePath.value) {
-    return alert(t('ソースフォルダが選択されていません'));
+    return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
   }
   if (!makeobjPath.value) {
-    return alert(t('Makeobjが選択されていません'));
+    return window.electronAPI.showError(t('Makeobjが選択されていません'));
   }
 
   window.autoPakAPI.startPak({
