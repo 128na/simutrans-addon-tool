@@ -56,13 +56,7 @@ export default class AutoPakManager extends PakManager {
     }
   };
 
-  public stop() {
-    if (this.abortController && this.abortController.signal.aborted === false) {
-      console.log('[AutoPakManager.errorHandler] abortController exists, abort');
-      this.abortController.abort();
-    }
-  }
-  public startWatch(options: { makeobjPath: string, simutransPath: string, size: number, pakPath: string, sourcePath: string }) {
+  public startAutoPak(options: { makeobjPath: string, simutransPath: string, size: number, pakPath: string, sourcePath: string }) {
     console.log(this);
     this.makeobjPath = options.makeobjPath;
     this.simutrans = new Simutrans(options.simutransPath);

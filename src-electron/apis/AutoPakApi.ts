@@ -14,10 +14,12 @@ export default function registerAutoPakApi(mainWindow: BrowserWindow): void {
   const pakManager = new PakManager(new Messenger(mainWindow, 'updatePak'), builder, fileManager);
   ipcMain.removeListener('startPak', (event, options) => pakManager.startPak(options));
   ipcMain.on('startPak', (event, options) => pakManager.startPak(options));
+  ipcMain.removeListener('stopPak', () => pakManager.stop());
+  ipcMain.on('stopPak', () => pakManager.stop());
 
   const autoPakManager = new AutoPakManager(new Messenger(mainWindow, 'updateAutoPak'), builder, fileManager, new Watcher());
-  ipcMain.removeListener('startAutoPak', (event, options) => autoPakManager.startWatch(options));
-  ipcMain.on('startAutoPak', (event, options) => autoPakManager.startWatch(options));
+  ipcMain.removeListener('startAutoPak', (event, options) => autoPakManager.startAutoPak(options));
+  ipcMain.on('startAutoPak', (event, options) => autoPakManager.startAutoPak(options));
   ipcMain.removeListener('stopAutoPak', () => autoPakManager.stop());
   ipcMain.on('stopAutoPak', () => autoPakManager.stop());
 

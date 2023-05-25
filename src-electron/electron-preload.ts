@@ -45,7 +45,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 contextBridge.exposeInMainWorld('autoPakAPI', {
   startPak: (options: pakOption) => ipcRenderer.send('startPak', options),
+  stopPak: () => ipcRenderer.send('stopPak'),
   updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
+
   startAutoPak: (options: startPakOption) => ipcRenderer.send('startAutoPak', options),
   stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
   updateAutoPak: (callback: updateAutoPakArgs) => ipcRenderer.on('updateAutoPak', callback),

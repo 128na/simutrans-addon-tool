@@ -38,9 +38,14 @@
             @update:model-value="updatecache('makeobjPath', $event)" />
           <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
 
-          <q-btn
-            color="primary"
-            @click="handlePak">{{ $t('実行') }}</q-btn>
+          <q-btn-group>
+            <q-btn
+              color="primary"
+              @click="startPak">{{ $t('実行') }}</q-btn>
+            <q-btn
+              color="negative"
+              @click="stopPak">{{ $t('停止') }}</q-btn>
+          </q-btn-group>
         </q-page>
       </template>
 
@@ -81,7 +86,7 @@ logger.value.info('ここに実行結果が出力されます。');
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
-const handlePak = () => {
+const startPak = () => {
   if (!sourcePath.value) {
     return alert(t('ソースフォルダが選択されていません'));
   }
@@ -97,6 +102,9 @@ const handlePak = () => {
   });
 };
 
+const stopPak = () => {
+  window.autoPakAPI.stopPak();
+};
 window.autoPakAPI.updatePak((event, level, message, args = undefined) => {
   logger.value[level](message, args);
 });

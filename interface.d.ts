@@ -35,7 +35,9 @@ declare global {
     };
     autoPakAPI: {
       startPak: (options: pakOption) => void;
+      stopPak: () => void;
       updatePak: (callback: updatePakArgs) => void;
+
       startAutoPak: (options: startPakOption) => void;
       stopAutoPak: () => void;
       updateAutoPak: (callback: updateAutoPakArgs) => void;

@@ -40,6 +40,13 @@ export default class PakManager {
     }
   }
 
+  public stop() {
+    if (this.abortController && this.abortController.signal.aborted === false) {
+      console.log('[AutoPakManager.errorHandler] abortController exists, abort');
+      this.abortController.abort();
+    }
+  }
+
   private async doPakWithoutMerge(dirs: string[][]) {
     const { hasFailed } = await this.doPakWithoutTmp(dirs);
     if (hasFailed) {
