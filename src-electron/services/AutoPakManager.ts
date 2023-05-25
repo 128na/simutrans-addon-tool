@@ -33,7 +33,7 @@ export default class AutoPakManager extends PakManager {
     console.log('[AutoPakManager.doProcess] start');
     try {
       if (!this.sourcePath) {
-        throw new Error('動作に必要な設定が不足しています');
+        throw new Error('動作に必要な設定値が不足しています');
       }
       await this.beginAbortTransaction();
       const dirs = await this.findDirectories(this.sourcePath);
@@ -48,7 +48,7 @@ export default class AutoPakManager extends PakManager {
       } else {
         await this.tmpPakMege(tmpPaks);
       }
-      this.messenger.send('debug', 'simutrans起動');
+      this.messenger.send('debug', 'Simutrans起動');
       this.simutrans?.run();
 
     } catch (error: unknown) {

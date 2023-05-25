@@ -28,7 +28,7 @@
             @update:model-value="updatecache('pakPath', $event)" />
           <InfoText>
             {{ $t('生成したPakファイルの保存先を選択します。') }}<br />
-            {{ $t('未選択の場合はソースフォルダに生成されます。') }}
+            {{ $t('未選択の場合はソースフォルダ、サブフォルダ内にアドオン単位で生成されます。') }}
           </InfoText>
 
           <SelectFile

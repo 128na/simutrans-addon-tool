@@ -1,7 +1,7 @@
 <template>
   <q-checkbox
     v-model="showDebug"
-    label="デバッグログ表示"
+    :label="$t('デバッグログを表示')"
     class="text-white" />
   <q-separator :dark="true"/>
   <q-list

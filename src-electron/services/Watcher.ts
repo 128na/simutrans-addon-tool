@@ -25,10 +25,9 @@ export default class Watcher {
       })
       .on('add', onUpdate)
       .on('change', onUpdate)
-      .on('unlink', onUpdate);
-    // サブディレクトリはカレントディレクトリの都合で未対応
-    // .on('addDir', onUpdate)
-    // .on('unlinkDir', onUpdate)
+      .on('unlink', onUpdate)
+      .on('addDir', onUpdate)
+      .on('unlinkDir', onUpdate);
   }
 
   public stop() {

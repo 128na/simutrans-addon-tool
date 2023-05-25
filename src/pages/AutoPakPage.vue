@@ -50,12 +50,12 @@
           <template v-if="watching">
             <q-btn
               color="negative"
-              @click="stopPak">{{ $t('停止') }}</q-btn>
+              @click="stopAutoPak">{{ $t('停止') }}</q-btn>
           </template>
           <template v-else>
             <q-btn
               color="primary"
-              @click="startPak">{{ $t('開始') }}</q-btn>
+              @click="startAutoPak">{{ $t('開始') }}</q-btn>
           </template>
         </q-page>
       </template>
@@ -100,11 +100,11 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const watching = ref(false);
 
-const stopPak = () => {
+const stopAutoPak = () => {
   window.autoPakAPI.stopAutoPak();
   watching.value = false;
 };
-const startPak = () => {
+const startAutoPak = () => {
   if (!sourcePath.value) {
     return alert(t('ソースフォルダが選択されていません'));
   }

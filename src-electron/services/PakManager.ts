@@ -100,7 +100,7 @@ export default class PakManager {
    */
   protected async doPak(dirs: string[][]) {
     if (!this.makeobjPath || !this.size) {
-      throw new Error('動作に必要な設定が不足しています');
+      throw new Error('動作に必要な設定値が不足しています');
     }
 
     let hasFailed = false;
@@ -129,7 +129,7 @@ export default class PakManager {
    */
   protected async doPakWithoutTmp(dirs: string[][]) {
     if (!this.makeobjPath || !this.size) {
-      throw new Error('動作に必要な設定が不足しています');
+      throw new Error('動作に必要な設定値が不足しています');
     }
 
     let hasFailed = false;
@@ -160,7 +160,7 @@ export default class PakManager {
    */
   protected async tmpPakMove(tmpPaks: string[]) {
     if (!this.pakPath) {
-      throw new Error('動作に必要な設定が不足しています');
+      throw new Error('動作に必要な設定値が不足しています');
     }
     this.messenger.send('debug', 'pakファイル移動');
     return this.fileManager.rename(tmpPaks[0], this.pakPath);
@@ -171,9 +171,9 @@ export default class PakManager {
    */
   protected async tmpPakMege(tmpPaks: string[]) {
     if (!this.makeobjPath || !this.pakPath) {
-      throw new Error('動作に必要な設定が不足しています');
+      throw new Error('動作に必要な設定値が不足しています');
     }
-    this.messenger.send('debug', '各フォルダのpakマージ');
+    this.messenger.send('debug', '各フォルダ内のpakマージ');
     const result = await this.builder.merge(this.makeobjPath, tmpPaks, this.pakPath);
     if (result.isSuccess) {
       this.messenger.send('success', result.stdout);
