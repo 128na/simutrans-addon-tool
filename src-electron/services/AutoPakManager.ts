@@ -1,9 +1,9 @@
-import { BrowserWindow } from 'electron';
 import Builder from './Builder';
 import FileManager from './FileManager';
 import PakManager from './PakManager';
 import Watcher from './Watcher';
 import Simutrans from './Simutrans';
+import Messenger from './Messenger';
 
 
 export default class AutoPakManager extends PakManager {
@@ -11,22 +11,21 @@ export default class AutoPakManager extends PakManager {
   timer: NodeJS.Timeout | null = null;
   watcher: Watcher;
   simutrans?: Simutrans;
-  channel = 'updateAutoPak';
 
-  constructor(mainWindow: BrowserWindow, builder: Builder, fileManager: FileManager, watcher: Watcher) {
-    super(mainWindow, builder, fileManager);
+  constructor(messenger: Messenger, builder: Builder, fileManager: FileManager, watcher: Watcher) {
+    super(messenger, builder, fileManager);
     this.watcher = watcher;
   }
 
   private onReady(pathes: onReadyArgs) {
     console.log('[onReady]');
-    this.send('debug', '監視準備完了', pathes);
+    this.messenger.send('debug', '監視準備完了', pathes);
     this.doProcess();
   };
 
   private onUpdate(path: string) {
     console.log('[onUpdate]', { path });
-    this.send('debug', '変更検知', path);
+    this.messenger.send('debug', '変更検知', path);
     this.doProcess();
   };
 
@@ -49,7 +48,7 @@ export default class AutoPakManager extends PakManager {
       } else {
         await this.tmpPakMege(tmpPaks, this.makeobjPath, this.pakPath);
       }
-      this.send('debug', 'simutrans起動');
+      this.messenger.send('debug', 'simutrans起動');
       this.simutrans?.run();
 
     } catch (error: unknown) {

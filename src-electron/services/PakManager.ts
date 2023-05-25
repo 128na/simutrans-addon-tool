@@ -1,10 +1,10 @@
-import { BrowserWindow } from 'electron';
 import Builder from '../services/Builder';
 import FileManager from '../services/FileManager';
+import Messenger from './Messenger';
 
 
 export default class PakManager {
-  mainWindow: BrowserWindow;
+  messenger: Messenger;
   builder: Builder;
   fileManager: FileManager;
   abortController?: AbortController;
@@ -12,16 +12,11 @@ export default class PakManager {
   size?: number;
   pakPath?: string;
   sourcePath?: string;
-  channel = 'updatePak';
 
-  constructor(mainWindow: BrowserWindow, builder: Builder, fileManager: FileManager) {
-    this.mainWindow = mainWindow
+  constructor(messenger: Messenger, builder: Builder, fileManager: FileManager) {
+    this.messenger = messenger
     this.builder = builder;
     this.fileManager = fileManager;
-  }
-
-  protected send(level: Level, message: string, ...args: unknown[]) {
-    this.mainWindow.webContents.send(this.channel, level, message, ...args);
   }
 
   /**
@@ -42,7 +37,7 @@ export default class PakManager {
    * ソースディレクトリからdat一覧をサブディレクトリ単位で取得する
    */
   public async findDirectories(path: string): Promise<string[][]> {
-    this.send('debug', 'Pakファイル作成開始');
+    this.messenger.send('debug', 'Pakファイル作成開始');
 
     const dirs = await this.fileManager.findDatDirectories(path);
     // console.log('[PakManager.startPak]', { dirs });
@@ -59,12 +54,12 @@ export default class PakManager {
     if (error instanceof Error) {
       console.log('[PakManager.errorHandler] type is ', error?.name);
       if (error.name === 'AbortError') {
-        return this.send('warning', '処理を中断しました');
+        return this.messenger.send('warning', '処理を中断しました');
       }
-      return this.send('error', error.message);
+      return this.messenger.send('error', error.message);
     }
     console.log('[PakManager.errorHandler] unknown error', error);
-    this.send('error', 'エラーが発生しました', error);
+    this.messenger.send('error', 'エラーが発生しました', error);
   };
 
   /**
@@ -78,14 +73,14 @@ export default class PakManager {
         continue;
       }
       const dir = this.fileManager.getDirname(files[0]);
-      this.send('debug', dir);
+      this.messenger.send('debug', dir);
       const tmpPak = this.fileManager.createTmpPath(dir);
       const result = await this.builder.pak(makeobjPath, size, tmpPak, files, this.abortController);
       if (result.isSuccess) {
-        this.send('success', result.stdout);
+        this.messenger.send('success', result.stdout);
         tmpPaks.push(tmpPak);
       } else {
-        this.send('error', result.stderr);
+        this.messenger.send('error', result.stderr);
         hasFailed = true;
       }
     }
@@ -97,14 +92,14 @@ export default class PakManager {
    */
   public async pakFailed(tmpPaks: string[]) {
     await this.deleteFiles(tmpPaks);
-    this.send('error', 'Pak化失敗したフォルダがあるため中断しました');
+    this.messenger.send('error', 'Pak化失敗したフォルダがあるため中断しました');
   }
 
   /**
    * pakファイルが1つならpakPathへ移動する
    */
   public async tmpPakMove(tmpPaks: string[], pakPath: string) {
-    this.send('debug', 'pakファイル移動');
+    this.messenger.send('debug', 'pakファイル移動');
     return this.fileManager.rename(tmpPaks[0], pakPath);
   }
 
@@ -112,12 +107,12 @@ export default class PakManager {
    * pakファイルが複数ならマージしてtmp.pakを削除
    */
   public async tmpPakMege(tmpPaks: string[], makeobjPath: string, pakPath: string) {
-    this.send('debug', '各フォルダのpakマージ');
+    this.messenger.send('debug', '各フォルダのpakマージ');
     const result = await this.builder.merge(makeobjPath, tmpPaks, pakPath);
     if (result.isSuccess) {
-      this.send('success', result.stdout);
+      this.messenger.send('success', result.stdout);
     } else {
-      this.send('error', result.stderr);
+      this.messenger.send('error', result.stderr);
     }
     await this.deleteFiles(tmpPaks);
   }
@@ -126,7 +121,7 @@ export default class PakManager {
    * ファイルの削除
    */
   public deleteFiles(files: string[]): Promise<void[]> {
-    this.send('debug', 'ファイル削除', files);
+    this.messenger.send('debug', 'ファイル削除', files);
     return this.fileManager.deletefiles(files);
   }
 
