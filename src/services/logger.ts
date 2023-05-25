@@ -21,6 +21,10 @@ export default class logger {
     this.append('success', 'positive', 'check', message, args);
   }
 
+  public warning(message: string, args: unknown = undefined): void {
+    this.append('warning', 'warning', 'warning', message, args);
+  }
+
   public error(message: string, args: unknown = undefined): void {
     this.append('error', 'negative', 'close', message, args);
   }

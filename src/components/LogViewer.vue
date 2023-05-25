@@ -1,9 +1,15 @@
 <template>
+  <q-checkbox
+    v-model="showDebug"
+    label="デバッグログ表示"
+    class="text-white" />
+  <q-separator :dark="true"/>
   <q-list
     separator
     :dark="true">
     <q-item
       v-for="(l, index) in logger.getReverseLogs()"
+      v-show="!(showDebug===false && l.level==='debug')"
       :key="index"
       v-ripple
       clickable
@@ -28,11 +34,13 @@
 import { useI18n } from 'vue-i18n';
 import Logger from '../services/logger';
 import { copyToClipboard, useQuasar } from 'quasar';
+import { ref } from 'vue';
 
 defineProps({
   logger: { type: Logger, required: true },
 });
 
+const showDebug = ref(true);
 const $q = useQuasar();
 const { t } = useI18n();
 const copy = async (l: Log) => {

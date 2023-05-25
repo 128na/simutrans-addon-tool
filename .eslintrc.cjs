@@ -82,8 +82,13 @@ module.exports = {
     // does not work with type definitions
     'no-unused-vars': 'off',
 
+    // 追加ルール。追加理由も記載する
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
+    // 行数は長くても不都合でない
+    'max-len': ['error', { 'code': 1024 }],
+    // 1行1属性の方が見やすかった
     'vue/max-attributes-per-line': ['error', {
       'singleline': {
         'max': 1
@@ -92,6 +97,7 @@ module.exports = {
         'max': 1
       },
     }],
+    // 1行1属性にしたときインデントが揃わなくなるのを防ぐ
     'vue/html-indent': ['error', 2, {
       'attribute': 1,
       'baseIndent': 1,
