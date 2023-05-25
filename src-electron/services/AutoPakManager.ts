@@ -63,6 +63,7 @@ export default class AutoPakManager extends PakManager {
     this.size = options.size;
     this.pakPath = options.pakPath;
     this.sourcePath = options.sourcePath;
-    this.watcher.start(this.sourcePath, (pathes) => this.onReady(pathes), (path) => this.onUpdate(path));
+
+    this.watcher.start(this.fileManager.getWatchTarget(this.sourcePath), (pathes) => this.onReady(pathes), (path) => this.onUpdate(path));
   }
 }

@@ -9,15 +9,14 @@ export default class Watcher {
     options = {
       ignoreInitial: true,
       awaitWriteFinish: { stabilityThreshold: 1000 },
-      depth: 0,
     }
   ) {
     this.options = options;
   }
 
-  public start(target: string, onReady: (pathes: onReadyArgs) => void, onUpdate: (path: string, stats?: fs.Stats) => void) {
+  public start(pathes: string[], onReady: (pathes: onReadyArgs) => void, onUpdate: (path: string, stats?: fs.Stats) => void) {
     this.watcher = chokidar
-      .watch(target, this.options)
+      .watch(pathes, this.options)
       .on('ready', () => {
         if (this.watcher) {
           onReady(this.watcher?.getWatched());

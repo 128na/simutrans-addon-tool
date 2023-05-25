@@ -43,4 +43,15 @@ export default class FileManager {
     console.log('[FileManager.rename]', { oldPath, newPath });
     return rename(oldPath, newPath);
   }
+
+  public getWatchTarget(path: string): string[] {
+    const target = [
+      join(path, '**', '*.dat'),
+      join(path, '**', '*.png'),
+    ];
+
+    console.log('[FileManager.target]', { target });
+
+    return target;
+  }
 }

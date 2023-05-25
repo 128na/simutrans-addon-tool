@@ -6,7 +6,7 @@
       <template #before>
         <q-page padding>
           <MainTitle>
-            {{ $t('自動Pak化') }}
+            {{ $t('自動Pak') }}
           </MainTitle>
 
           <SelectDir

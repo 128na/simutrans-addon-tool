@@ -6,7 +6,7 @@
       <template #before>
         <q-page padding>
           <MainTitle>
-            {{ $t('Pak化') }}
+            {{ $t('Pak') }}
           </MainTitle>
 
           <SelectDir
