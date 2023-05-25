@@ -43,7 +43,7 @@
           :to="{ name: 'pak' }">
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>
           <q-item-section>
-            <q-item-label>{{ $t('Pak化') }}</q-item-label>
+            <q-item-label>{{ $t('Pak') }}</q-item-label>
             <q-item-label caption>{{ $t('Pakファイル作成') }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -52,8 +52,17 @@
           :to="{ name: 'autoPak' }">
           <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
           <q-item-section>
-            <q-item-label>{{ $t('自動Pak化') }}</q-item-label>
+            <q-item-label>{{ $t('自動Pak') }}</q-item-label>
             <q-item-label caption>{{ $t('ソース更新を検知して自動Pak化') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          :to="{ name: 'listPak' }">
+          <q-item-section avatar><q-icon name="format_list_numbered" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('Pakリスト') }}</q-item-label>
+            <q-item-label caption>{{ $t('Pakファイル内のアドオンリスト化') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item
@@ -70,7 +79,7 @@
     <q-page-container>
       <RouterView v-slot="{ Component }">
         <template v-if="Component">
-          <KeepAlive include="PakPage,AutoPakPage">
+          <KeepAlive :include="shouldKeep">
             <Suspense>
               <component :is="Component"></component>
 
@@ -92,4 +101,6 @@ import { ref } from 'vue';
 const appName = process.env.APP_NAME;
 const appVersion = process.env.APP_VERSION;
 const leftDrawerOpen = ref(true);
+
+const shouldKeep = ['PakPage', 'AutoPakPage'];
 </script>

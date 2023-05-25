@@ -5,6 +5,7 @@ import registerMenu from './services/Menu';
 import registerElectronApi from './apis/ElectronApi';
 import registerAutoPakApi from './apis/AutoPakApi';
 import registerVue3DevToolForWin from './services/DevTool';
+import registerListPakApi from './apis/ListPakApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -13,7 +14,7 @@ try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'));
   }
-} catch (_) {}
+} catch (_) { }
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -46,6 +47,7 @@ function createWindow() {
   registerMenu(mainWindow);
   registerElectronApi(mainWindow);
   registerAutoPakApi(mainWindow);
+  registerListPakApi(mainWindow);
 
   mainWindow.loadURL(process.env.APP_URL);
 

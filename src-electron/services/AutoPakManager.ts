@@ -4,6 +4,7 @@ import PakManager from './PakManager';
 import Watcher from './Watcher';
 import Simutrans from './Simutrans';
 import Messenger from './Messenger';
+import { startAutoPakOption } from 'app/interface';
 
 
 export default class AutoPakManager extends PakManager {
@@ -56,7 +57,7 @@ export default class AutoPakManager extends PakManager {
     }
   };
 
-  public startAutoPak(options: { makeobjPath: string, simutransPath: string, size: number, pakPath: string, sourcePath: string }) {
+  public startAutoPak(options: startAutoPakOption) {
     console.log(this);
     this.makeobjPath = options.makeobjPath;
     this.simutrans = new Simutrans(options.simutransPath);

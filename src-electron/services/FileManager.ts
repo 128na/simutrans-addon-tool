@@ -54,4 +54,29 @@ export default class FileManager {
 
     return target;
   }
+
+  public async findPakFiles(dir: string): Promise<string[]> {
+    const dirents = await readdir(resolve(dir), { withFileTypes: true });
+    let files: string[] = [];
+    for (const d of dirents) {
+      if (d.isDirectory()) {
+        files = files.concat(await this.findPakFiles(join(dir, d.name)));
+      }
+      if (d.isFile()) {
+        files.push(join(dir, d.name));
+      }
+    }
+    return files.filter(f => f.endsWith('.pak'));
+  }
+
+  /**
+   * 配列チャンク化
+   * @link https://qiita.com/yarnaimo/items/e92600237d65876f8dd8
+   */
+  public chunk<T>(arr: T[], size: number): T[][] {
+    return arr.reduce(
+      (newarr, _, i) => (i % size ? newarr : [...newarr, arr.slice(i, i + size)]),
+      [] as T[][]
+    )
+  }
 }

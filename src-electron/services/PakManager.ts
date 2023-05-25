@@ -1,3 +1,4 @@
+import { startPakOption } from 'app/interface';
 import Builder from '../services/Builder';
 import FileManager from '../services/FileManager';
 import Messenger from './Messenger';
@@ -19,7 +20,7 @@ export default class PakManager {
     this.fileManager = fileManager;
   }
 
-  public async startPak(options: { makeobjPath: string, size: number, pakPath: string, sourcePath: string }) {
+  public async startPak(options: startPakOption) {
     this.makeobjPath = options.makeobjPath;
     this.size = options.size;
     this.pakPath = options.pakPath;

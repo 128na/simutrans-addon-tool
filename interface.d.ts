@@ -1,19 +1,24 @@
 import type Electron from 'electron';
 import type Router from 'vue-router';
 
-interface pakOption {
+interface startPakOption {
   makeobjPath: string;
   size: number;
   pakPath: string;
   sourcePath: string;
 }
 
-interface startPakOption {
+interface startAutoPakOption {
   makeobjPath: string;
   size: number;
   pakPath: string;
   sourcePath: string;
   simutransPath: string;
+}
+
+interface listPakOption {
+  makeobjPath: string;
+  pakPath: string;
 }
 
 interface updatePakArgs {
@@ -35,13 +40,15 @@ declare global {
       setCache: (key: string, value: unknown) => Promise<void>;
     };
     autoPakAPI: {
-      startPak: (options: pakOption) => void;
+      startPak: (options: startPakOption) => void;
       stopPak: () => void;
       updatePak: (callback: updatePakArgs) => void;
 
-      startAutoPak: (options: startPakOption) => void;
+      startAutoPak: (options: startAutoPakOption) => void;
       stopAutoPak: () => void;
-      updateAutoPak: (callback: updateAutoPakArgs) => void;
+      updateAutoPak: (callback: updatePakArgs) => void;
+
+      listPak: (options: listPakOption) => Promise<addon[]>;
     };
   }
 }
