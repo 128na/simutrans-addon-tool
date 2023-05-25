@@ -38,6 +38,6 @@ export default function registerMenu(mainWindow: BrowserWindow) {
   ];
 
   const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+  Menu.setApplicationMenu(prod ? null : menu);
   console.log('[Menu] registered');
 }

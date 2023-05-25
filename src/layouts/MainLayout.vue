@@ -10,11 +10,14 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen" />
 
-        <q-toolbar-title>
+        <q-toolbar-title
+          class="cursor-pointer"
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        >
           {{ appName }}
         </q-toolbar-title>
 
-        <div>v{{ appVersion }}</div>
+        <div>v.{{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
