@@ -50,5 +50,9 @@ declare global {
 
       listPak: (options: listPakOption) => Promise<addon[]>;
     };
+    githubAPI: {
+      getLatestRelease: () => Promise<OctokitResponse>;
+    };
+
   }
 }

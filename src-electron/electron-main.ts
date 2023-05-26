@@ -6,6 +6,7 @@ import registerElectronApi from './apis/ElectronApi';
 import registerAutoPakApi from './apis/AutoPakApi';
 import registerVue3DevToolForWin from './services/DevTool';
 import registerListPakApi from './apis/ListPakApi';
+import registerGithubApi from './apis/GithubApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -48,6 +49,7 @@ function createWindow() {
   registerElectronApi(mainWindow);
   registerAutoPakApi(mainWindow);
   registerListPakApi(mainWindow);
+  registerGithubApi(mainWindow);
 
   mainWindow.loadURL(process.env.APP_URL);
 

@@ -18,8 +18,9 @@
       {{ $t('開発情報') }}
     </SubTitle>
     <p>
-      {{ $t('最新版のリリースはこちらから確認できます。') }}<br />
-      <ExternalLink :url="releasePage" />
+      {{ $t('公開されている最新のバージョン') }} : {{ latest.version }} ({{ latest.created_at }})<br />
+      {{ $t('最新版はこちらから入手できます。') }}<br />
+      <ExternalLink :url="latest.url || releasePage" />
     </p>
     <SubTitle>
       {{ $t('更新情報') }}
@@ -42,4 +43,7 @@ const histories = {
 };
 const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
+
+const latest = await window.githubAPI.getLatestRelease();
+console.log({latest})
 </script>

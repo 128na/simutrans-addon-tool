@@ -55,3 +55,7 @@ contextBridge.exposeInMainWorld('autoPakAPI', {
 
   listPak: (options: listPakOption) => ipcRenderer.invoke('listPak', options),
 });
+
+contextBridge.exposeInMainWorld('githubAPI', {
+  getLatestRelease: () => ipcRenderer.invoke('getLatestRelease'),
+});
