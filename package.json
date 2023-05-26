@@ -18,7 +18,8 @@
     "build": "quasar build -m electron",
     "build:debug": "quasar build -m electron -d",
     "lang:check": "ts-node ./tools/validate-translate.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:all":"npm run lint &&npm run typecheck &&npm run format && npm run lang:check"
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",

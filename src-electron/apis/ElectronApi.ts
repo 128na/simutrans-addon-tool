@@ -1,7 +1,7 @@
 import type { BrowserWindow } from 'electron';
 import { app, dialog, ipcMain, shell } from 'electron';
 import Store from 'electron-store';
-import { existsSync, lstat, lstatSync } from 'node:fs';
+import { existsSync, lstatSync } from 'node:fs';
 import { dirname } from 'node:path';
 const store = new Store();
 /**
