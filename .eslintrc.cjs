@@ -89,21 +89,10 @@ module.exports = {
     // 行数は長くても不都合でない
     'max-len': ['error', { 'code': 1024 }],
     // 1行1属性の方が見やすかった
-    'vue/max-attributes-per-line': ['error', {
-      'singleline': {
-        'max': 1
-      },
-      'multiline': {
-        'max': 1
-      },
-    }],
+    'vue/max-attributes-per-line': 'error',
     // 1行1属性にしたときインデントが揃わなくなるのを防ぐ
     'vue/html-indent': ['error', 2, {
-      'attribute': 1,
-      'baseIndent': 1,
-      'closeBracket': 0,
       'alignAttributesVertically': false,
-      'ignores': []
     }],
   },
 };
