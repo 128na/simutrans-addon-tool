@@ -68,8 +68,8 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { DatConvertedAddon } from 'interface';
 import { Dat } from 'simutrans-dat-parser';
+import { DatConvertedAddon } from 'app/types/global';
 
 const splitterModel = ref(50);
 const running = ref(false);
@@ -122,7 +122,7 @@ const startList = async () => {
     running.value = true;
     addons.value = null;
 
-      const result = await window.autoPakAPI.listFromDat({
+      const result = await window.makeobjApi.listFromDat({
       makeobjPath: store.makeobjPath,
       target: targetDatDir.value,
     });

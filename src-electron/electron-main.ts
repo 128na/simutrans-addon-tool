@@ -3,9 +3,8 @@ import path from 'path';
 import os from 'os';
 import registerMenu from './services/Menu';
 import registerElectronApi from './apis/ElectronApi';
-import registerAutoPakApi from './apis/AutoPakApi';
+import registerMakeobjApi from './apis/MakeobjApi';
 import registerVue3DevToolForWin from './services/DevTool';
-import registerListPakApi from './apis/ListPakApi';
 import registerGithubApi from './apis/GithubApi';
 
 // needed in case process is undefined under Linux
@@ -43,8 +42,7 @@ function createWindow() {
 
   registerMenu(mainWindow);
   registerElectronApi(mainWindow);
-  registerAutoPakApi(mainWindow);
-  registerListPakApi(mainWindow);
+  registerMakeobjApi(mainWindow);
   registerGithubApi(mainWindow);
 
   mainWindow.loadURL(process.env.APP_URL);

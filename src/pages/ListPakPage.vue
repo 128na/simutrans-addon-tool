@@ -62,7 +62,7 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { PakConvertedAddon } from 'interface';
+import { PakConvertedAddon } from 'app/types/global';
 
 const splitterModel = ref(50);
 const running = ref(false);
@@ -108,7 +108,7 @@ const startList = async () => {
     running.value = true;
     addons.value = null;
 
-    addons.value = await window.autoPakAPI.listFromPak({
+    addons.value = await window.makeobjApi.listFromPak({
       makeobjPath: store.makeobjPath,
       target: targetPakDir.value,
     });

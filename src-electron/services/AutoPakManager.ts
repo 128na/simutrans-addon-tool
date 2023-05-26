@@ -4,7 +4,7 @@ import PakManager from './PakManager';
 import Watcher from './Watcher';
 import Simutrans from './Simutrans';
 import Messenger from './Messenger';
-import { startAutoPakOption } from 'interface';
+import { startAutoPakOption } from 'app/types/global';
 
 
 export default class AutoPakManager extends PakManager {

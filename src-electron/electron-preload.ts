@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { listOption, startAutoPakOption, startPakOption, updateAutoPakArgs, updatePakArgs } from 'interface';
+import { listOption, startAutoPakOption, startPakOption, updatePakArgs } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -44,15 +44,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
 });
 
-contextBridge.exposeInMainWorld('autoPakAPI', {
+contextBridge.exposeInMainWorld('makeobjApi', {
   startPak: (options: startPakOption) => ipcRenderer.send('startPak', options),
   stopPak: () => ipcRenderer.send('stopPak'),
   updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
 
   startAutoPak: (options: startAutoPakOption) => ipcRenderer.send('startAutoPak', options),
   stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
-  updateAutoPak: (callback: updateAutoPakArgs) => ipcRenderer.on('updateAutoPak', callback),
-
+  updateAutoPak: (callback: updatePakArgs) => ipcRenderer.on('updateAutoPak', callback),
   listFromPak: (options: listOption) => ipcRenderer.invoke('listFromPak', options),
   listFromDat: (options: listOption) => ipcRenderer.invoke('listFromDat', options),
 });

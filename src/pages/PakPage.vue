@@ -86,7 +86,7 @@ const startPak = () => {
     return window.electronAPI.showError(t('Makeobjが選択されていません'));
   }
 
-  window.autoPakAPI.startPak({
+  window.makeobjApi.startPak({
     makeobjPath: store.makeobjPath,
     size: size.value,
     pakPath: pakPath.value,
@@ -95,9 +95,9 @@ const startPak = () => {
 };
 
 const stopPak = () => {
-  window.autoPakAPI.stopPak();
+  window.makeobjApi.stopPak();
 };
-window.autoPakAPI.updatePak((event, level, message, args = undefined) => {
+window.makeobjApi.updatePak((event, level, message, args = undefined) => {
   logger.value[level](message, args);
 });
 </script>

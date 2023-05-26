@@ -1,4 +1,4 @@
-import { startPakOption } from 'interface';
+import { startPakOption } from 'app/types/global';
 import Builder from '../services/Builder';
 import FileManager from '../services/FileManager';
 import Messenger from './Messenger';

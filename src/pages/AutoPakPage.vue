@@ -82,7 +82,7 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 const store = useSettingsStore();
 const { t } = useI18n();
 const stopAutoPak = () => {
-  window.autoPakAPI.stopAutoPak();
+  window.makeobjApi.stopAutoPak();
   watching.value = false;
 };
 const startAutoPak = () => {
@@ -100,7 +100,7 @@ const startAutoPak = () => {
   }
 
   watching.value = true;
-  window.autoPakAPI.startAutoPak({
+  window.makeobjApi.startAutoPak({
     simutransPath: store.simutransPath,
     makeobjPath: store.makeobjPath,
     size: size.value,
@@ -109,7 +109,7 @@ const startAutoPak = () => {
   });
 };
 
-window.autoPakAPI.updateAutoPak((event, level, message, args = undefined) => {
+window.makeobjApi.updateAutoPak((event, level, message, args = undefined) => {
   logger.value[level](message, args);
 });
 </script>
