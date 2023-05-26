@@ -17,6 +17,8 @@ export default function registerListPakApi(mainWindow: BrowserWindow): void {
     for (const files of fileChunk) {
       result = result.concat(await makeobj.listNames(...files.flat().flat()));
     }
+    // pakディレクトリをルートとして相対パスを返す
+    result = result.map(r => Object.assign(r, { pak: r.pak.replace(options.pakPath, '') }));
     return result;
   });
 
