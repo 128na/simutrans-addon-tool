@@ -14,9 +14,9 @@ const green = '\u001b[32m';
 const reset = '\u001b[0m';
 
 if (exists.length) {
-  console.log(`${green}exists keys:\n${exists.join('\n')}\n`);
+  console.log(`${green}exists keys:\n${exists.join('\n')}${reset}\n`);
 }
 if (notExists.length) {
-  console.error(`${red}not exists keys:\n${notExists.join('\n')}\n`);
+  console.error(`${red}not exists keys:\n${notExists.join('\n')}${reset}\n`);
 }
 process.exit(notExists.length ? 1 : 0);
