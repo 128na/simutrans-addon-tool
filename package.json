@@ -17,6 +17,7 @@
     "dev": "quasar dev -m electron",
     "build": "quasar build -m electron",
     "build:debug": "quasar build -m electron -d",
+    "lang:check": "ts-node ./tools/validate-translate.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

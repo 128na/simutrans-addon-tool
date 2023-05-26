@@ -2,7 +2,15 @@
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "tools/*": ["tools/*"],
+    }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   },
   "exclude": ["node_modules", "./node_modules", "./node_modules/*", "./node_modules/@types/node/index.d.ts"]
 }
