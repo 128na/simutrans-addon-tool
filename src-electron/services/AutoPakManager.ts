@@ -71,4 +71,11 @@ export default class AutoPakManager extends PakManager {
 
     this.watcher.start(this.fileManager.getWatchTarget(this.sourcePath), (pathes) => this.onReady(pathes), (path) => this.onUpdate(path));
   }
+
+  public stop() {
+    super.stop();
+
+    this.watcher.stop();
+    return this.messenger.send('warning', '処理を中断しました');
+  }
 }
