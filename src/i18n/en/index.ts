@@ -1,6 +1,8 @@
 // translate ja -> en
 // sort by key ascending
 export default {
+  'Datファイルのあるフォルダを選択します': 'Select a folder containing Dat files',
+  'Datリスト': 'Dat List',
   'Makeobj': 'Makeobj',
   'Makeobjが選択されていません': 'Makeobj is not selected',
   'Makeobj実行ファイルを選択します。': 'Select the Makeobj executable.',
@@ -30,6 +32,7 @@ export default {
   'クリア': 'Clear',
   'コピーしました': 'Copied.',
   'コピーに失敗しました': 'Copy failed.',
+  'コピー（json元データ）': 'Copy (json raw data)',
   'コピー（json）': 'Copy (json)',
   'コピー（テキスト）': 'Copy (text)',
   'ソースフォルダ': 'Source folder',
@@ -39,6 +42,7 @@ export default {
   'デバッグログを表示': 'Show debug log',
   'ファイル削除': 'Delete files.',
   'フォルダ': 'Folder',
+  'フォルダが選択されていません': 'Folder is not selected',
   'フォルダ表示': 'Show folder',
   'リンク集': 'Links',
   '使い方、更新情報': 'Usage and updates.',
@@ -46,6 +50,7 @@ export default {
   '公式サイト': 'Official sites',
   '公開されている最新のバージョン': 'The latest version available to the published',
   '処理を中断しました': 'Processing has been stopped.',
+  '処理を中断しています': 'Trying to stop the process.',
   '動作に必要な設定値が不足しています': 'Missing configuration values required for operation.',
   '各フォルダ内のpakマージ': 'Pak merge in each folder.',
   '変更検知': 'Detecting changes.',

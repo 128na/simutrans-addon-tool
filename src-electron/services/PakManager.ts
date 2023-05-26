@@ -47,7 +47,7 @@ export default class PakManager {
   public stop() {
     if (this.abortController && this.abortController.signal.aborted === false) {
       console.log('[AutoPakManager.errorHandler] abortController exists, abort');
-      this.messenger.send('warning', '処理を中断しました');
+      this.messenger.send('warning', '処理を中断しています');
       this.abortController.abort();
     }
   }
