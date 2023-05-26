@@ -21,7 +21,6 @@ export default {
   'Simutransのアドオン作成を支援するツール集です。': 'A collection of tools to assist in the creation of addons for Simutrans.',
   'Simutrans実行ファイルを選択します。': 'Select the Simutrans executable.',
   'Simutrans起動': 'Starting simutrans.',
-  'Simutrans起動中': 'Starting Simutrans.',
   'Simutrans関連のリンク集': 'Simutrans Related Links.',
   'datファイルのあるフォルダを選択します。': 'Select the folder where the dat file is located.',
   'ここに実行結果が出力されます。': 'The execution results are output here.',
