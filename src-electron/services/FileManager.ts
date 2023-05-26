@@ -1,5 +1,6 @@
 import { dirname, join, resolve } from 'path';
 import { readdir, unlink, rename } from 'node:fs/promises';
+import { existsSync } from 'fs';
 
 export default class FileManager {
 
@@ -36,7 +37,7 @@ export default class FileManager {
 
   public deletefiles(files: string[]): Promise<void[]> {
     console.log('[FileManager.deletefiles]', { files });
-    return Promise.all(files.map(f => unlink(f)));
+    return Promise.all(files.map(f => existsSync(f) && unlink(f)));
   }
 
   public rename(oldPath: string, newPath: string): Promise<void> {
