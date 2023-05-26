@@ -32,4 +32,6 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
+      - run: npm install -g ts-node typescript
+
       - run: npm run lang:check
