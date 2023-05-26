@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+
 interface FileEnt {
   [path: string]: string
 }
@@ -32,24 +33,20 @@ export const readContent = (files: string[]): FileEnt => {
   }, {} as { [path: string]: string });
 }
 
-const red = '\u001b[31m';
-const green = '\u001b[32m';
-const reset = '\u001b[0m';
-
 export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
-  let allPassed = true;
+  const exists = [];
+  const notExists = [];
   for (const lang in messages) {
     for (const key in messages[lang]) {
-      const exists = existsInJsFiles(key, jsFiles);
-      if (exists) {
-        console.log(`${green}"${key}" is exists in ${exists}${reset}.`);
+      const result = existsInJsFiles(key, jsFiles);
+      if (result) {
+        exists.push(key);
       } else {
-        allPassed = false;
-        console.error(`${red}"${key}" is not exist.`);
+        notExists.push(key);
       }
     }
   }
-  return allPassed;
+  return { exists, notExists };
 }
 
 export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null => {

@@ -6,6 +6,17 @@ const jsFiles = readContent([
   ...readJsFiles(path.join(__dirname, '..', 'src')),
   ...readJsFiles(path.join(__dirname, '..', 'src-electron'))
 ]);
-const result = validate(messages, jsFiles);
+const { exists, notExists } = validate(messages, jsFiles);
 
-process.exit(result ? 1 : 0);
+
+const red = '\u001b[31m';
+const green = '\u001b[32m';
+const reset = '\u001b[0m';
+
+if (exists.length) {
+  console.log(`${green}exists keys:\n${exists.join('\n')}\n`);
+}
+if (notExists.length) {
+  console.error(`${red}not exists keys:\n${notExists.join('\n')}\n`);
+}
+process.exit(notExists.length ? 1 : 0);
