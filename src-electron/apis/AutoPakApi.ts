@@ -5,7 +5,7 @@ import FileManager from '../services/FileManager';
 import PakManager from '../services/PakManager';
 import AutoPakManager from '../services/AutoPakManager';
 import Messenger from '../services/Messenger';
-import { startAutoPakOption, startPakOption } from 'app/interface';
+import { startAutoPakOption, startPakOption } from 'interface';
 
 const builder = new Builder();
 const fileManager = new FileManager();

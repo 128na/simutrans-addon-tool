@@ -1,5 +1,5 @@
 import { ipcMain, type BrowserWindow } from 'electron';
-import { listPakOption } from 'app/interface';
+import { listPakOption } from 'interface';
 import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
 import FileManager from '../services/FileManager';
 

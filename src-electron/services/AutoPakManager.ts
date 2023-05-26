@@ -4,7 +4,7 @@ import PakManager from './PakManager';
 import Watcher from './Watcher';
 import Simutrans from './Simutrans';
 import Messenger from './Messenger';
-import { startAutoPakOption } from 'app/interface';
+import { startAutoPakOption } from 'interface';
 
 
 export default class AutoPakManager extends PakManager {
@@ -64,6 +64,10 @@ export default class AutoPakManager extends PakManager {
     this.size = options.size;
     this.pakPath = options.pakPath;
     this.sourcePath = options.sourcePath;
+
+    if (!this.sourcePath) {
+      throw new Error('動作に必要な設定値が不足しています');
+    }
 
     this.watcher.start(this.fileManager.getWatchTarget(this.sourcePath), (pathes) => this.onReady(pathes), (path) => this.onUpdate(path));
   }

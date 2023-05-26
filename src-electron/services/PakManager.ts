@@ -1,4 +1,4 @@
-import { startPakOption } from 'app/interface';
+import { startPakOption } from 'interface';
 import Builder from '../services/Builder';
 import FileManager from '../services/FileManager';
 import Messenger from './Messenger';
@@ -27,6 +27,9 @@ export default class PakManager {
     this.sourcePath = options.sourcePath;
 
     try {
+      if (!this.sourcePath) {
+        throw new Error('動作に必要な設定値が不足しています');
+      }
       await this.beginAbortTransaction();
       const dirs = await this.findDirectories(this.sourcePath);
 

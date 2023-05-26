@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { listPakOption, startAutoPakOption, startPakOption, updateAutoPakArgs, updatePakArgs } from 'app/interface';
+import { listPakOption, startAutoPakOption, startPakOption, updateAutoPakArgs, updatePakArgs } from 'interface';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
