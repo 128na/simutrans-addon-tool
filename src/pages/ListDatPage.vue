@@ -6,15 +6,15 @@
       <template #before>
         <q-page padding>
           <MainTitle>
-            {{ $t('Pakリスト') }}
+            {{ $t('Datリスト') }}
           </MainTitle>
 
           <SelectDir
-            v-model="targetPakDir"
+            v-model="targetDatDir"
             :disable="running"
             :title="$t('フォルダ')"
-            @update:model-value="updatecache('targetPakDir', $event)" />
-          <InfoText>{{ $t('Pakファイルのあるフォルダを選択します') }}</InfoText>
+            @update:model-value="updatecache('targetDatDir', $event)" />
+          <InfoText>{{ $t('Datファイルのあるフォルダを選択します') }}</InfoText>
 
           <q-btn-group>
             <q-btn
@@ -41,6 +41,12 @@
               color="secondary"
               :label="$t('コピー（json）')"
               @click="copyJson"/>
+            <q-separator />
+            <q-btn
+              outline
+              color="secondary"
+              :label="$t('コピー（json元データ）')"
+              @click="copyRawJson"/>
           </q-btn-group>
           <q-input
             :model-value="addonText"
@@ -62,26 +68,33 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { PakConvertedAddon } from 'interface';
+import { DatConvertedAddon } from 'interface';
+import { Dat } from 'simutrans-dat-parser';
 
 const splitterModel = ref(50);
 const running = ref(false);
-const targetPakDir = ref(((await window.electronAPI.getCache('targetPakDir')) || '') as string);
-
+const targetDatDir = ref(((await window.electronAPI.getCache('targetDatDir')) || '') as string);
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
 const { t } = useI18n();
-const addons: Ref<PakConvertedAddon[] | null> = ref(null);
+const addons: Ref<DatConvertedAddon[] | null> = ref(null);
 const addonText = computed(() => {
   if (!addons.value) {
     return t('ここに実行結果が出力されます。');
   }
   return addons.value.map(a => {
-    return `${a.file}\n${a.objs.join('\n')}`;
+    return `${a.file}\n${a.dat.objs.map(o=>o.name).join('\n')}`;
   }).join('\n')
 });
-
+const addonObjs = computed(() => {
+  if (!addons.value) {
+    return t('ここに実行結果が出力されます。');
+  }
+  return addons.value.map(a => {
+    return { file: a.file, objs: a.dat.objs.map(o => o.name) };
+  });
+});
 const $q = useQuasar();
 const copy = async (text:string) => {
   try {
@@ -93,11 +106,12 @@ const copy = async (text:string) => {
 };
 
 const copyText = () => { copy(addonText.value); };
-const copyJson = () => { copy(JSON.stringify(addons.value, null,4)); };
+const copyJson = () => { copy(JSON.stringify(addonObjs.value, null,4)); };
+const copyRawJson = () => { copy(JSON.stringify(addons.value, null,4)); };
 
 const store = useSettingsStore();
 const startList = async () => {
-  if (!targetPakDir.value) {
+  if (!targetDatDir.value) {
     return window.electronAPI.showError(t('フォルダが選択されていません'));
   }
   if (!store.makeobjPath) {
@@ -108,9 +122,15 @@ const startList = async () => {
     running.value = true;
     addons.value = null;
 
-    addons.value = await window.autoPakAPI.listFromPak({
+      const result = await window.autoPakAPI.listFromDat({
       makeobjPath: store.makeobjPath,
-      target: targetPakDir.value,
+      target: targetDatDir.value,
+    });
+    addons.value = result.map(r => {
+      return {
+        file: r.file,
+        dat: new Dat(r.dat)
+      }
     });
   } catch (error) {
 

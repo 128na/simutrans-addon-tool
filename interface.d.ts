@@ -1,4 +1,5 @@
 import type Electron from 'electron';
+import { Dat } from 'simutrans-dat-parser';
 import type Router from 'vue-router';
 
 interface startPakOption {
@@ -16,9 +17,9 @@ interface startAutoPakOption {
   simutransPath: string;
 }
 
-interface listPakOption {
+interface listOption {
   makeobjPath: string;
-  pakPath: string;
+  target: string;
 }
 
 interface updatePakArgs {
@@ -48,11 +49,29 @@ declare global {
       stopAutoPak: () => void;
       updateAutoPak: (callback: updatePakArgs) => void;
 
-      listPak: (options: listPakOption) => Promise<addon[]>;
+      listFromPak: (options: listOption) => Promise<PakConvertedAddon[]>;
+      listFromDat: (options: listOption) => Promise<DatAddon[]>;
     };
     githubAPI: {
       getLatestRelease: () => Promise<OctokitResponse>;
     };
 
   }
+}
+
+interface DatAddon {
+  file: string;
+  dat: string;
+}
+interface DatConvertedAddon {
+  file: string;
+  dat: Dat;
+}
+interface PakAddon {
+  pak: string;
+  objs: string[];
+}
+interface PakConvertedAddon {
+  file: string;
+  objs: string[];
 }

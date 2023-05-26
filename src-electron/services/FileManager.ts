@@ -55,18 +55,19 @@ export default class FileManager {
     return target;
   }
 
-  public async findPakFiles(dir: string): Promise<string[]> {
+  public async findFiles(dir: string, ext?: string): Promise<string[]> {
     const dirents = await readdir(resolve(dir), { withFileTypes: true });
     let files: string[] = [];
     for (const d of dirents) {
       if (d.isDirectory()) {
-        files = files.concat(await this.findPakFiles(join(dir, d.name)));
+        files = files.concat(await this.findFiles(join(dir, d.name), ext));
       }
       if (d.isFile()) {
-        files.push(join(dir, d.name));
+        if (!ext || d.name.endsWith(ext))
+          files.push(join(dir, d.name));
       }
     }
-    return files.filter(f => f.endsWith('.pak'));
+    return files;
   }
 
   /**

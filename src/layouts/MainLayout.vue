@@ -67,6 +67,15 @@
         </q-item>
         <q-item
           clickable
+          :to="{ name: 'listDat' }">
+          <q-item-section avatar><q-icon name="format_list_numbered" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('Datリスト') }}</q-item-label>
+            <q-item-label caption>{{ $t('Datファイル内のアドオンリスト化') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
           :to="{ name: 'settings' }">
           <q-item-section avatar><q-icon name="settings" /></q-item-section>
           <q-item-section>
