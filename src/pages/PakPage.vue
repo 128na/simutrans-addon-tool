@@ -31,13 +31,6 @@
             {{ $t('未選択の場合はソースフォルダ、サブフォルダ内にアドオン単位で生成されます。') }}
           </InfoText>
 
-          <SelectFile
-            v-model="makeobjPath"
-            :title="$t('Makeobj')"
-            :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
-            @update:model-value="updatecache('makeobjPath', $event)" />
-          <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
-
           <q-btn-group>
             <q-btn
               color="primary"
@@ -65,37 +58,36 @@ import { ref } from 'vue';
 import Logger from '../services/logger';
 import LogViewer from '../components/LogViewer.vue';
 import SelectDir from '../components/SelectDir.vue';
-import SelectFile from '../components/SelectFile.vue';
 import InputPakSize from '../components/InputPakSize.vue';
 import SaveFile from '../components/SaveFile.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import { useI18n } from 'vue-i18n';
+import { useSettingsStore } from 'src/stores/settings';
 
 const splitterModel = ref(50);
 
 const sourcePath = ref(((await window.electronAPI.getCache('sourcePath')) || '') as string);
-const makeobjPath = ref(((await window.electronAPI.getCache('makeobjPath')) || '') as string);
 const pakPath = ref(((await window.electronAPI.getCache('pakPath')) || '') as string);
 const size = ref(((await window.electronAPI.getCache('size')) || 128) as number);
 const logger = ref(new Logger());
-
-const { t } = useI18n();
 logger.value.info('ここに実行結果が出力されます。');
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
+const store = useSettingsStore();
+const { t } = useI18n();
 const startPak = () => {
   if (!sourcePath.value) {
     return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
   }
-  if (!makeobjPath.value) {
+  if (!store.makeobjPath) {
     return window.electronAPI.showError(t('Makeobjが選択されていません'));
   }
 
   window.autoPakAPI.startPak({
-    makeobjPath: makeobjPath.value,
+    makeobjPath: store.makeobjPath,
     size: size.value,
     pakPath: pakPath.value,
     sourcePath: sourcePath.value,

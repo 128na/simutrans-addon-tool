@@ -26,8 +26,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     show: false,
-    width: 1200,
-    height: 960,
+    width: 1024,
+    height: 768,
     useContentSize: true,
     webPreferences: {
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
@@ -39,10 +39,6 @@ function createWindow() {
     if (platform === 'win32') {
       registerVue3DevToolForWin();
     }
-  } else {
-    // コード署名に年会費がかかるので保留
-    // https://www.electronjs.org/ja/docs/latest/tutorial/updates
-    // registerCheckUpdate();
   }
 
   registerMenu(mainWindow);

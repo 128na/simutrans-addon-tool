@@ -61,28 +61,27 @@ import SubTitle from 'src/components/SubTitle.vue';
 import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
+import { useSettingsStore } from 'src/stores/settings';
 
 const splitterModel = ref(50);
-
+const running = ref(false);
 const listTargetPath = ref(((await window.electronAPI.getCache('listTargetPath')) || '') as string);
-const makeobjPath = ref(((await window.electronAPI.getCache('makeobjPath')) || '') as string);
 
-const { t } = useI18n();
-const $q = useQuasar();
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
-const running = ref(false);
+const { t } = useI18n();
 const addons: Ref<addon[] | null> = ref(null);
 const addonText = computed(() => {
   if (!addons.value) {
-    return '';
+    return t('ここに実行結果が出力されます。');
   }
   return addons.value.map(a => {
-    return `[${a.pak}]\n${a.objs.join('\n')}`;
+    return `${a.pak}\n${a.objs.join('\n')}`;
   }).join('\n')
 });
 
+const $q = useQuasar();
 const copy = async (text:string) => {
   try {
     await copyToClipboard(text);
@@ -95,20 +94,21 @@ const copy = async (text:string) => {
 const copyText = () => { copy(addonText.value); };
 const copyJson = () => { copy(JSON.stringify(addons.value, null,4)); };
 
+const store = useSettingsStore();
 const startList = async () => {
   if (!listTargetPath.value) {
     return window.electronAPI.showError(t('Pakファイルが選択されていません'));
   }
-  if (!makeobjPath.value) {
+  if (!store.makeobjPath) {
     return window.electronAPI.showError(t('Makeobjが選択されていません'));
   }
 
   try {
     running.value = true;
-    addons.value = [];
+    addons.value = null;
 
     addons.value = await window.autoPakAPI.listPak({
-      makeobjPath: makeobjPath.value,
+      makeobjPath: store.makeobjPath,
       pakPath: listTargetPath.value,
     });
   } catch (error) {

@@ -67,6 +67,15 @@
         </q-item>
         <q-item
           clickable
+          :to="{ name: 'settings' }">
+          <q-item-section avatar><q-icon name="settings" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('設定') }}</q-item-label>
+            <q-item-label caption>{{ $t('Makeobj、Simutransの設定など') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
           :to="{ name: 'links' }">
           <q-item-section avatar><q-icon name="link" /></q-item-section>
           <q-item-section>

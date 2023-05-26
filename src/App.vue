@@ -14,10 +14,14 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import { useSettingsStore } from './stores/settings';
 
 const router = useRouter();
 // handle routing from main process menu.
 window.electronAPI.router((event, value) => {
   router.push(value);
 });
+
+const store = useSettingsStore();
+store.loadFromElectronStore();
 </script>

@@ -31,22 +31,6 @@
             @update:model-value="updatecache('pakPath', $event)" />
           <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
-          <SelectFile
-            v-model="makeobjPath"
-            :title="$t('Makeobj')"
-            :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
-            :disable="watching"
-            @update:model-value="updatecache('makeobjPath', $event)" />
-          <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
-
-          <SelectFile
-            v-model="simutransPath"
-            :title="$t('Simutrans')"
-            :disable="watching"
-            :filters="[{ name: 'Simutrans', extensions: ['exe'] }]"
-            @update:model-value="updatecache('simutransPath', $event)" />
-          <InfoText>{{ $t('Simutrans実行ファイルを選択します。') }}</InfoText>
-
           <template v-if="watching">
             <q-btn
               color="negative"
@@ -76,30 +60,27 @@ import { ref } from 'vue';
 import Logger from '../services/logger';
 import LogViewer from '../components/LogViewer.vue';
 import SelectDir from '../components/SelectDir.vue';
-import SelectFile from '../components/SelectFile.vue';
 import InputPakSize from '../components/InputPakSize.vue';
 import SaveFile from '../components/SaveFile.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import { useI18n } from 'vue-i18n';
+import { useSettingsStore } from 'src/stores/settings';
 
 const splitterModel = ref(50);
+const watching = ref(false);
 
 const sourcePath = ref(((await window.electronAPI.getCache('sourcePath')) || '') as string);
-const makeobjPath = ref(((await window.electronAPI.getCache('makeobjPath')) || '') as string);
-const simutransPath = ref(((await window.electronAPI.getCache('simutransPath')) || '') as string);
 const pakPath = ref(((await window.electronAPI.getCache('pakPath')) || '') as string);
 const size = ref(((await window.electronAPI.getCache('size')) || 128) as number);
 const logger = ref(new Logger());
-
-const { t } = useI18n();
 logger.value.info('ここに実行結果が出力されます。');
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
-const watching = ref(false);
-
+const store = useSettingsStore();
+const { t } = useI18n();
 const stopAutoPak = () => {
   window.autoPakAPI.stopAutoPak();
   watching.value = false;
@@ -108,10 +89,10 @@ const startAutoPak = () => {
   if (!sourcePath.value) {
     return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
   }
-  if (!makeobjPath.value) {
+  if (!store.makeobjPath) {
     return window.electronAPI.showError(t('Makeobjが選択されていません'));
   }
-  if (!simutransPath.value) {
+  if (!store.simutransPath) {
     return window.electronAPI.showError(t('Simutransが選択されていません'));
   }
   if (!pakPath.value) {
@@ -120,8 +101,8 @@ const startAutoPak = () => {
 
   watching.value = true;
   window.autoPakAPI.startAutoPak({
-    simutransPath: simutransPath.value,
-    makeobjPath: makeobjPath.value,
+    simutransPath: store.simutransPath,
+    makeobjPath: store.makeobjPath,
     size: size.value,
     pakPath: pakPath.value,
     sourcePath: sourcePath.value,
