@@ -69,5 +69,6 @@ const formatArgs = (args: unknown) => {
 <style>
 .message {
   white-space: pre-wrap;
+  word-break: break-word;
 }
 </style>
