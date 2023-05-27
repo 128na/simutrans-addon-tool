@@ -48,6 +48,7 @@
               :label="$t('コピー（json元データ）')"
               @click="copyRawJson"/>
           </q-btn-group>
+          <InfoText v-show="datCount !== null">{{$t('概要')}} dat: {{ datCount }}{{$t('個')}}, obj: {{ objCount }}{{$t('個')}}</InfoText >
           <q-input
             :model-value="addonText"
             :readonly="true"
@@ -95,6 +96,19 @@ const addonObjs = computed(() => {
     return { file: a.file, objs: a.dat.objs.map(o => o.name) };
   });
 });
+const objCount = computed(() => {
+  if (!addons.value) {
+    return null;
+  }
+  return addons.value.reduce((total, a) => total + a.dat.objs.length, 0);
+})
+const datCount = computed(() => {
+  if (!addons.value) {
+    return null;
+  }
+  return addons.value.length;
+})
+
 const $q = useQuasar();
 const copy = async (text:string) => {
   try {

@@ -42,6 +42,7 @@
               :label="$t('コピー（json）')"
               @click="copyJson"/>
           </q-btn-group>
+          <InfoText v-show="pakCount !== null">{{$t('概要')}} pak: {{ pakCount }}{{$t('個')}}, obj: {{ objCount }}{{$t('個')}}</InfoText >
           <q-input
             :model-value="addonText"
             :readonly="true"
@@ -72,6 +73,7 @@ const targetPakDir = ref(((await window.electronAPI.getCache('targetPakDir')) ||
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
 
 const { t } = useI18n();
+
 const addons: Ref<PakConvertedAddon[] | null> = ref(null);
 const addonText = computed(() => {
   if (!addons.value) {
@@ -81,7 +83,18 @@ const addonText = computed(() => {
     return `${a.file}\n${a.objs.join('\n')}`;
   }).join('\n')
 });
-
+const objCount = computed(() => {
+  if (!addons.value) {
+    return null;
+  }
+  return addons.value.reduce((total, a) => total + a.objs.length, 0);
+})
+const pakCount = computed(() => {
+  if (!addons.value) {
+    return null;
+  }
+  return addons.value.length;
+})
 const $q = useQuasar();
 const copy = async (text:string) => {
   try {
