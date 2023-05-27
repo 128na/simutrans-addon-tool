@@ -14,7 +14,7 @@
             :disable="running"
             :title="$t('フォルダ')"
             @update:model-value="updatecache('targetPakDir', $event)" />
-          <InfoText>{{ $t('Pakファイルのあるフォルダを選択します') }}</InfoText>
+          <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
 
           <q-btn-group>
             <q-btn

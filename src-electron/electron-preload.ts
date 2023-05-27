@@ -63,5 +63,5 @@ contextBridge.exposeInMainWorld('githubAPI', {
 });
 
 contextBridge.exposeInMainWorld('resizeobjAPI', {
-  resizeobj: (args: ResizeobjArgs) => ipcRenderer.invoke('resizeobj', args),
+  resizeobj: (args: ResizeobjArgs) => ipcRenderer.send('resizeobj', args),
 });

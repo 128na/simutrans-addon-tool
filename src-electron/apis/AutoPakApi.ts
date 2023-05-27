@@ -51,7 +51,7 @@ export default class AutoPakApi extends BasePakApi {
         throw new Error('動作に必要な設定値が不足しています');
       }
       await this.beginAbortTransaction();
-      this.messenger.send('AutoPakApi.doProcess', 'info', 'Pakファイル作成開始');
+      this.messenger.send('AutoPakApi.doProcess', 'info', 'Pak作成開始');
       const dirs = await this.fileManager.findDatDirectories(this.sourcePath);
 
       await this.doPakWithMerge(dirs);

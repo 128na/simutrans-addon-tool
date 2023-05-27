@@ -44,7 +44,7 @@
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('Pak') }}</q-item-label>
-            <q-item-label caption>{{ $t('Pakファイル作成') }}</q-item-label>
+            <q-item-label caption>{{ $t('Pak作成') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item
@@ -53,7 +53,7 @@
           <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('自動Pak') }}</q-item-label>
-            <q-item-label caption>{{ $t('ソース更新を検知して自動Pak化') }}</q-item-label>
+            <q-item-label caption>{{ $t('ソース更新を検知して自動Pak作成') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item
@@ -80,7 +80,7 @@
           <q-item-section avatar><q-icon name="zoom_in" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('resizeobj') }}</q-item-label>
-            <q-item-label caption>{{ $t('Pakサイズの変更') }}</q-item-label>
+            <q-item-label caption>{{ $t('Pakサイズの変換') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item

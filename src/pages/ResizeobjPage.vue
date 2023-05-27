@@ -48,7 +48,7 @@
               v-model="resizeOptions.w"
               :title="$t('-W 変換後のPakサイズ')"
               @update:model-value="updatecache('resizeOptions.w', $event)" />
-            <InfoText>{{ $t('変換後のPakサイズを指定します。（16～32767）') }}</InfoText>
+            <InfoText>{{ $t('変換後のPakサイズを指定します。') }}</InfoText>
           </div>
 
           <div class="q-mb-md">

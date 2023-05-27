@@ -22,9 +22,9 @@ export default class PakApi extends BasePakApi {
         throw new Error('動作に必要な設定値が不足しています');
       }
       await this.beginAbortTransaction();
-      this.messenger.send('PakApi.startPak', 'info', 'Pakファイル作成開始');
+      this.messenger.send('PakApi.startPak', 'info', 'Pak作成開始');
       const dirs = await this.fileManager.findDatDirectories(this.sourcePath);
-      this.messenger.send('PakApi.startPak', 'debug', 'dat一覧', dirs);
+      this.messenger.send('PakApi.startPak', 'debug', 'Dat', dirs);
 
       if (this.pakPath) {
         await this.doPakWithMerge(dirs);

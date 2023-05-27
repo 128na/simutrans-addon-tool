@@ -43,7 +43,7 @@ export default abstract class BasePakApi extends MessagingApi {
         continue;
       }
       const dir = this.fileManager.getDirname(files[0]);
-      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pak化開始', dir);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'Pak作成開始', dir);
       const tmpPak = this.fileManager.createTmpPath(dir);
       const result = await this.makeobj.pak(this.makeobjPath, this.size, tmpPak, files, this.abortController);
       if (result.isSuccess) {
@@ -58,12 +58,12 @@ export default abstract class BasePakApi extends MessagingApi {
 
     if (hasFailed) {
       await this.deleteFiles(tmpPaks);
-      throw new Error('Pak化失敗したフォルダがあるため中断しました');
+      throw new Error('Pak作成失敗したフォルダがあるため中断しました');
     }
     if (tmpPaks.length < 2) {
-      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pakファイル移動');
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'Pakファイル移動');
       await this.fileManager.rename(tmpPaks[0], this.pakPath);
-      return this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak化成功');
+      return this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak作成完了');
     }
     this.messenger.send('BasePakApi.doPakWithMerge', 'debug', '各フォルダ内のpakマージ');
     const result = await this.makeobj.merge(this.makeobjPath, tmpPaks, this.pakPath);
@@ -73,7 +73,7 @@ export default abstract class BasePakApi extends MessagingApi {
       this.messenger.send('BasePakApi.doPakWithMerge', 'error', result.stderr);
     }
     await this.deleteFiles(tmpPaks);
-    return this.messenger.send('BasePakApi.doPakWithMerge', 'success', 'Pak化成功');
+    return this.messenger.send('BasePakApi.doPakWithMerge', 'success', 'Pak作成完了');
   }
 
   /**
@@ -87,7 +87,7 @@ export default abstract class BasePakApi extends MessagingApi {
     let hasFailed = false;
     for (const files of dirs) {
       const dir = this.fileManager.getDirname(files[0]);
-      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pak化開始', dir);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'Pak作成開始', dir);
       const result = await this.makeobj.pakByDirectory(this.makeobjPath, this.size, files, this.abortController);
       if (result.isSuccess) {
         this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', result.stdout);
@@ -98,11 +98,10 @@ export default abstract class BasePakApi extends MessagingApi {
     }
     this.abortController = undefined;
     if (hasFailed) {
-      this.messenger.send('BasePakApi.doPakWithoutMerge', 'warning', 'Pak化に失敗したものがあります');
+      this.messenger.send('BasePakApi.doPakWithoutMerge', 'warning', 'Pak作成に失敗したものがあります');
     }
-    this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak化成功');
+    this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak作成完了');
   }
-
 
   /**
    * ファイルの削除
