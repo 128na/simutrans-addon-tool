@@ -9,7 +9,9 @@ export default class Messenger {
     this.channel = channel;
   }
 
-  public send(level: Level, message: string, ...args: unknown[]): void {
+  public send(location: string, level: Level, message: string, ...args: unknown[]): void {
+    console.log(`[${location}] [${level.toUpperCase()}] ${message}`, ...args);
+
     this.mainWindow.webContents.send(this.channel, level, message, ...args);
   }
 }
