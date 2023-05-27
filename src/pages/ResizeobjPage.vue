@@ -13,11 +13,11 @@
             v-model="targetResizePath"
             :title="$t('フォルダ')"
             @update:model-value="updatecache('targetResizePath', $event)" />
-          <InfoText>{{ $t('pakファイルのあるフォルダを選択します。') }}</InfoText>
+          <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <SubTitle>オプション</SubTitle>
+          <SubTitle>{{$t('オプション')}}</SubTitle>
           <InfoText>
-            オプションの詳しい説明はこちらを参照して下さい。<br />
+            {{$t('オプションの詳しい説明はこちらを参照して下さい。')}}<br />
             <ExternalLink url="https://wa-st.github.io/resizeobj/"/>
           </InfoText>
 
@@ -102,8 +102,8 @@
             <q-option-group
               v-model="resizeOptions.n"
               :options="[
-                {value:false,label:$t('する')},
-                {value:true,label:$t('しない')},
+                {value:false,label:$t('書き換える')},
+                {value:true,label:$t('そのまま')},
               ]"
               @update:model-value="updatecache('resizeOptions.n', $event)" />
           </div>

@@ -14,7 +14,7 @@
             :title="$t('ソースフォルダ')"
             :disable="watching"
             @update:model-value="updatecache('sourcePath', $event)" />
-          <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
+          <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"

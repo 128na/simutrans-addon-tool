@@ -6,12 +6,12 @@ export default class PakApi extends BasePakApi {
 
   protected register(): void {
     ipcMain.removeAllListeners('startPak');
-    ipcMain.on('startPak', (event, options: startPakOption) => this.startPak(options));
+    ipcMain.on('startPak', (event, options: startPakOption) => this.start(options));
     ipcMain.removeAllListeners('stopPak');
     ipcMain.on('stopPak', () => this.stop());
   }
 
-  private async startPak(options: startPakOption) {
+  private async start(options: startPakOption) {
     this.makeobjPath = options.makeobjPath;
     this.size = options.size;
     this.pakPath = options.pakPath;

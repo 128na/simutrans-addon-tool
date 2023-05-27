@@ -13,7 +13,7 @@
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
             @update:model-value="updatecache('sourcePath', $event)" />
-          <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
+          <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"

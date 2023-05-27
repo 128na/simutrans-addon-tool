@@ -14,7 +14,7 @@
             :disable="running"
             :title="$t('フォルダ')"
             @update:model-value="updatecache('targetDatDir', $event)" />
-          <InfoText>{{ $t('Datファイルのあるフォルダを選択します') }}</InfoText>
+          <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <q-btn-group>
             <q-btn

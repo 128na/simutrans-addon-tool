@@ -26,7 +26,7 @@ export default class ResizeobjApi extends MessagingApi {
 
   async handler(args: ResizeobjArgs) {
     try {
-      console.log({ args });
+      this.messenger.send('PakApi.startPak', 'info', '処理開始');
       const target = path.join(args.target, '*.pak');
       const options = this.buildOption(args.options);
 
