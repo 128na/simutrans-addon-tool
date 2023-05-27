@@ -9,9 +9,11 @@ import { DatAddon, PakAddon, PakConvertedAddon, startAutoPakOption, startPakOpti
 import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
 import { readFileSync } from 'fs';
 import { listOption } from 'app/types/global';
+import ListManager from '../services/ListManager';
 
 const builder = new Builder();
 const fileManager = new FileManager();
+const listManager = new ListManager(fileManager);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function registerPakApi(mainWindow: BrowserWindow): void {
@@ -28,28 +30,9 @@ export default function registerPakApi(mainWindow: BrowserWindow): void {
   ipcMain.on('stopAutoPak', () => autoPakManager.stop());
 
   ipcMain.removeHandler('listFromPak');
-  ipcMain.handle('listFromPak', async (event, options: listOption): Promise<PakConvertedAddon[]> => {
-    const allFiles = await fileManager.findFiles(options.target, '.pak');
-    const makeobj = new MakeobjAsync(options.makeobjPath);
-
-    // 4096文字超えるとエラーになる ENAMETOOLONG
-    const fileChunk = fileManager.chunk(allFiles, 20);
-    let result: PakAddon[] = [];
-    for (const files of fileChunk) {
-      result = result.concat(await makeobj.listNames(...files.flat().flat()));
-    }
-    // pakディレクトリをルートとして相対パスを返す
-    return result.map(r => {
-      return { file: r.pak.replace(options.target, ''), objs: r.objs }
-    });
-  });
+  ipcMain.handle('listFromPak', async (event, options: listOption): Promise<PakConvertedAddon[]> => listManager.listFromPak(options));
 
   ipcMain.removeHandler('listFromDat');
-  ipcMain.handle('listFromDat', async (event, options: listOption): Promise<DatAddon[]> => {
-    const allFiles = await fileManager.findFiles(options.target, '.dat');
-    const result: DatAddon[] = allFiles.map(f => { return { file: f.replace(options.target, ''), dat: readFileSync(f, 'utf-8') } });
-
-    return result;
-  });
+  ipcMain.handle('listFromDat', async (event, options: listOption): Promise<DatAddon[]> => listManager.listFromDat(options));
   console.log('[ListPakApi] registered');
 }
