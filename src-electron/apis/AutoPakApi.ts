@@ -21,7 +21,7 @@ export default class AutoPakApi extends BasePakApi {
     ipcMain.on('stopAutoPak', () => this.stop());
   }
 
-  public startAutoPak(options: startAutoPakOption) {
+  private startAutoPak(options: startAutoPakOption) {
     this.makeobjPath = options.makeobjPath;
     this.simutrans = new Simutrans(options.simutransPath);
     this.size = options.size;
@@ -64,7 +64,7 @@ export default class AutoPakApi extends BasePakApi {
     }
   };
 
-  public stop() {
+  protected stop() {
     super.stop();
 
     this.watcher.stop();

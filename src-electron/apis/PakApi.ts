@@ -11,7 +11,7 @@ export default class PakApi extends BasePakApi {
     ipcMain.on('stopPak', () => this.stop());
   }
 
-  public async startPak(options: startPakOption) {
+  private async startPak(options: startPakOption) {
     this.makeobjPath = options.makeobjPath;
     this.size = options.size;
     this.pakPath = options.pakPath;

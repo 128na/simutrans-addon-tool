@@ -9,6 +9,7 @@ export default class GithubApi extends Api {
     super();
     this.octokit = new Octokit();
   }
+
   protected register(): void {
     ipcMain.removeHandler('getLatestRelease');
     ipcMain.handle('getLatestRelease', () => this.getLatestRelease());
