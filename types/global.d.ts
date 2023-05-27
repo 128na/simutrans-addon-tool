@@ -31,6 +31,10 @@ declare global {
       getLatestRelease: () => Promise<OctokitResponse>;
     };
 
+    resizeobjAPI: {
+      resizeobj: (args: ResizeobjArgs) => Promise<unknown>;
+    };
+
   }
 }
 
@@ -75,7 +79,13 @@ interface PakConvertedAddon {
   objs: string[];
 }
 
+interface ResizeobjArgs {
+  resizeobjPath: string;
+  target: string;
+  options: ResizeobjOptions;
+}
 interface ResizeobjOptions {
+  [key: string]: unknown;
   a?: number,
   s?: 0 | 1 | 2,
   w?: number,

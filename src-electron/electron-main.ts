@@ -6,6 +6,7 @@ import registerElectronApi from './apis/ElectronApi';
 import registerMakeobjApi from './apis/MakeobjApi';
 import registerVue3DevToolForWin from './services/DevTool';
 import registerGithubApi from './apis/GithubApi';
+import ResizeobjManager from './apis/ResizeobjManager';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -44,6 +45,7 @@ function createWindow() {
   registerElectronApi(mainWindow);
   registerMakeobjApi(mainWindow);
   registerGithubApi(mainWindow);
+  (new ResizeobjManager).register(mainWindow);
 
   mainWindow.loadURL(process.env.APP_URL);
 

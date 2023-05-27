@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { listOption, startAutoPakOption, startPakOption, updatePakArgs } from 'app/types/global';
+import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, updatePakArgs } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -58,4 +58,8 @@ contextBridge.exposeInMainWorld('makeobjApi', {
 
 contextBridge.exposeInMainWorld('githubAPI', {
   getLatestRelease: () => ipcRenderer.invoke('getLatestRelease'),
+});
+
+contextBridge.exposeInMainWorld('resizeobjAPI', {
+  resizeobj: (args: ResizeobjArgs) => ipcRenderer.invoke('resizeobj', args),
 });

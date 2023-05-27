@@ -23,7 +23,7 @@
 
           <div class="q-mb-md">
             <q-input
-              v-model="resizeOptions.a"
+              v-model.number="resizeOptions.a"
               :label="$t('アンチエイリアス')"
               :max="100"
               :min="0"
@@ -84,7 +84,7 @@
 
           <div class="q-mb-md">
             <q-input
-              v-model="resizeOptions.m"
+              v-model.number="resizeOptions.m"
               :label="$t('-M オフセット')"
               type="number"
               @update:model-value="updatecache('resizeOptions.m', $event)" />
@@ -110,7 +110,7 @@
 
           <q-btn
             color="primary"
-            @click="startPak">{{ $t('実行') }}</q-btn>
+            @click="start">{{ $t('実行') }}</q-btn>
         </q-page>
       </template>
 
@@ -143,7 +143,7 @@ const splitterModel = ref(50);
 
 const targetResizePath = ref(((await window.electronAPI.getCache('targetResizePath')) || '') as string);
 const resizeOptions = ref(Object.assign(
-  { a: 0, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: null, n: false },
+  { a: 0, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false },
   await window.electronAPI.getCache('resizeOptions') || {}
 ) as unknown as ResizeobjOptions);
 const logger = ref(new Logger());
@@ -153,7 +153,7 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const store = useSettingsStore();
 const { t } = useI18n();
-const startPak = () => {
+const start = async () => {
   if (!targetResizePath.value) {
     return window.electronAPI.showError(t('フォルダが選択されていません'));
   }
@@ -161,23 +161,12 @@ const startPak = () => {
     return window.electronAPI.showError(t('resizeが選択されていません'));
   }
 
-  const param = {
+  const result  = await window.resizeobjAPI.resizeobj({
     resizeobjPath: store.resizeobjPath,
     target: targetResizePath.value,
-    options: resizeOptions.value,
-  }
-  // window.makeobjApi.startPak({
-  //   makeobjPath: store.makeobjPath,
-  //   size: size.value,
-  //   pakPath: pakPath.value,
-  //   sourcePath: sourcePath.value,
-  // });
+    options: Object.assign({}, resizeOptions.value),
+  });
+  console.log({result})
 };
 
-const stopPak = () => {
-  window.makeobjApi.stopPak();
-};
-window.makeobjApi.updatePak((event, level, message, args = undefined) => {
-  logger.value[level](message, args);
-});
 </script>
