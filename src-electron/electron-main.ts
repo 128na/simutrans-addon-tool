@@ -1,7 +1,6 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 import path from 'path';
 import os from 'os';
-import registerMenu from './services/Menu';
 import registerVue3DevToolForWin from './services/DevTool';
 import ResizeobjApi from './apis/ResizeobjApi';
 import AutoPakApi from './apis/AutoPakApi';
@@ -11,6 +10,7 @@ import ListPakApi from './apis/ListPakApi';
 import ListDatApi from './apis/ListDatApi';
 import GithubApi from './apis/GithubApi';
 import ElectronApi from './apis/ElectronApi';
+import MenuApi from './apis/MenuApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -44,8 +44,8 @@ function createWindow() {
       registerVue3DevToolForWin();
     }
   }
-  registerMenu(mainWindow);
 
+  new MenuApi();
   new ElectronApi(mainWindow);
   new GithubApi();
   new ListPakApi();
