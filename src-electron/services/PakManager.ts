@@ -31,6 +31,7 @@ export default class PakManager {
         throw new Error('動作に必要な設定値が不足しています');
       }
       await this.beginAbortTransaction();
+      this.messenger.send('info', 'Pakファイル作成開始');
       const dirs = await this.findDirectories(this.sourcePath);
 
       if (this.pakPath) {
@@ -67,9 +68,11 @@ export default class PakManager {
       return this.pakFailed(tmpPaks);
     }
     if (tmpPaks.length < 2) {
-      return this.tmpPakMove(tmpPaks);
+      await this.tmpPakMove(tmpPaks);
+      return this.messenger.send('success', 'Pak化成功');
     }
-    return this.tmpPakMege(tmpPaks);
+    await this.tmpPakMege(tmpPaks);
+    return this.messenger.send('success', 'Pak化成功');
   }
 
   /**
@@ -90,8 +93,6 @@ export default class PakManager {
    * ソースディレクトリからdat一覧をサブディレクトリ単位で取得する
    */
   protected async findDirectories(path: string): Promise<string[][]> {
-    this.messenger.send('debug', 'Pakファイル作成開始');
-
     const dirs = await this.fileManager.findDatDirectories(path);
     // console.log('[PakManager.startPak]', { dirs });
     if (dirs.length < 1) {
