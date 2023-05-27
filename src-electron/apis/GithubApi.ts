@@ -28,7 +28,6 @@ export default class GithubApi extends Api {
       created_at: response.data.created_at,
       url: response.data.html_url,
     }
-    console.log('[getLatestRelease]', { result });
     return result;
   }
 }

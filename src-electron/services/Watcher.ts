@@ -19,7 +19,7 @@ export default class Watcher {
       .watch(pathes, this.options)
       .on('ready', () => {
         if (this.watcher) {
-          onReady(this.watcher?.getWatched());
+          onReady(this.watcher.getWatched());
         }
       })
       .on('add', onUpdate)

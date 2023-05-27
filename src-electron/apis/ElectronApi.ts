@@ -1,5 +1,5 @@
 import type { BrowserWindow } from 'electron';
-import { app, dialog, ipcMain, shell } from 'electron';
+import { dialog, ipcMain, shell } from 'electron';
 import Store from 'electron-store';
 import { existsSync, lstatSync } from 'node:fs';
 import { dirname } from 'node:path';
@@ -21,10 +21,7 @@ export default class ElectronApi extends Api {
      * @see https://www.electronjs.org/ja/docs/latest/api/dialog#dialogshowopendialogbrowserwindow-options
      */
     ipcMain.removeHandler('showError');
-    ipcMain.handle('showError', (event, message) => {
-      console.log('[ElectronApi] showError', message);
-      dialog.showErrorBox('Error', message);
-    });
+    ipcMain.handle('showError', (event, message) => dialog.showErrorBox('Error', message));
 
     /**
      * ディレクトリ選択
@@ -32,11 +29,7 @@ export default class ElectronApi extends Api {
      */
     ipcMain.removeHandler('selectDir');
     ipcMain.handle('selectDir', async () => {
-      const result = await dialog.showOpenDialog(this.mainWindow, {
-        properties: ['openDirectory'],
-      });
-      console.log('[ElectronApi] directories selected', result.filePaths);
-
+      const result = await dialog.showOpenDialog(this.mainWindow, { properties: ['openDirectory'] });
       return result.filePaths[0] || '';
     });
 
@@ -49,7 +42,6 @@ export default class ElectronApi extends Api {
         properties: multiSelections ? ['openFile', 'multiSelections'] : ['openFile'],
         filters: [...filters, { name: 'All Files', extensions: ['*'] }],
       });
-      console.log('[ElectronApi] files selected', result.filePaths);
 
       return multiSelections ? result.filePaths : result.filePaths[0] || '';
     });
@@ -63,7 +55,6 @@ export default class ElectronApi extends Api {
       const result = await dialog.showSaveDialog(this.mainWindow, {
         defaultPath,
       });
-      console.log('[ElectronApi] directories selected', result.filePath);
 
       return result.filePath || '';
     });
@@ -73,18 +64,13 @@ export default class ElectronApi extends Api {
      * @see https://www.electronjs.org/ja/docs/latest/api/shell#shellopenexternalurl-options
      */
     ipcMain.removeHandler('openUrl');
-    ipcMain.handle('openUrl', (event, url: string) => {
-      console.log('[ElectronApi] openUrl', url);
-
-      return shell.openExternal(url);
-    });
+    ipcMain.handle('openUrl', (event, url: string) => shell.openExternal(url));
 
     /**
      * ディレクトリ表示
      */
     ipcMain.removeHandler('openDir');
     ipcMain.handle('openDir', (event, path: string) => {
-      console.log('[ElectronApi] openDir', path);
       if (existsSync(path) && lstatSync(path).isDirectory()) {
         return shell.openPath(path);
       }
@@ -96,21 +82,11 @@ export default class ElectronApi extends Api {
      *
      * @link https://github.com/sindresorhus/electron-store/issues/210
      */
-    console.log('[ElectronApi] store location is ', app.getPath('userData'));
     ipcMain.removeHandler('getCache');
-    ipcMain.handle('getCache', (event, key: string) => {
-      const value = this.store.get(`cache.${key}`);
-      console.log('[ElectronApi] getCache', { key, value });
-
-      return value;
-    });
+    ipcMain.handle('getCache', (event, key: string) => this.store.get(`cache.${key}`));
 
     ipcMain.removeHandler('setCache');
-    ipcMain.handle('setCache', (event, key: string, value: unknown) => {
-      console.log('[ElectronApi] setCache', { key, value });
-
-      return this.store.set(`cache.${key}`, value);
-    });
+    ipcMain.handle('setCache', (event, key: string, value: unknown) => this.store.set(`cache.${key}`, value));
 
   }
 }

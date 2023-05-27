@@ -2,11 +2,10 @@ import { app, BrowserWindow, nativeTheme } from 'electron';
 import path from 'path';
 import os from 'os';
 import registerMenu from './services/Menu';
-import registerElectronApi from './apis/ElectronApi';
 import registerVue3DevToolForWin from './services/DevTool';
 import ResizeobjApi from './apis/ResizeobjApi';
 import AutoPakApi from './apis/AutoPakApi';
-import PakApi from './base/PakApi';
+import PakApi from './apis/PakApi';
 import Messenger from './services/Messenger';
 import ListPakApi from './apis/ListPakApi';
 import ListDatApi from './apis/ListDatApi';
@@ -45,8 +44,8 @@ function createWindow() {
       registerVue3DevToolForWin();
     }
   }
-
   registerMenu(mainWindow);
+
   new ElectronApi(mainWindow);
   new GithubApi();
   new ListPakApi();

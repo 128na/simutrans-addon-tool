@@ -36,12 +36,12 @@ export default class AutoPakApi extends BasePakApi {
   }
 
   private onReady(pathes: onReadyArgs) {
-    this.messenger.send('AutoPakManager.onReady', 'debug', '監視準備完了', pathes);
+    this.messenger.send('AutoPakApi.onReady', 'debug', '監視準備完了', pathes);
     this.doProcess();
   };
 
   private onUpdate(path: string) {
-    this.messenger.send('AutoPakManager.onUpdate', 'debug', '変更検知', path);
+    this.messenger.send('AutoPakApi.onUpdate', 'debug', '変更検知', path);
     this.doProcess();
   };
 
@@ -51,12 +51,12 @@ export default class AutoPakApi extends BasePakApi {
         throw new Error('動作に必要な設定値が不足しています');
       }
       await this.beginAbortTransaction();
-      this.messenger.send('AutoPakManager.doProcess', 'info', 'Pakファイル作成開始');
+      this.messenger.send('AutoPakApi.doProcess', 'info', 'Pakファイル作成開始');
       const dirs = await this.fileManager.findDatDirectories(this.sourcePath);
 
       await this.doPakWithMerge(dirs);
 
-      this.messenger.send('AutoPakManager.doProcess', 'info', 'Simutrans起動');
+      this.messenger.send('AutoPakApi.doProcess', 'info', 'Simutrans起動');
       this.simutrans?.run();
 
     } catch (error: unknown) {
@@ -68,6 +68,6 @@ export default class AutoPakApi extends BasePakApi {
     super.stop();
 
     this.watcher.stop();
-    return this.messenger.send('AutoPakManager.stop', 'warning', '処理を中断しました');
+    return this.messenger.send('AutoPakApi.stop', 'warning', '処理を中断しました');
   }
 }

@@ -20,10 +20,10 @@ export default abstract class MessagingApi {
   protected errorHandler(error: unknown) {
     if (error instanceof Error) {
       if (error.name === 'AbortError') {
-        return this.messenger.send('Manager.errorHandler', 'warning', '処理を中断しました');
+        return this.messenger.send('MessagingApi.errorHandler', 'warning', '処理を中断しました');
       }
-      return this.messenger.send('Manager.errorHandler', 'error', error.message);
+      return this.messenger.send('MessagingApi.errorHandler', 'error', error.message);
     }
-    this.messenger.send('Manager.errorHandler', 'error', 'エラーが発生しました', error);
+    this.messenger.send('MessagingApi.errorHandler', 'error', 'エラーが発生しました', error);
   };
 }

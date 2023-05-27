@@ -43,14 +43,14 @@ export default abstract class BasePakApi extends MessagingApi {
         continue;
       }
       const dir = this.fileManager.getDirname(files[0]);
-      this.messenger.send('PakManager.doPakWithMerge', 'debug', 'pak化開始', dir);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pak化開始', dir);
       const tmpPak = this.fileManager.createTmpPath(dir);
       const result = await this.makeobj.pak(this.makeobjPath, this.size, tmpPak, files, this.abortController);
       if (result.isSuccess) {
-        this.messenger.send('PakManager.doPakWithMerge', 'success', result.stdout);
+        this.messenger.send('BasePakApi.doPakWithMerge', 'success', result.stdout);
         tmpPaks.push(tmpPak);
       } else {
-        this.messenger.send('PakManager.doPakWithMerge', 'error', result.stderr);
+        this.messenger.send('BasePakApi.doPakWithMerge', 'error', result.stderr);
         hasFailed = true;
       }
     }
@@ -61,19 +61,19 @@ export default abstract class BasePakApi extends MessagingApi {
       throw new Error('Pak化失敗したフォルダがあるため中断しました');
     }
     if (tmpPaks.length < 2) {
-      this.messenger.send('PakManager.doPakWithMerge', 'debug', 'pakファイル移動');
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pakファイル移動');
       await this.fileManager.rename(tmpPaks[0], this.pakPath);
-      return this.messenger.send('PakManager.doPakWithoutMerge', 'success', 'Pak化成功');
+      return this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak化成功');
     }
-    this.messenger.send('PakManager.doPakWithMerge', 'debug', '各フォルダ内のpakマージ');
+    this.messenger.send('BasePakApi.doPakWithMerge', 'debug', '各フォルダ内のpakマージ');
     const result = await this.makeobj.merge(this.makeobjPath, tmpPaks, this.pakPath);
     if (result.isSuccess) {
-      this.messenger.send('PakManager.doPakWithMerge', 'success', result.stdout);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'success', result.stdout);
     } else {
-      this.messenger.send('PakManager.doPakWithMerge', 'error', result.stderr);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'error', result.stderr);
     }
     await this.deleteFiles(tmpPaks);
-    return this.messenger.send('PakManager.doPakWithMerge', 'success', 'Pak化成功');
+    return this.messenger.send('BasePakApi.doPakWithMerge', 'success', 'Pak化成功');
   }
 
   /**
@@ -87,20 +87,20 @@ export default abstract class BasePakApi extends MessagingApi {
     let hasFailed = false;
     for (const files of dirs) {
       const dir = this.fileManager.getDirname(files[0]);
-      this.messenger.send('PakManager.doPakWithMerge', 'debug', 'pak化開始', dir);
+      this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'pak化開始', dir);
       const result = await this.makeobj.pakByDirectory(this.makeobjPath, this.size, files, this.abortController);
       if (result.isSuccess) {
-        this.messenger.send('PakManager.doPakWithoutMerge', 'success', result.stdout);
+        this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', result.stdout);
       } else {
-        this.messenger.send('PakManager.doPakWithoutMerge', 'error', result.stderr);
+        this.messenger.send('BasePakApi.doPakWithoutMerge', 'error', result.stderr);
         hasFailed = true;
       }
     }
     this.abortController = undefined;
     if (hasFailed) {
-      this.messenger.send('PakManager.doPakWithoutMerge', 'warning', 'Pak化に失敗したものがあります');
+      this.messenger.send('BasePakApi.doPakWithoutMerge', 'warning', 'Pak化に失敗したものがあります');
     }
-    this.messenger.send('PakManager.doPakWithoutMerge', 'success', 'Pak化成功');
+    this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak化成功');
   }
 
 
@@ -108,26 +108,13 @@ export default abstract class BasePakApi extends MessagingApi {
    * ファイルの削除
    */
   protected deleteFiles(files: string[]): Promise<void[]> {
-    this.messenger.send('PakManager.deleteFiles', 'debug', 'ファイル削除', files);
+    this.messenger.send('BasePakApi.deleteFiles', 'debug', 'ファイル削除', files);
     return this.fileManager.deletefiles(files);
   }
 
-  /**
-   * エラーキャッチ
-   */
-  protected errorHandler(error: unknown) {
-    if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        return this.messenger.send('PakManager.errorHandler', 'warning', '処理を中断しました');
-      }
-      return this.messenger.send('PakManager.errorHandler', 'error', error.message);
-    }
-    this.messenger.send('PakManager.errorHandler', 'error', 'エラーが発生しました', error);
-  };
-
   public stop() {
     if (this.abortController && this.abortController.signal.aborted === false) {
-      this.messenger.send('PakManager.stop', 'warning', '処理を中断しています');
+      this.messenger.send('BasePakApi.stop', 'warning', '処理を中断しています');
       this.abortController.abort();
     }
   }
