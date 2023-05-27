@@ -13,3 +13,17 @@ https://forum.simutrans.com/index.php?board=3.0
 https://github.com/128na/simutrans-addon-tool/releases
 
 ※ Windows, Mac, Linux に対応していますが、動作検証をしているのは Windows のみです。
+
+## 開発者向け
+
+```
+npm install
+npm run dev
+
+```
+
+### lint
+
+```
+npm run check:all
+```
