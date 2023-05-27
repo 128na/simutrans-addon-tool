@@ -16,6 +16,13 @@
       :filters="[{ name: 'Simutrans', extensions: ['exe'] }]"
       @update:model-value="updatecache('simutransPath', $event)" />
     <InfoText>{{ $t('Simutrans実行ファイルを選択します。') }}</InfoText>
+
+    <SelectFile
+      v-model="store.resizeobjPath"
+      :title="$t('resizeobj')"
+      :filters="[{ name: 'resizeobj', extensions: ['exe'] }]"
+      @update:model-value="updatecache('resizeobjPath', $event)" />
+    <InfoText>{{ $t('resizeobj実行ファイルを選択します。') }}</InfoText>
   </q-page>
 </template>
 <script setup lang="ts">

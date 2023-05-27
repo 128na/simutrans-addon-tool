@@ -76,6 +76,15 @@
         </q-item>
         <q-item
           clickable
+          :to="{ name: 'resizeobj' }">
+          <q-item-section avatar><q-icon name="zoom_in" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('resizeobj') }}</q-item-label>
+            <q-item-label caption>{{ $t('Pakサイズの変更') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
           :to="{ name: 'settings' }">
           <q-item-section avatar><q-icon name="settings" /></q-item-section>
           <q-item-section>
