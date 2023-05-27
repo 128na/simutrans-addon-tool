@@ -5,9 +5,7 @@ import FileManager from '../services/FileManager';
 import PakManager from '../services/PakManager';
 import AutoPakManager from '../services/AutoPakManager';
 import Messenger from '../services/Messenger';
-import { DatAddon, PakAddon, PakConvertedAddon, startAutoPakOption, startPakOption } from 'app/types/global';
-import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
-import { readFileSync } from 'fs';
+import { startAutoPakOption, startPakOption } from 'app/types/global';
 import { listOption } from 'app/types/global';
 import ListManager from '../services/ListManager';
 
@@ -30,9 +28,9 @@ export default function registerPakApi(mainWindow: BrowserWindow): void {
   ipcMain.on('stopAutoPak', () => autoPakManager.stop());
 
   ipcMain.removeHandler('listFromPak');
-  ipcMain.handle('listFromPak', async (event, options: listOption): Promise<PakConvertedAddon[]> => listManager.listFromPak(options));
+  ipcMain.handle('listFromPak', async (event, options: listOption) => listManager.listFromPak(options));
 
   ipcMain.removeHandler('listFromDat');
-  ipcMain.handle('listFromDat', async (event, options: listOption): Promise<DatAddon[]> => listManager.listFromDat(options));
+  ipcMain.handle('listFromDat', async (event, options: listOption) => listManager.listFromDat(options));
   console.log('[ListPakApi] registered');
 }

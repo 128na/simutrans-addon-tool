@@ -1,4 +1,4 @@
-import { DatAddon, PakAddon, listOption } from 'app/types/global';
+import { DatAddon, PakAddon, PakConvertedAddon, listOption } from 'app/types/global';
 import FileManager from './FileManager';
 import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
 import { readFileSync } from 'fs';
@@ -21,7 +21,7 @@ export default class ListManager {
       result = result.concat(await makeobj.listNames(...files.flat().flat()));
     }
     // pakディレクトリをルートとして相対パスを返す
-    return result.map(r => {
+    return result.map((r): PakConvertedAddon => {
       return { file: r.pak.replace(options.target, ''), objs: r.objs }
     });
   }
