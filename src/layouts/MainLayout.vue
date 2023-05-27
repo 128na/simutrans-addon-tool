@@ -17,7 +17,7 @@
           {{ appName }}
         </q-toolbar-title>
 
-        <div>v.{{ appVersion }}</div>
+        <div>{{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
