@@ -20,8 +20,8 @@ const argMapping: { [key: string]: { flag: string, defaultValue: unknown } } = {
 export default class ResizeobjApi extends MessagingApi {
 
   protected register(): void {
-    ipcMain.removeHandler('resizeobj');
-    ipcMain.handle('resizeobj', (event, args: ResizeobjArgs) => this.handler(args));
+    ipcMain.removeAllListeners('resizeobj');
+    ipcMain.on('resizeobj', (event, args: ResizeobjArgs) => this.handler(args));
   }
 
   async handler(args: ResizeobjArgs) {

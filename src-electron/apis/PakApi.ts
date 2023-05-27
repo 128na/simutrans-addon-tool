@@ -5,9 +5,9 @@ import BasePakApi from '../base/BasePakApi';
 export default class PakApi extends BasePakApi {
 
   protected register(): void {
-    ipcMain.removeListener('startPak', (event, options: startPakOption) => this.startPak(options));
+    ipcMain.removeAllListeners('startPak');
     ipcMain.on('startPak', (event, options: startPakOption) => this.startPak(options));
-    ipcMain.removeListener('stopPak', () => this.stop());
+    ipcMain.removeAllListeners('stopPak');
     ipcMain.on('stopPak', () => this.stop());
   }
 

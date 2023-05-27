@@ -15,9 +15,9 @@ export default class AutoPakApi extends BasePakApi {
   }
 
   protected register(): void {
-    ipcMain.removeListener('startAutoPak', (event, options: startAutoPakOption) => this.startAutoPak(options));
+    ipcMain.removeAllListeners('startAutoPak');
     ipcMain.on('startAutoPak', (event, options: startAutoPakOption) => this.startAutoPak(options));
-    ipcMain.removeListener('stopAutoPak', () => this.stop());
+    ipcMain.removeAllListeners('stopAutoPak');
     ipcMain.on('stopAutoPak', () => this.stop());
   }
 
