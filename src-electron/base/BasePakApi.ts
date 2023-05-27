@@ -112,7 +112,7 @@ export default abstract class BasePakApi extends MessagingApi {
     return this.fileManager.deletefiles(files);
   }
 
-  public stop() {
+  protected stop() {
     if (this.abortController && this.abortController.signal.aborted === false) {
       this.messenger.send('BasePakApi.stop', 'warning', '処理を中断しています');
       this.abortController.abort();
