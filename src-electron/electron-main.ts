@@ -3,10 +3,15 @@ import path from 'path';
 import os from 'os';
 import registerMenu from './services/Menu';
 import registerElectronApi from './apis/ElectronApi';
-import registerMakeobjApi from './apis/MakeobjApi';
 import registerVue3DevToolForWin from './services/DevTool';
-import registerGithubApi from './apis/GithubApi';
-import ResizeobjManager from './apis/ResizeobjManager';
+import ResizeobjApi from './apis/ResizeobjApi';
+import AutoPakApi from './apis/AutoPakApi';
+import PakApi from './base/PakApi';
+import Messenger from './services/Messenger';
+import ListPakApi from './apis/ListPakApi';
+import ListDatApi from './apis/ListDatApi';
+import GithubApi from './apis/GithubApi';
+import ElectronApi from './apis/ElectronApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -42,10 +47,13 @@ function createWindow() {
   }
 
   registerMenu(mainWindow);
-  registerElectronApi(mainWindow);
-  registerMakeobjApi(mainWindow);
-  registerGithubApi(mainWindow);
-  (new ResizeobjManager).register(mainWindow);
+  new ElectronApi(mainWindow);
+  new GithubApi();
+  new ListPakApi();
+  new ListDatApi();
+  new PakApi(new Messenger(mainWindow, 'pak'));
+  new AutoPakApi(new Messenger(mainWindow, 'autoPak'));
+  new ResizeobjApi(new Messenger(mainWindow, 'resizeobj'));
 
   mainWindow.loadURL(process.env.APP_URL);
 

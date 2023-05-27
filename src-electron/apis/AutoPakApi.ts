@@ -1,21 +1,24 @@
-import Builder from './Builder';
-import FileManager from './FileManager';
-import PakManager from './PakManager';
-import Watcher from './Watcher';
-import Simutrans from './Simutrans';
-import Messenger from './Messenger';
+import { ipcMain } from 'electron';
 import { startAutoPakOption } from 'app/types/global';
+import BasePakApi from '../base/BasePakApi';
+import Watcher from '../services/Watcher';
+import Simutrans from '../services/Simutrans';
+import Messenger from '../services/Messenger';
 
-
-export default class AutoPakManager extends PakManager {
-  running = false;
-  timer: NodeJS.Timeout | null = null;
+export default class AutoPakApi extends BasePakApi {
   watcher: Watcher;
   simutrans?: Simutrans;
 
-  constructor(messenger: Messenger, builder: Builder, fileManager: FileManager, watcher: Watcher) {
-    super(messenger, builder, fileManager);
-    this.watcher = watcher;
+  constructor(messenger: Messenger) {
+    super(messenger);
+    this.watcher = new Watcher();
+  }
+
+  protected register(): void {
+    ipcMain.removeListener('startAutoPak', (event, options: startAutoPakOption) => this.startAutoPak(options));
+    ipcMain.on('startAutoPak', (event, options: startAutoPakOption) => this.startAutoPak(options));
+    ipcMain.removeListener('stopAutoPak', () => this.stop());
+    ipcMain.on('stopAutoPak', () => this.stop());
   }
 
   public startAutoPak(options: startAutoPakOption) {

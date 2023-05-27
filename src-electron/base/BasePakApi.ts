@@ -1,50 +1,20 @@
-import { startPakOption } from 'app/types/global';
-import Builder from '../services/Builder';
-import FileManager from '../services/FileManager';
-import Messenger from './Messenger';
+import Makeobj from '../services/Makeobj';
+import Messenger from '../services/Messenger';
+import MessagingApi from './MessagingApi';
 
-
-export default class PakManager {
-  messenger: Messenger;
-  builder: Builder;
-  fileManager: FileManager;
+export default abstract class BasePakApi extends MessagingApi {
+  makeobj: Makeobj;
   abortController?: AbortController;
   makeobjPath?: string;
   size?: number;
   pakPath?: string;
   sourcePath?: string;
 
-  constructor(messenger: Messenger, builder: Builder, fileManager: FileManager) {
-    this.messenger = messenger
-    this.builder = builder;
-    this.fileManager = fileManager;
+  constructor(messenger: Messenger) {
+    super(messenger);
+    this.makeobj = new Makeobj();
   }
 
-  public async startPak(options: startPakOption) {
-    this.makeobjPath = options.makeobjPath;
-    this.size = options.size;
-    this.pakPath = options.pakPath;
-    this.sourcePath = options.sourcePath;
-
-    try {
-      if (!this.sourcePath) {
-        throw new Error('動作に必要な設定値が不足しています');
-      }
-      await this.beginAbortTransaction();
-      this.messenger.send('PakManager.startPak', 'info', 'Pakファイル作成開始');
-      const dirs = await this.fileManager.findDatDirectories(this.sourcePath);
-      this.messenger.send('PakManager.startPak', 'debug', 'dat一覧', dirs);
-
-      if (this.pakPath) {
-        await this.doPakWithMerge(dirs);
-      } else {
-        await this.doPakWithoutMerge(dirs);
-      }
-
-    } catch (error: unknown) {
-      this.errorHandler(error);
-    }
-  }
 
   /**
    * 開始済みのabortControllerがあれば中断して新たなabortControllerを作成する
@@ -75,7 +45,7 @@ export default class PakManager {
       const dir = this.fileManager.getDirname(files[0]);
       this.messenger.send('PakManager.doPakWithMerge', 'debug', 'pak化開始', dir);
       const tmpPak = this.fileManager.createTmpPath(dir);
-      const result = await this.builder.pak(this.makeobjPath, this.size, tmpPak, files, this.abortController);
+      const result = await this.makeobj.pak(this.makeobjPath, this.size, tmpPak, files, this.abortController);
       if (result.isSuccess) {
         this.messenger.send('PakManager.doPakWithMerge', 'success', result.stdout);
         tmpPaks.push(tmpPak);
@@ -96,7 +66,7 @@ export default class PakManager {
       return this.messenger.send('PakManager.doPakWithoutMerge', 'success', 'Pak化成功');
     }
     this.messenger.send('PakManager.doPakWithMerge', 'debug', '各フォルダ内のpakマージ');
-    const result = await this.builder.merge(this.makeobjPath, tmpPaks, this.pakPath);
+    const result = await this.makeobj.merge(this.makeobjPath, tmpPaks, this.pakPath);
     if (result.isSuccess) {
       this.messenger.send('PakManager.doPakWithMerge', 'success', result.stdout);
     } else {
@@ -109,7 +79,7 @@ export default class PakManager {
   /**
    * pakファイルを各ディレクトリにobj単位で書き出す
    */
-  private async doPakWithoutMerge(dirs: string[][]) {
+  protected async doPakWithoutMerge(dirs: string[][]) {
     if (!this.makeobjPath || !this.size) {
       throw new Error('動作に必要な設定値が不足しています');
     }
@@ -118,7 +88,7 @@ export default class PakManager {
     for (const files of dirs) {
       const dir = this.fileManager.getDirname(files[0]);
       this.messenger.send('PakManager.doPakWithMerge', 'debug', 'pak化開始', dir);
-      const result = await this.builder.pakByDirectory(this.makeobjPath, this.size, files, this.abortController);
+      const result = await this.makeobj.pakByDirectory(this.makeobjPath, this.size, files, this.abortController);
       if (result.isSuccess) {
         this.messenger.send('PakManager.doPakWithoutMerge', 'success', result.stdout);
       } else {
@@ -137,7 +107,7 @@ export default class PakManager {
   /**
    * ファイルの削除
    */
-  private deleteFiles(files: string[]): Promise<void[]> {
+  protected deleteFiles(files: string[]): Promise<void[]> {
     this.messenger.send('PakManager.deleteFiles', 'debug', 'ファイル削除', files);
     return this.fileManager.deletefiles(files);
   }
@@ -161,4 +131,5 @@ export default class PakManager {
       this.abortController.abort();
     }
   }
+
 }

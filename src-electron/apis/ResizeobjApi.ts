@@ -1,8 +1,8 @@
-import { ipcMain, type BrowserWindow } from 'electron';
+import { ipcMain } from 'electron';
 import { ResizeobjArgs, ResizeobjOptions } from 'app/types/global';
 import path from 'path';
-import Manager from './Manager';
 import { spawn } from 'child_process';
+import MessagingApi from '../base/MessagingApi';
 
 const argMapping: { [key: string]: { flag: string, defaultValue: unknown } } = {
   a: { flag: '-A', defaultValue: 0 },
@@ -17,9 +17,9 @@ const argMapping: { [key: string]: { flag: string, defaultValue: unknown } } = {
   n: { flag: '-N', defaultValue: false },
 };
 
-export default class ResizeobjManager implements Manager {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  register(mainWindow: BrowserWindow): void {
+export default class ResizeobjApi extends MessagingApi {
+
+  protected register(): void {
     ipcMain.removeHandler('resizeobj');
     ipcMain.handle('resizeobj', (event, args: ResizeobjArgs) => this.handler(args));
   }
@@ -30,7 +30,7 @@ export default class ResizeobjManager implements Manager {
       const target = path.join(args.target, '*.pak');
       const options = this.buildOption(args.options);
 
-      return new Promise(ok => {
+      const result = await new Promise<{ code: number | null, stdout: string, stderr: string }>(ok => {
         // ダイアログ抑止オプションは必須なので固定
         const child = spawn(args.resizeobjPath, ['-D', ...options, target]);
         let stdout = '';
@@ -40,9 +40,15 @@ export default class ResizeobjManager implements Manager {
         child.on('close', (code) => {
           ok({ code, stdout, stderr });
         });
-      })
-    } catch (error) {
-
+      });
+      console.log({ result });
+      if (result.code === 0) {
+        this.messenger.send('ResizeobjManager.handler', 'success', result.stdout);
+      } else {
+        this.messenger.send('ResizeobjManager.handler', 'error', result.stderr);
+      }
+    } catch (error: unknown) {
+      this.errorHandler(error);
     }
   }
 

@@ -97,7 +97,9 @@ const startPak = () => {
 const stopPak = () => {
   window.makeobjApi.stopPak();
 };
-window.makeobjApi.updatePak((event, level, message, args = undefined) => {
-  logger.value[level](message, args);
+window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {
+  if (channel === 'pak') {
+    logger.value[level](message, args);
+  }
 });
 </script>

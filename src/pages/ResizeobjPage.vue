@@ -169,4 +169,9 @@ const start = async () => {
   console.log({result})
 };
 
+window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {
+  if (channel === 'resizeobj') {
+    logger.value[level](message, args);
+  }
+});
 </script>

@@ -1,13 +1,22 @@
-import { BrowserWindow, ipcMain } from 'electron';
+import { ipcMain } from 'electron';
 import { Octokit } from '@octokit/rest';
+import Api from '../base/Api';
 
-const octokit = new Octokit();
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function registerGithubApi(mainWindow: BrowserWindow): void {
-  ipcMain.removeHandler('getLatestRelease');
-  ipcMain.handle('getLatestRelease', async () => {
+
+export default class GithubApi extends Api {
+  octokit: Octokit;
+  constructor() {
+    super();
+    this.octokit = new Octokit();
+  }
+  protected register(): void {
+    ipcMain.removeHandler('getLatestRelease');
+    ipcMain.handle('getLatestRelease', () => this.getLatestRelease());
+  }
+
+  private async getLatestRelease() {
     // https://github.com/128na/simutrans-addon-tool
-    const response = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
+    const response = await this.octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
       owner: '128na',
       repo: 'simutrans-addon-tool',
       headers: {
@@ -21,7 +30,5 @@ export default function registerGithubApi(mainWindow: BrowserWindow): void {
     }
     console.log('[getLatestRelease]', { result });
     return result;
-  });
-
-  console.log('[GithubApi] registered');
+  }
 }

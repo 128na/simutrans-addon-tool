@@ -1,16 +1,15 @@
-import { DatAddon, PakAddon, PakConvertedAddon, listOption } from 'app/types/global';
-import FileManager from './FileManager';
+import { ipcMain } from 'electron';
+import Api from '../base/Api';
+import { PakAddon, PakConvertedAddon, listOption } from 'app/types/global';
 import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
-import { readFileSync } from 'fs';
 
-
-export default class ListManager {
-  fileManager: FileManager;
-  constructor(fileManager: FileManager) {
-    this.fileManager = fileManager;
+export default class ListPakApi extends Api {
+  protected register(): void {
+    ipcMain.removeHandler('listFromPak');
+    ipcMain.handle('listFromPak', async (event, options: listOption) => this.listFromPak(options));
   }
 
-  public async listFromPak(options: listOption) {
+  private async listFromPak(options: listOption) {
     const allFiles = await this.fileManager.findFiles(options.target, '.pak');
     const makeobj = new MakeobjAsync(options.makeobjPath);
 
@@ -24,12 +23,5 @@ export default class ListManager {
     return result.map((r): PakConvertedAddon => {
       return { file: r.pak.replace(options.target, ''), objs: r.objs }
     });
-  }
-
-  public async listFromDat(options: listOption) {
-    const allFiles = await this.fileManager.findFiles(options.target, '.dat');
-    const result: DatAddon[] = allFiles.map(f => { return { file: f.replace(options.target, ''), dat: readFileSync(f, 'utf-8') } });
-
-    return result;
   }
 }

@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, updatePakArgs } from 'app/types/global';
+import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -42,16 +42,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),
   getCache: (key: string) => ipcRenderer.invoke('getCache', key),
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
+
+  ipcMessenger: (callback: ipcMessengerCb) => ipcRenderer.on('ipcMessenger', callback),
+
 });
 
 contextBridge.exposeInMainWorld('makeobjApi', {
   startPak: (options: startPakOption) => ipcRenderer.send('startPak', options),
   stopPak: () => ipcRenderer.send('stopPak'),
-  updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
 
   startAutoPak: (options: startAutoPakOption) => ipcRenderer.send('startAutoPak', options),
   stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
-  updateAutoPak: (callback: updatePakArgs) => ipcRenderer.on('updateAutoPak', callback),
+
   listFromPak: (options: listOption) => ipcRenderer.invoke('listFromPak', options),
   listFromDat: (options: listOption) => ipcRenderer.invoke('listFromDat', options),
 });
