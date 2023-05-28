@@ -56,7 +56,6 @@ export default {
   'オプション': 'Options',
   'オプションの詳しい説明はこちらを参照して下さい。': 'For a detailed explanation of the options, please click here.',
   'オプションをリセット': 'Reset Options',
-  'オプションを表示': 'Show options',
   'クリア': 'Clear',
   'コピーしました': 'Copied.',
   'コピーに失敗しました': 'Copy failed.',
