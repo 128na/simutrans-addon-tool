@@ -26,24 +26,31 @@ export default class ResizeobjApi extends MessagingApi {
 
   async handler(args: ResizeobjArgs) {
     try {
-      this.messenger.send('PakApi.startPak', 'info', '処理開始');
+      this.messenger.send('ResizeobjManager.handler', 'info', '処理開始');
       const target = path.join(args.target, '*.pak');
       const options = this.buildOption(args.options);
+      console.log({ options });
 
       const result = await new Promise<{ code: number | null, stdout: string, stderr: string }>(ok => {
         // ダイアログ抑止オプションは必須なので固定
         const child = spawn(args.resizeobjPath, ['-D', ...options, target]);
         let stdout = '';
         let stderr = '';
-        child.stdout.on('data', (data) => { stdout += data });
-        child.stderr.on('data', (data) => { stderr += data });
+        child.stdout.on('data', (data) => { stdout += data.toString() });
+        child.stderr.on('data', (data) => { stderr += data.toString() });
         child.on('close', (code) => {
           ok({ code, stdout, stderr });
         });
       });
       console.log({ result });
       if (result.code === 0) {
-        this.messenger.send('ResizeobjManager.handler', 'success', result.stdout);
+        // スキップされたファイルなどはstderrに出力される
+        if (result.stderr) {
+          this.messenger.send('ResizeobjManager.handler', 'warning', result.stderr);
+        }
+        if (result.stdout) {
+          this.messenger.send('ResizeobjManager.handler', 'success', result.stdout);
+        }
       } else {
         this.messenger.send('ResizeobjManager.handler', 'error', result.stderr);
       }
@@ -53,7 +60,7 @@ export default class ResizeobjApi extends MessagingApi {
   }
 
   private buildOption(options: ResizeobjOptions): string[] {
-    const opt = [];
+    const opt: string[] = [];
     for (const key in options) {
       const map = argMapping[key];
       //  デフォルト値と異なる場合のみ指定する
@@ -63,10 +70,8 @@ export default class ResizeobjApi extends MessagingApi {
             opt.push(map.flag);
             break;
           case 'number':
-            opt.push(`${map.flag}=${options[key]}`);
-            break;
           case 'string':
-            opt.push(`${map.flag}="${options[key]}"`);
+            opt.push(`${map.flag}=${options[key]}`);
             break;
           default:
             console.warn('unknown type', { key, map, options });
