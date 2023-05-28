@@ -45,12 +45,7 @@ export default class ResizeobjApi extends MessagingApi {
       console.log({ result });
       if (result.code === 0) {
         // スキップされたファイルなどはstderrに出力される
-        if (result.stderr) {
-          this.messenger.send('ResizeobjManager.handler', 'warning', result.stderr);
-        }
-        if (result.stdout) {
-          this.messenger.send('ResizeobjManager.handler', 'success', result.stdout);
-        }
+        this.messenger.send('ResizeobjManager.handler', 'success', result.stderr);
       } else {
         this.messenger.send('ResizeobjManager.handler', 'error', result.stderr);
       }
