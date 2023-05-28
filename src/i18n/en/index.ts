@@ -46,6 +46,7 @@ export default {
   'Simutrans実行ファイルを選択します。': 'Select the Simutrans executable.',
   'Simutrans起動': 'Starting simutrans.',
   'Simutrans関連のリンク集': 'Simutrans Related Links.',
+  'https://www.simutrans.com/ja/download': 'https://www.simutrans.com/en/download',
   'resizeobj': 'resizeobj',
   'resizeobj実行ファイルを選択します。': 'Select the resizeobj executable.',
   'ここに実行結果が出力されます。': 'The execution results are output here.',
