@@ -40,7 +40,7 @@ import MainTitle from 'src/components/MainTitle.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 
 const histories = {
-  '0.1': 'Pak作成、自動Pak作成機能を追加しました',
+  '0.1': 'Pak作成、自動Pak作成機能を追加しました。',
 };
 const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;

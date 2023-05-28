@@ -87,10 +87,10 @@ const store = useSettingsStore();
 const { t } = useI18n();
 const startPak = () => {
   if (!sourcePath.value) {
-    return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
+    return window.electronAPI.showError(t('ソースフォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません'));
+    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
   }
 
   window.makeobjApi.startPak({

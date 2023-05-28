@@ -1,7 +1,7 @@
 <template>
   <q-checkbox
     v-model="showDebug"
-    :label="$t('デバッグログを表示')"
+    :label="$t('デバッグログを表示する')"
     class="text-white"
   />
   <q-separator :dark="true" />
@@ -51,9 +51,9 @@ const { t } = useI18n();
 const copy = async (l: Log) => {
   try {
     await copyToClipboard(`${l.datetime} [${l.level.toUpperCase()}]\n${l.message}`);
-    $q.notify({ type: 'positive', message: t('コピーしました') });
+    $q.notify({ type: 'positive', message: t('コピーしました。') });
   } catch (error) {
-    $q.notify({ type: 'negative', message: t('コピーに失敗しました') });
+    $q.notify({ type: 'negative', message: t('コピーに失敗しました。') });
   }
 };
 

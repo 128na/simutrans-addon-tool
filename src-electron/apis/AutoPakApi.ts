@@ -29,7 +29,7 @@ export default class AutoPakApi extends BasePakApi {
     this.sourcePath = options.sourcePath;
 
     if (!this.sourcePath) {
-      throw new Error('動作に必要な設定値が不足しています');
+      throw new Error('動作に必要な設定値が不足しています。');
     }
 
     this.watcher.start(
@@ -52,7 +52,7 @@ export default class AutoPakApi extends BasePakApi {
   private async doProcess() {
     try {
       if (!this.sourcePath) {
-        throw new Error('動作に必要な設定値が不足しています');
+        throw new Error('動作に必要な設定値が不足しています。');
       }
       await this.beginAbortTransaction();
       this.messenger.send('AutoPakApi.doProcess', 'info', 'Pak作成開始');
@@ -60,7 +60,7 @@ export default class AutoPakApi extends BasePakApi {
 
       await this.doPakWithMerge(dirs);
 
-      this.messenger.send('AutoPakApi.doProcess', 'info', 'Simutrans起動');
+      this.messenger.send('AutoPakApi.doProcess', 'info', 'Simutrans起動開始。');
       this.simutrans?.run();
     } catch (error: unknown) {
       this.errorHandler(error);
@@ -71,6 +71,6 @@ export default class AutoPakApi extends BasePakApi {
     super.stop();
 
     this.watcher.stop();
-    return this.messenger.send('AutoPakApi.stop', 'warning', '処理を中断しました');
+    return this.messenger.send('AutoPakApi.stop', 'warning', '処理を中断しました。');
   }
 }

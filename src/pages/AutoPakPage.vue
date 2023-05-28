@@ -94,13 +94,13 @@ const stopAutoPak = () => {
 };
 const startAutoPak = () => {
   if (!sourcePath.value) {
-    return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
+    return window.electronAPI.showError(t('ソースフォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません'));
+    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
   }
   if (!store.simutransPath) {
-    return window.electronAPI.showError(t('Simutransが選択されていません'));
+    return window.electronAPI.showError(t('Simutransが選択されていません。'));
   }
   if (!pakPath.value) {
     return window.electronAPI.showError('pak出力先が選択されていません');

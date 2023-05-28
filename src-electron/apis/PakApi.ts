@@ -18,7 +18,7 @@ export default class PakApi extends BasePakApi {
 
     try {
       if (!this.sourcePath) {
-        throw new Error('動作に必要な設定値が不足しています');
+        throw new Error('動作に必要な設定値が不足しています。');
       }
       await this.beginAbortTransaction();
       this.messenger.send('PakApi.startPak', 'info', 'Pak作成開始');

@@ -1,6 +1,5 @@
 import { ipcMain } from 'electron';
 import { ResizeobjArgs, ResizeobjOptions } from 'app/types/global';
-import path from 'path';
 import { spawn } from 'child_process';
 import MessagingApi from '../base/MessagingApi';
 
@@ -26,13 +25,12 @@ export default class ResizeobjApi extends MessagingApi {
   async handler(args: ResizeobjArgs) {
     try {
       this.messenger.send('ResizeobjManager.handler', 'info', '処理開始');
-      const target = path.join(args.target, '*.pak');
       const options = this.buildOption(args.options);
       console.log({ options });
 
       const result = await new Promise<{ code: number | null; stdout: string; stderr: string }>((ok) => {
         // ダイアログ抑止オプションは必須なので固定
-        const child = spawn(args.resizeobjPath, ['-D', ...options, target]);
+        const child = spawn(args.resizeobjPath, ['-D', ...options, ...args.target]);
         let stdout = '';
         let stderr = '';
         child.stdout.on('data', (data) => {

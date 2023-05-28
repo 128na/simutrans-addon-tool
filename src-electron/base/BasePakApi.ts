@@ -36,7 +36,7 @@ export default abstract class BasePakApi extends MessagingApi {
    */
   protected async doPakWithMerge(dirs: string[][]) {
     if (!this.makeobjPath || !this.size || !this.pakPath) {
-      throw new Error('動作に必要な設定値が不足しています');
+      throw new Error('動作に必要な設定値が不足しています。');
     }
 
     let hasFailed = false;
@@ -61,7 +61,7 @@ export default abstract class BasePakApi extends MessagingApi {
 
     if (hasFailed) {
       await this.deleteFiles(tmpPaks);
-      throw new Error('Pak作成失敗したフォルダがあるため中断しました');
+      throw new Error('Pak作成失敗したフォルダがあるため中断しました。');
     }
     if (tmpPaks.length < 2) {
       this.messenger.send('BasePakApi.doPakWithMerge', 'debug', 'Pakファイル移動');
@@ -84,7 +84,7 @@ export default abstract class BasePakApi extends MessagingApi {
    */
   protected async doPakWithoutMerge(dirs: string[][]) {
     if (!this.makeobjPath || !this.size) {
-      throw new Error('動作に必要な設定値が不足しています');
+      throw new Error('動作に必要な設定値が不足しています。');
     }
 
     let hasFailed = false;
@@ -101,7 +101,7 @@ export default abstract class BasePakApi extends MessagingApi {
     }
     this.abortController = undefined;
     if (hasFailed) {
-      this.messenger.send('BasePakApi.doPakWithoutMerge', 'warning', 'Pak作成に失敗したものがあります');
+      this.messenger.send('BasePakApi.doPakWithoutMerge', 'warning', 'Pak作成に失敗したものがあります。');
     }
     this.messenger.send('BasePakApi.doPakWithoutMerge', 'success', 'Pak作成完了');
   }
@@ -116,7 +116,7 @@ export default abstract class BasePakApi extends MessagingApi {
 
   protected stop() {
     if (this.abortController && this.abortController.signal.aborted === false) {
-      this.messenger.send('BasePakApi.stop', 'warning', '処理を中断しています');
+      this.messenger.send('BasePakApi.stop', 'warning', '処理を中断しています。');
       this.abortController.abort();
     }
   }

@@ -9,6 +9,7 @@ declare global {
       showError: (message: string) => Promise<string>;
       selectDir: () => Promise<string>;
       selectSingleFile: (options: Electron.OpenDialogOptions) => Promise<string>;
+      selectMultiFiles: (options: Electron.OpenDialogOptions) => Promise<string[]>;
       saveFile: (options: Electron.SaveDialogOptions) => Promise<string>;
       openUrl: (url: string) => Promise<void>;
       openDir: (path: string) => Promise<string>;
@@ -82,7 +83,7 @@ interface PakConvertedAddon {
 
 interface ResizeobjArgs {
   resizeobjPath: string;
-  target: string;
+  target: string[];
   options: ResizeobjOptions;
 }
 interface ResizeobjOptions {

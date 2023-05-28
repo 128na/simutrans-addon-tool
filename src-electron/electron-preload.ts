@@ -37,6 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectDir: () => ipcRenderer.invoke('selectDir'),
   showError: (message: string) => ipcRenderer.invoke('showError', message),
   selectSingleFile: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
+  selectMultiFiles: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: true, ...options }),
   saveFile: (options: SaveDialogOptions) => ipcRenderer.invoke('saveFile', options),
   openUrl: (path: string) => ipcRenderer.invoke('openUrl', path),
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),

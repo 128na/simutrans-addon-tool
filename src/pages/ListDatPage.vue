@@ -120,9 +120,9 @@ const $q = useQuasar();
 const copy = async (text: string) => {
   try {
     await copyToClipboard(text);
-    $q.notify({ type: 'positive', message: t('コピーしました') });
+    $q.notify({ type: 'positive', message: t('コピーしました。') });
   } catch (error) {
-    $q.notify({ type: 'negative', message: t('コピーに失敗しました') });
+    $q.notify({ type: 'negative', message: t('コピーに失敗しました。') });
   }
 };
 
@@ -139,10 +139,10 @@ const copyRawJson = () => {
 const store = useSettingsStore();
 const startList = async () => {
   if (!targetDatDir.value) {
-    return window.electronAPI.showError(t('フォルダが選択されていません'));
+    return window.electronAPI.showError(t('フォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません'));
+    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
   }
 
   try {

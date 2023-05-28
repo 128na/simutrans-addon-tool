@@ -10,12 +10,12 @@
             {{ $t('resizeobj') }}
           </MainTitle>
 
-          <SelectDir
+          <SelectFiles
             v-model="targetPath"
-            :title="$t('フォルダ')"
+            :title="$t('Pakファイル')"
             @update:model-value="updatecache('resizeobj.targetPath', $event)"
           />
-          <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
+          <InfoText>{{ $t('Pakファイルを選択します。') }}</InfoText>
 
           <SubTitle>
             {{ $t('用途別プリセット') }}
@@ -159,7 +159,6 @@
 import { ref } from 'vue';
 import Logger from '../services/logger';
 import LogViewer from '../components/LogViewer.vue';
-import SelectDir from '../components/SelectDir.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import ResizeobjPresets from 'src/components/ResizeobjPresets.vue';
@@ -169,10 +168,11 @@ import { useSettingsStore } from 'src/stores/settings';
 import InputPakSize from 'src/components/InputPakSize.vue';
 import ExternalLink from 'src/components/ExternalLink.vue';
 import SubTitle from 'src/components/SubTitle.vue';
+import SelectFiles from 'src/components/SelectFiles.vue';
 
 const splitterModel = ref(50);
 
-const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string);
+const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string[]);
 
 const showOption = ref(false);
 const defaultOption: ResizeobjOptions = { a: 100, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
@@ -190,8 +190,8 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 const store = useSettingsStore();
 const { t } = useI18n();
 const start = async () => {
-  if (!targetPath.value) {
-    return window.electronAPI.showError(t('フォルダが選択されていません'));
+  if (!targetPath.value.length) {
+    return window.electronAPI.showError(t('Pakファイルが選択されていません。'));
   }
   if (!store.resizeobjPath) {
     return window.electronAPI.showError(t('resizeが選択されていません'));
@@ -199,7 +199,7 @@ const start = async () => {
 
   const result = await window.resizeobjAPI.resizeobj({
     resizeobjPath: store.resizeobjPath,
-    target: targetPath.value,
+    target: [...targetPath.value],
     options: Object.assign({}, options.value),
   });
   console.log({ result });

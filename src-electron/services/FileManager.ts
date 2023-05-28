@@ -25,7 +25,7 @@ export default class FileManager {
   public async findDatDirectories(dir: string): Promise<string[][]> {
     const dirs = await this.findDatDirectoyReclusive(dir);
     if (dirs.length < 1) {
-      throw new Error('指定フォルダ内にdatファイルがありません');
+      throw new Error('指定フォルダ内にdatファイルがありません。');
     }
     return dirs;
   }
