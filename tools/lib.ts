@@ -53,7 +53,7 @@ export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
 
 export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null => {
   for (const filename in jsFiles) {
-    if (jsFiles[filename].includes(value)) {
+    if (jsFiles[filename].includes(`'${value}'`)) {
       return filename;
     }
   }
