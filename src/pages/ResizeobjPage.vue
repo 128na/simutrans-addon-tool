@@ -33,7 +33,7 @@
               dense
               :label="$t('表示する')"
               class="q-mb-md"
-              @click="showOption=!showOption"
+              @click="showOption = !showOption"
             />
           </div>
 
@@ -177,7 +177,7 @@ const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath
 const showOption = ref(false);
 const defaultOption: ResizeobjOptions = { a: 100, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
 const options = ref(Object.assign({}, defaultOption, (await window.electronAPI.getCache('resizeobj.options')) || {}) as unknown as ResizeobjOptions);
-const setOptions = (opt:ResizeobjOptions = {}) => {
+const setOptions = (opt: ResizeobjOptions = {}) => {
   options.value = Object.assign({}, defaultOption, opt);
   updatecache('resizeobj.options', Object.assign({}, defaultOption, opt));
 };

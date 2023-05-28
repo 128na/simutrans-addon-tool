@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <q-btn
       color="secondary"
@@ -7,7 +6,7 @@
       dense
       :label="$t('表示する')"
       class="q-mb-md"
-      @click="show=!show"
+      @click="show = !show"
     />
   </div>
 
@@ -23,28 +22,28 @@
           clickable
           @click="handle('expansion')"
         >
-          <q-item-section>{{$t('64から128に拡大変換')}}</q-item-section>
+          <q-item-section>{{ $t('64から128に拡大変換') }}</q-item-section>
         </q-item>
         <q-item
           v-ripple
           clickable
           @click="handle('shrink')"
         >
-          <q-item-section>{{$t('128から64に縮小変換（デフォルト）')}}</q-item-section>
+          <q-item-section>{{ $t('128から64に縮小変換（デフォルト）') }}</q-item-section>
         </q-item>
         <q-item
           v-ripple
           clickable
           @click="handle('originalSize')"
         >
-          <q-item-section>{{$t('128から64に原寸大変換')}}</q-item-section>
+          <q-item-section>{{ $t('128から64に原寸大変換') }}</q-item-section>
         </q-item>
         <q-item
           v-ripple
           clickable
           @click="handle('shrink256')"
         >
-          <q-item-section>{{$t('256から128に縮小変換')}}</q-item-section>
+          <q-item-section>{{ $t('256から128に縮小変換') }}</q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -54,17 +53,17 @@
 import { ResizeobjOptions } from 'app/types/global';
 import { ref } from 'vue';
 const emit = defineEmits<{
-  'selectPreset': [value: ResizeobjOptions];
+  selectPreset: [value: ResizeobjOptions];
 }>();
 
 const show = ref(false);
 
 const opt = {
-  'shrink': {},
-  'originalSize': {k:true},
-  'expansion': {x:true},
-  'shrink256': {w:128},
-}
+  shrink: {},
+  originalSize: { k: true },
+  expansion: { x: true },
+  shrink256: { w: 128 },
+};
 
 const handle = (key: keyof typeof opt) => emit('selectPreset', opt[key]);
 </script>
