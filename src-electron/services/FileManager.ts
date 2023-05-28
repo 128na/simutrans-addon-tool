@@ -3,7 +3,6 @@ import { readdir, unlink, rename } from 'node:fs/promises';
 import { existsSync } from 'fs';
 
 export default class FileManager {
-
   private async findDatDirectoyReclusive(dir: string): Promise<string[][]> {
     const dirents = await readdir(resolve(dir), { withFileTypes: true });
 
@@ -17,7 +16,7 @@ export default class FileManager {
         files.push(join(dir, d.name));
       }
     }
-    const result = [files.filter(f => f.endsWith('.dat')), ...dirs].filter(d => d.length);
+    const result = [files.filter((f) => f.endsWith('.dat')), ...dirs].filter((d) => d.length);
     return result;
   }
   /**
@@ -40,11 +39,13 @@ export default class FileManager {
   }
 
   public deletefiles(files: string[]): Promise<void[]> {
-    return Promise.all(files.map(f => {
-      if (existsSync(f)) {
-        unlink(f);
-      }
-    }));
+    return Promise.all(
+      files.map((f) => {
+        if (existsSync(f)) {
+          unlink(f);
+        }
+      })
+    );
   }
 
   public rename(oldPath: string, newPath: string): Promise<void> {
@@ -52,10 +53,7 @@ export default class FileManager {
   }
 
   public getWatchTarget(path: string): string[] {
-    const target = [
-      join(path, '**', '*.dat'),
-      join(path, '**', '*.png'),
-    ];
+    const target = [join(path, '**', '*.dat'), join(path, '**', '*.png')];
 
     return target;
   }
@@ -68,8 +66,7 @@ export default class FileManager {
         files = files.concat(await this.findFiles(join(dir, d.name), ext));
       }
       if (d.isFile()) {
-        if (!ext || d.name.endsWith(ext))
-          files.push(join(dir, d.name));
+        if (!ext || d.name.endsWith(ext)) files.push(join(dir, d.name));
       }
     }
     return files;
@@ -80,9 +77,6 @@ export default class FileManager {
    * @link https://qiita.com/yarnaimo/items/e92600237d65876f8dd8
    */
   public chunk<T>(arr: T[], size: number): T[][] {
-    return arr.reduce(
-      (newarr, _, i) => (i % size ? newarr : [...newarr, arr.slice(i, i + size)]),
-      [] as T[][]
-    )
+    return arr.reduce((newarr, _, i) => (i % size ? newarr : [...newarr, arr.slice(i, i + size)]), [] as T[][]);
   }
 }

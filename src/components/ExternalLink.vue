@@ -2,10 +2,12 @@
   <a
     href="#"
     class="text-primary"
-    @click.prevent="handleLink">
+    @click.prevent="handleLink"
+  >
     <q-icon
       name="output"
-      class="q-mr-xs" />
+      class="q-mr-xs"
+    />
     <slot />
     <template v-if="!$slots.default">{{ url }}</template>
   </a>

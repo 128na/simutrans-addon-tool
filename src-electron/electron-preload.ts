@@ -44,7 +44,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
 
   ipcMessenger: (callback: ipcMessengerCb) => ipcRenderer.on('ipcMessenger', callback),
-
 });
 
 contextBridge.exposeInMainWorld('makeobjApi', {

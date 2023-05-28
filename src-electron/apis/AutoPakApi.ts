@@ -32,18 +32,22 @@ export default class AutoPakApi extends BasePakApi {
       throw new Error('動作に必要な設定値が不足しています');
     }
 
-    this.watcher.start(this.fileManager.getWatchTarget(this.sourcePath), (pathes) => this.onReady(pathes), (path) => this.onUpdate(path));
+    this.watcher.start(
+      this.fileManager.getWatchTarget(this.sourcePath),
+      (pathes) => this.onReady(pathes),
+      (path) => this.onUpdate(path)
+    );
   }
 
   private onReady(pathes: onReadyArgs) {
     this.messenger.send('AutoPakApi.onReady', 'debug', '監視準備完了', pathes);
     this.doProcess();
-  };
+  }
 
   private onUpdate(path: string) {
     this.messenger.send('AutoPakApi.onUpdate', 'debug', '変更検知', path);
     this.doProcess();
-  };
+  }
 
   private async doProcess() {
     try {
@@ -58,11 +62,10 @@ export default class AutoPakApi extends BasePakApi {
 
       this.messenger.send('AutoPakApi.doProcess', 'info', 'Simutrans起動');
       this.simutrans?.run();
-
     } catch (error: unknown) {
       this.errorHandler(error);
     }
-  };
+  }
 
   protected stop() {
     super.stop();

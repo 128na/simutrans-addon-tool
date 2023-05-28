@@ -25,5 +25,5 @@ export default abstract class MessagingApi {
       return this.messenger.send('MessagingApi.errorHandler', 'error', error.message);
     }
     this.messenger.send('MessagingApi.errorHandler', 'error', 'エラーが発生しました', error);
-  };
+  }
 }

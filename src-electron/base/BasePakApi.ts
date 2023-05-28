@@ -15,14 +15,17 @@ export default abstract class BasePakApi extends MessagingApi {
     this.makeobj = new Makeobj();
   }
 
-
   /**
    * 開始済みのabortControllerがあれば中断して新たなabortControllerを作成する
    */
   protected async beginAbortTransaction() {
     if (this.abortController && this.abortController.signal.aborted === false) {
       this.abortController.abort();
-      await new Promise<void>(ok => { setTimeout(() => { ok(); }, 100) });
+      await new Promise<void>((ok) => {
+        setTimeout(() => {
+          ok();
+        }, 100);
+      });
     }
     this.abortController = new AbortController();
     return this.abortController;
@@ -117,5 +120,4 @@ export default abstract class BasePakApi extends MessagingApi {
       this.abortController.abort();
     }
   }
-
 }

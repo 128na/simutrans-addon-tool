@@ -11,7 +11,9 @@ export default class ListDatApi extends Api {
 
   private async listFromDat(options: listOption) {
     const allFiles = await this.fileManager.findFiles(options.target, '.dat');
-    const result: DatAddon[] = allFiles.map(f => { return { file: f.replace(options.target, ''), dat: readFileSync(f, 'utf-8') } });
+    const result: DatAddon[] = allFiles.map((f) => {
+      return { file: f.replace(options.target, ''), dat: readFileSync(f, 'utf-8') };
+    });
 
     return result;
   }

@@ -3,7 +3,6 @@ import { startPakOption } from 'app/types/global';
 import BasePakApi from '../base/BasePakApi';
 
 export default class PakApi extends BasePakApi {
-
   protected register(): void {
     ipcMain.removeAllListeners('startPak');
     ipcMain.on('startPak', (event, options: startPakOption) => this.start(options));
@@ -31,7 +30,6 @@ export default class PakApi extends BasePakApi {
       } else {
         await this.doPakWithoutMerge(dirs);
       }
-
     } catch (error: unknown) {
       this.errorHandler(error);
     }

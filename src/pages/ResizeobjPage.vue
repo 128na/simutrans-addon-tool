@@ -2,7 +2,8 @@
   <q-page>
     <q-splitter
       v-model="splitterModel"
-      class="max-height-without-header">
+      class="max-height-without-header"
+    >
       <template #before>
         <q-page padding>
           <MainTitle>
@@ -12,21 +13,23 @@
           <SelectDir
             v-model="targetPath"
             :title="$t('フォルダ')"
-            @update:model-value="updatecache('resizeobj.targetPath', $event)" />
+            @update:model-value="updatecache('resizeobj.targetPath', $event)"
+          />
           <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
 
           <div>
             <q-toggle
               v-model="showOption"
               :label="$t('オプションを表示')"
-              class="q-mb-md" />
+              class="q-mb-md"
+            />
           </div>
 
           <q-slide-transition>
             <div v-show="showOption">
               <InfoText>
-                {{$t('オプションの詳しい説明はこちらを参照して下さい。')}}<br />
-                <ExternalLink url="https://wa-st.github.io/resizeobj/"/>
+                {{ $t('オプションの詳しい説明はこちらを参照して下さい。') }}<br />
+                <ExternalLink url="https://wa-st.github.io/resizeobj/" />
               </InfoText>
 
               <div class="q-mb-md">
@@ -36,7 +39,8 @@
                   :max="100"
                   :min="0"
                   type="number"
-                  @update:model-value="updatecache('resizeobj.options.a', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.a', $event)"
+                />
               </div>
 
               <div class="q-mb-md">
@@ -44,18 +48,20 @@
                 <q-option-group
                   v-model="options.s"
                   :options="[
-                    {value:0,label:$t('0 : 特殊色を使用しない')},
-                    {value:1,label:$t('1 : 縮小元エリアの左上が特殊色の場合にその特殊色を出力(既定値)')},
-                    {value:2,label:$t('2 : 縮小元エリアで特殊色が半数以上使用されている場合にその特殊色を出力')}
+                    { value: 0, label: $t('0 : 特殊色を使用しない') },
+                    { value: 1, label: $t('1 : 縮小元エリアの左上が特殊色の場合にその特殊色を出力(既定値)') },
+                    { value: 2, label: $t('2 : 縮小元エリアで特殊色が半数以上使用されている場合にその特殊色を出力') },
                   ]"
-                  @update:model-value="updatecache('resizeobj.options.s', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.s', $event)"
+                />
               </div>
 
               <div class="q-mb-md">
                 <InputPakSize
                   v-model="options.w"
                   :title="$t('-W : 変換後のPakサイズ')"
-                  @update:model-value="updatecache('resizeobj.options.w', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.w', $event)"
+                />
                 <InfoText>{{ $t('変換後のPakサイズを指定します。') }}</InfoText>
               </div>
 
@@ -63,19 +69,22 @@
                 <q-toggle
                   v-model="options.k"
                   :label="$t('-K : 原寸大モードを使用する')"
-                  @update:model-value="updatecache('resizeobj.options.k', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.k', $event)"
+                />
               </div>
               <div>
                 <q-toggle
                   v-model="options.ka"
                   :label="$t('-Ka : 原寸大モードでアニメーションを取り除く')"
-                  @update:model-value="updatecache('resizeobj.options.ka', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.ka', $event)"
+                />
               </div>
               <div>
                 <q-toggle
                   v-model="options.x"
                   :label="$t('-X : 拡大モードを使用する')"
-                  @update:model-value="updatecache('resizeobj.options.x', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.x', $event)"
+                />
               </div>
 
               <div class="q-mb-md">
@@ -83,21 +92,25 @@
                   v-model.number="options.m"
                   :label="$t('-M : オフセット')"
                   type="number"
-                  @update:model-value="updatecache('resizeobj.options.m', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.m', $event)"
+                />
                 <q-input
                   v-model="options.e"
                   :label="$t('-E : 出力ファイルの拡張子')"
-                  @update:model-value="updatecache('resizeobj.options.e', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.e', $event)"
+                />
                 <q-input
                   v-model="options.t"
                   :label="$t('-T : アドオン名先頭への追加文字')"
-                  @update:model-value="updatecache('resizeobj.options.t', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.t', $event)"
+                />
               </div>
               <div>
                 <q-toggle
                   v-model="options.n"
                   :label="$t('-N : ヘッダを書き換える')"
-                  @update:model-value="updatecache('resizeobj.options.n', $event)" />
+                  @update:model-value="updatecache('resizeobj.options.n', $event)"
+                />
               </div>
 
               <div class="q-my-md">
@@ -105,21 +118,24 @@
                   color="negative"
                   dense
                   outline
-                  @click="resetOption">{{ $t('オプション初期化') }}</q-btn>
+                  @click="resetOption"
+                >{{ $t('オプション初期化') }}</q-btn>
               </div>
             </div>
           </q-slide-transition>
 
           <q-btn
             color="primary"
-            @click="start">{{ $t('実行') }}</q-btn>
+            @click="start"
+          >{{ $t('実行') }}</q-btn>
         </q-page>
       </template>
 
       <template #after>
         <q-page
           padding
-          class="bg-dark">
+          class="bg-dark"
+        >
           <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
           <LogViewer :logger="logger" />
         </q-page>
@@ -146,13 +162,12 @@ const splitterModel = ref(50);
 const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string);
 
 const showOption = ref(false);
-const defaultOption:ResizeobjOptions = { a: 0, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
-const options = ref(Object.assign({}, defaultOption,await window.electronAPI.getCache('resizeobj.options') || {}) as unknown as ResizeobjOptions);
+const defaultOption: ResizeobjOptions = { a: 0, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
+const options = ref(Object.assign({}, defaultOption, (await window.electronAPI.getCache('resizeobj.options')) || {}) as unknown as ResizeobjOptions);
 const resetOption = () => {
   options.value = Object.assign({}, defaultOption);
   updatecache('resizeobj.options', defaultOption);
 };
-
 
 const logger = ref(new Logger());
 logger.value.info('ここに実行結果が出力されます。');
@@ -169,12 +184,12 @@ const start = async () => {
     return window.electronAPI.showError(t('resizeが選択されていません'));
   }
 
-  const result  = await window.resizeobjAPI.resizeobj({
+  const result = await window.resizeobjAPI.resizeobj({
     resizeobjPath: store.resizeobjPath,
     target: targetPath.value,
     options: Object.assign({}, options.value),
   });
-  console.log({result})
+  console.log({ result });
 };
 
 window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {

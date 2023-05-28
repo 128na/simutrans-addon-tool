@@ -4,7 +4,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import MessagingApi from '../base/MessagingApi';
 
-const argMapping: { [key: string]: { flag: string, defaultValue: unknown } } = {
+const argMapping: { [key: string]: { flag: string; defaultValue: unknown } } = {
   a: { flag: '-A', defaultValue: 0 },
   s: { flag: '-S', defaultValue: 1 },
   w: { flag: '-W', defaultValue: 64 },
@@ -18,7 +18,6 @@ const argMapping: { [key: string]: { flag: string, defaultValue: unknown } } = {
 };
 
 export default class ResizeobjApi extends MessagingApi {
-
   protected register(): void {
     ipcMain.removeAllListeners('resizeobj');
     ipcMain.on('resizeobj', (event, args: ResizeobjArgs) => this.handler(args));
@@ -31,13 +30,17 @@ export default class ResizeobjApi extends MessagingApi {
       const options = this.buildOption(args.options);
       console.log({ options });
 
-      const result = await new Promise<{ code: number | null, stdout: string, stderr: string }>(ok => {
+      const result = await new Promise<{ code: number | null; stdout: string; stderr: string }>((ok) => {
         // ダイアログ抑止オプションは必須なので固定
         const child = spawn(args.resizeobjPath, ['-D', ...options, target]);
         let stdout = '';
         let stderr = '';
-        child.stdout.on('data', (data) => { stdout += data.toString() });
-        child.stderr.on('data', (data) => { stderr += data.toString() });
+        child.stdout.on('data', (data) => {
+          stdout += data.toString();
+        });
+        child.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
         child.on('close', (code) => {
           ok({ code, stdout, stderr });
         });

@@ -8,7 +8,8 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen" />
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        />
 
         <q-toolbar-title
           class="cursor-pointer"
@@ -24,14 +25,16 @@
     <q-drawer
       v-model="leftDrawerOpen"
       :show-if-above="false"
-      bordered>
+      bordered
+    >
       <q-list>
         <q-item-label header>
           <switch-lang />
         </q-item-label>
         <q-item
           clickable
-          :to="{ name: 'about' }">
+          :to="{ name: 'about' }"
+        >
           <q-item-section avatar><q-icon name="help" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('ツールについて') }}</q-item-label>
@@ -40,7 +43,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'pak' }">
+          :to="{ name: 'pak' }"
+        >
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('Pak') }}</q-item-label>
@@ -49,7 +53,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'autoPak' }">
+          :to="{ name: 'autoPak' }"
+        >
           <q-item-section avatar><q-icon name="autorenew" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('自動Pak') }}</q-item-label>
@@ -58,7 +63,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'listPak' }">
+          :to="{ name: 'listPak' }"
+        >
           <q-item-section avatar><q-icon name="format_list_numbered" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('Pakリスト') }}</q-item-label>
@@ -67,7 +73,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'listDat' }">
+          :to="{ name: 'listDat' }"
+        >
           <q-item-section avatar><q-icon name="format_list_numbered" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('Datリスト') }}</q-item-label>
@@ -76,7 +83,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'resizeobj' }">
+          :to="{ name: 'resizeobj' }"
+        >
           <q-item-section avatar><q-icon name="zoom_in" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('resizeobj') }}</q-item-label>
@@ -85,7 +93,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'settings' }">
+          :to="{ name: 'settings' }"
+        >
           <q-item-section avatar><q-icon name="settings" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('設定') }}</q-item-label>
@@ -94,7 +103,8 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'links' }">
+          :to="{ name: 'links' }"
+        >
           <q-item-section avatar><q-icon name="link" /></q-item-section>
           <q-item-section>
             <q-item-label>{{ $t('リンク集') }}</q-item-label>

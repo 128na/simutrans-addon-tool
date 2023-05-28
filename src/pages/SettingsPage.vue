@@ -7,21 +7,24 @@
       v-model="store.makeobjPath"
       :title="$t('Makeobj')"
       :filters="[{ name: 'Makeobj', extensions: ['exe'] }]"
-      @update:model-value="updatecache('makeobjPath', $event)" />
+      @update:model-value="updatecache('makeobjPath', $event)"
+    />
     <InfoText>{{ $t('Makeobj実行ファイルを選択します。') }}</InfoText>
 
     <SelectFile
       v-model="store.simutransPath"
       :title="$t('Simutrans')"
       :filters="[{ name: 'Simutrans', extensions: ['exe'] }]"
-      @update:model-value="updatecache('simutransPath', $event)" />
+      @update:model-value="updatecache('simutransPath', $event)"
+    />
     <InfoText>{{ $t('Simutrans実行ファイルを選択します。') }}</InfoText>
 
     <SelectFile
       v-model="store.resizeobjPath"
       :title="$t('resizeobj')"
       :filters="[{ name: 'resizeobj', extensions: ['exe'] }]"
-      @update:model-value="updatecache('resizeobjPath', $event)" />
+      @update:model-value="updatecache('resizeobjPath', $event)"
+    />
     <InfoText>{{ $t('resizeobj実行ファイルを選択します。') }}</InfoText>
   </q-page>
 </template>
@@ -34,5 +37,4 @@ import { useSettingsStore } from 'src/stores/settings';
 const store = useSettingsStore();
 
 const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(key, val);
-
 </script>

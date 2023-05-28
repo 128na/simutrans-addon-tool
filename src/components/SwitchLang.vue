@@ -7,7 +7,8 @@
     emit-value
     map-options
     options-dense
-    @update:model-value="handle" />
+    @update:model-value="handle"
+  />
 </template>
 <script setup type="ts">
 import { useI18n } from 'vue-i18n';

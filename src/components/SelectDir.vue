@@ -4,14 +4,16 @@
     :readonly="true"
     :label="title"
     class="q-mb-sm"
-    @click="modelValue || handle()" />
+    @click="modelValue || handle()"
+  />
   <q-btn-group outline>
     <q-btn
       outline
       dense
       color="secondary"
       :disable="disable"
-      @click="handle">
+      @click="handle"
+    >
       {{ $t(selectLabel) }}
     </q-btn>
     <q-btn
@@ -19,7 +21,8 @@
       dense
       color="secondary"
       :disable="disable"
-      @click="clear">
+      @click="clear"
+    >
       {{ $t(clearLabel) }}
     </q-btn>
     <q-btn
@@ -27,7 +30,8 @@
       dense
       color="secondary"
       :disable="!modelValue"
-      @click="open">
+      @click="open"
+    >
       {{ $t(openLabel) }}
     </q-btn>
   </q-btn-group>

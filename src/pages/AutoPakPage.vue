@@ -2,7 +2,8 @@
   <q-page>
     <q-splitter
       v-model="splitterModel"
-      class="max-height-without-header">
+      class="max-height-without-header"
+    >
       <template #before>
         <q-page padding>
           <MainTitle>
@@ -13,14 +14,16 @@
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
             :disable="watching"
-            @update:model-value="updatecache('autoPak.sourcePath', $event)" />
+            @update:model-value="updatecache('autoPak.sourcePath', $event)"
+          />
           <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"
             :title="$t('Pakサイズ')"
             :disable="watching"
-            @update:model-value="updatecache('autoPak.size', $event)" />
+            @update:model-value="updatecache('autoPak.size', $event)"
+          />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
           <SaveFile
@@ -28,18 +31,21 @@
             :title="$t('Pak出力先')"
             default-path="output.pak"
             :disable="watching"
-            @update:model-value="updatecache('autoPak.pakPath', $event)" />
+            @update:model-value="updatecache('autoPak.pakPath', $event)"
+          />
           <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
           <template v-if="watching">
             <q-btn
               color="negative"
-              @click="stopAutoPak">{{ $t('停止') }}</q-btn>
+              @click="stopAutoPak"
+            >{{ $t('停止') }}</q-btn>
           </template>
           <template v-else>
             <q-btn
               color="primary"
-              @click="startAutoPak">{{ $t('開始') }}</q-btn>
+              @click="startAutoPak"
+            >{{ $t('開始') }}</q-btn>
           </template>
         </q-page>
       </template>
@@ -47,7 +53,8 @@
       <template #after>
         <q-page
           padding
-          class="bg-dark">
+          class="bg-dark"
+        >
           <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
           <LogViewer :logger="logger" />
         </q-page>

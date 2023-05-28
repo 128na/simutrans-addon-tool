@@ -10,7 +10,8 @@
     <ul>
       <li
         v-for="link in officialLinks"
-        :key="link.url">
+        :key="link.url"
+      >
         <p>
           <ExternalLink :url="link.url">{{ link.title }}</ExternalLink>
           {{ $t(link.description) }}
@@ -24,7 +25,8 @@
     <ul>
       <li
         v-for="link in unofficialLinks"
-        :key="link.url">
+        :key="link.url"
+      >
         <p>
           <ExternalLink :url="link.url">{{ link.title }}</ExternalLink>
           {{ $t(link.description) }}
@@ -37,7 +39,8 @@
       <ul>
         <li
           v-for="link in devLinks"
-          :key="link.url">
+          :key="link.url"
+        >
           <p>
             <ExternalLink :url="link.url" />
           </p>

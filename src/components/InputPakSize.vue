@@ -18,7 +18,8 @@
       :outline="modelValue === size ? false : true"
       :color="modelValue === size ? 'primary' : 'secondary'"
       :disable="disable"
-      @click="$emit('update:modelValue', size)">
+      @click="$emit('update:modelValue', size)"
+    >
       {{ size }}
     </q-btn>
   </q-btn-group>

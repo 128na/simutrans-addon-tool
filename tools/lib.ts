@@ -2,28 +2,30 @@ import fs from 'fs';
 import path from 'path';
 
 interface FileEnt {
-  [path: string]: string
+  [path: string]: string;
 }
 
 interface LangEnt {
-  [lang: string]: MessageEnt
+  [lang: string]: MessageEnt;
 }
 
 interface MessageEnt {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export const readJsFiles = (dir: string) => {
-  return fs
-    .readdirSync(dir, { withFileTypes: true })
-    .flatMap((dirent): string | string[] => {
-      if (dirent.isFile()) {
-        return path.join(dir, dirent.name);
-      }
-      return readJsFiles(path.join(dir, dirent.name));
-    })
-    // 翻訳ファイル以外のts,vueファイル
-    .filter(f => !f.includes('i18n') && (f.endsWith('.ts') || f.endsWith('.vue')));
+  return (
+    fs
+      .readdirSync(dir, { withFileTypes: true })
+      .flatMap((dirent): string | string[] => {
+        if (dirent.isFile()) {
+          return path.join(dir, dirent.name);
+        }
+        return readJsFiles(path.join(dir, dirent.name));
+      })
+      // 翻訳ファイル以外のts,vueファイル
+      .filter((f) => !f.includes('i18n') && (f.endsWith('.ts') || f.endsWith('.vue')))
+  );
 };
 
 export const readContent = (files: string[]): FileEnt => {
@@ -31,7 +33,7 @@ export const readContent = (files: string[]): FileEnt => {
     prev[current] = fs.readFileSync(current).toString();
     return prev;
   }, {} as { [path: string]: string });
-}
+};
 
 export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
   const exists = [];
@@ -47,7 +49,7 @@ export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
     }
   }
   return { exists, notExists };
-}
+};
 
 export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null => {
   for (const filename in jsFiles) {
@@ -56,4 +58,4 @@ export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null 
     }
   }
   return null;
-}
+};

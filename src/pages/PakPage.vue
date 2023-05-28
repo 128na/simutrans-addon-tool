@@ -2,7 +2,8 @@
   <q-page>
     <q-splitter
       v-model="splitterModel"
-      class="max-height-without-header">
+      class="max-height-without-header"
+    >
       <template #before>
         <q-page padding>
           <MainTitle>
@@ -12,20 +13,23 @@
           <SelectDir
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
-            @update:model-value="updatecache('pak.sourcePath', $event)" />
+            @update:model-value="updatecache('pak.sourcePath', $event)"
+          />
           <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"
             :title="$t('Pakサイズ')"
-            @update:model-value="updatecache('pak.size', $event)" />
+            @update:model-value="updatecache('pak.size', $event)"
+          />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
           <SaveFile
             v-model="pakPath"
             :title="$t('Pak出力先')"
             default-path="output.pak"
-            @update:model-value="updatecache('pak.pakPath', $event)" />
+            @update:model-value="updatecache('pak.pakPath', $event)"
+          />
           <InfoText>
             {{ $t('生成したPakファイルの保存先を選択します。') }}<br />
             {{ $t('未選択の場合はソースフォルダ、サブフォルダ内にアドオン単位で生成されます。') }}
@@ -34,10 +38,12 @@
           <q-btn-group>
             <q-btn
               color="primary"
-              @click="startPak">{{ $t('実行') }}</q-btn>
+              @click="startPak"
+            >{{ $t('実行') }}</q-btn>
             <q-btn
               color="negative"
-              @click="stopPak">{{ $t('停止') }}</q-btn>
+              @click="stopPak"
+            >{{ $t('停止') }}</q-btn>
           </q-btn-group>
         </q-page>
       </template>
@@ -45,7 +51,8 @@
       <template #after>
         <q-page
           padding
-          class="bg-dark">
+          class="bg-dark"
+        >
           <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
           <LogViewer :logger="logger" />
         </q-page>

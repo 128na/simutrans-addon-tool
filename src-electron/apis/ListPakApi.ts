@@ -21,7 +21,7 @@ export default class ListPakApi extends Api {
     }
     // pakディレクトリをルートとして相対パスを返す
     return result.map((r): PakConvertedAddon => {
-      return { file: r.pak.replace(options.target, ''), objs: r.objs }
+      return { file: r.pak.replace(options.target, ''), objs: r.objs };
     });
   }
 }

@@ -28,7 +28,8 @@
     <ul>
       <li
         v-for="(value, key) in histories"
-        :key="key">v{{ key }} {{ $t(value) }}</li>
+        :key="key"
+      >v{{ key }} {{ $t(value) }}</li>
     </ul>
   </q-page>
 </template>
@@ -45,5 +46,5 @@ const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
 
 const latest = await window.githubAPI.getLatestRelease();
-console.log({latest})
+console.log({ latest });
 </script>

@@ -2,7 +2,8 @@
   <q-page>
     <q-splitter
       v-model="splitterModel"
-      class="max-height-without-header">
+      class="max-height-without-header"
+    >
       <template #before>
         <q-page padding>
           <MainTitle>
@@ -13,7 +14,8 @@
             v-model="targetDatDir"
             :disable="running"
             :title="$t('フォルダ')"
-            @update:model-value="updatecache('targetDatDir', $event)" />
+            @update:model-value="updatecache('targetDatDir', $event)"
+          />
           <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <q-btn-group>
@@ -34,21 +36,24 @@
               outline
               color="secondary"
               :label="$t('コピー（テキスト）')"
-              @click="copyText"/>
+              @click="copyText"
+            />
             <q-separator />
             <q-btn
               outline
               color="secondary"
               :label="$t('コピー（json）')"
-              @click="copyJson"/>
+              @click="copyJson"
+            />
             <q-separator />
             <q-btn
               outline
               color="secondary"
               :label="$t('コピー（json元データ）')"
-              @click="copyRawJson"/>
+              @click="copyRawJson"
+            />
           </q-btn-group>
-          <InfoText v-show="datCount !== null">{{$t('概要')}} dat: {{ datCount }}{{$t('個')}}, obj: {{ objCount }}{{$t('個')}}</InfoText >
+          <InfoText v-show="datCount !== null">{{ $t('概要') }} dat: {{ datCount }}{{ $t('個') }}, obj: {{ objCount }}{{ $t('個') }}</InfoText>
           <q-input
             :model-value="addonText"
             :readonly="true"
@@ -84,16 +89,18 @@ const addonText = computed(() => {
   if (!addons.value) {
     return t('ここに実行結果が出力されます。');
   }
-  return addons.value.map(a => {
-    return `${a.file}\n${a.dat.objs.map(o=>o.name).join('\n')}`;
-  }).join('\n')
+  return addons.value
+    .map((a) => {
+      return `${a.file}\n${a.dat.objs.map((o) => o.name).join('\n')}`;
+    })
+    .join('\n');
 });
 const addonObjs = computed(() => {
   if (!addons.value) {
     return t('ここに実行結果が出力されます。');
   }
-  return addons.value.map(a => {
-    return { file: a.file, objs: a.dat.objs.map(o => o.name) };
+  return addons.value.map((a) => {
+    return { file: a.file, objs: a.dat.objs.map((o) => o.name) };
   });
 });
 const objCount = computed(() => {
@@ -101,16 +108,16 @@ const objCount = computed(() => {
     return null;
   }
   return addons.value.reduce((total, a) => total + a.dat.objs.length, 0);
-})
+});
 const datCount = computed(() => {
   if (!addons.value) {
     return null;
   }
   return addons.value.length;
-})
+});
 
 const $q = useQuasar();
-const copy = async (text:string) => {
+const copy = async (text: string) => {
   try {
     await copyToClipboard(text);
     $q.notify({ type: 'positive', message: t('コピーしました') });
@@ -119,9 +126,15 @@ const copy = async (text:string) => {
   }
 };
 
-const copyText = () => { copy(addonText.value); };
-const copyJson = () => { copy(JSON.stringify(addonObjs.value, null,4)); };
-const copyRawJson = () => { copy(JSON.stringify(addons.value, null,4)); };
+const copyText = () => {
+  copy(addonText.value);
+};
+const copyJson = () => {
+  copy(JSON.stringify(addonObjs.value, null, 4));
+};
+const copyRawJson = () => {
+  copy(JSON.stringify(addons.value, null, 4));
+};
 
 const store = useSettingsStore();
 const startList = async () => {
@@ -136,18 +149,17 @@ const startList = async () => {
     running.value = true;
     addons.value = null;
 
-      const result = await window.makeobjApi.listFromDat({
+    const result = await window.makeobjApi.listFromDat({
       makeobjPath: store.makeobjPath,
       target: targetDatDir.value,
     });
-    addons.value = result.map(r => {
+    addons.value = result.map((r) => {
       return {
         file: r.file,
-        dat: new Dat(r.dat)
-      }
+        dat: new Dat(r.dat),
+      };
     });
   } catch (error) {
-
   } finally {
     running.value = false;
   }

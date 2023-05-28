@@ -87,6 +87,5 @@ export default class ElectronApi extends Api {
 
     ipcMain.removeHandler('setCache');
     ipcMain.handle('setCache', (event, key: string, value: unknown) => this.store.set(`cache.${key}`, value));
-
   }
 }
