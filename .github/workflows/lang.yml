@@ -1,9 +1,8 @@
 on:
   workflow_dispatch:
   push:
-    paths:
-      - '**.ts'
-      - '**.vue'
+    branches:
+      - main
   pull_request:
     paths:
       - '**.ts'

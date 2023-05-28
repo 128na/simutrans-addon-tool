@@ -1,20 +1,8 @@
 on:
   workflow_dispatch:
   push:
-    paths:
-      - '**.js'
-      - '**.mjs'
-      - '**.cjs'
-      - '**.jsx'
-      - '**.ts'
-      - '**.mts'
-      - '**.cts'
-      - '**.tsx'
-      - '**.vue'
-      - '**.json'
-      - '**.scss'
-      - '**.html'
-      - '**.md'
+    branches:
+      - main
   pull_request:
     paths:
       - '**.js'
