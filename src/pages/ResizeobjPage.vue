@@ -24,7 +24,7 @@
           <div class="q-mb-md">
             <q-input
               v-model.number="resizeOptions.a"
-              :label="$t('アンチエイリアス')"
+              :label="$t('-A : アンチエイリアス')"
               :max="100"
               :min="0"
               type="number"
@@ -32,7 +32,7 @@
           </div>
 
           <div class="q-mb-md">
-            <label>{{ $t('-A 画像縮小時の特殊色') }}</label>
+            <label>{{ $t('-S : 画像縮小時の特殊色') }}</label>
             <q-option-group
               v-model="resizeOptions.s"
               :options="[
@@ -46,13 +46,13 @@
           <div class="q-mb-md">
             <InputPakSize
               v-model="resizeOptions.w"
-              :title="$t('-W 変換後のPakサイズ')"
+              :title="$t('-W : 変換後のPakサイズ')"
               @update:model-value="updatecache('resizeOptions.w', $event)" />
             <InfoText>{{ $t('変換後のPakサイズを指定します。') }}</InfoText>
           </div>
 
           <div class="q-mb-md">
-            <label>{{ $t('-K 原寸大モード') }}</label>
+            <label>{{ $t('-K : 原寸大モード') }}</label>
             <q-option-group
               v-model="resizeOptions.k"
               :options="[
@@ -62,7 +62,7 @@
               @update:model-value="updatecache('resizeOptions.k', $event)" />
           </div>
           <div class="q-mb-md">
-            <label>{{ $t('-Ka 原寸大モードでのアニメーション') }}</label>
+            <label>{{ $t('-Ka : 原寸大モードでのアニメーション') }}</label>
             <q-option-group
               v-model="resizeOptions.ka"
               :options="[
@@ -72,7 +72,7 @@
               @update:model-value="updatecache('resizeOptions.ka', $event)" />
           </div>
           <div class="q-mb-md">
-            <label>{{ $t('-X 拡大モード') }}</label>
+            <label>{{ $t('-X : 拡大モード') }}</label>
             <q-option-group
               v-model="resizeOptions.x"
               :options="[
@@ -85,20 +85,20 @@
           <div class="q-mb-md">
             <q-input
               v-model.number="resizeOptions.m"
-              :label="$t('-M オフセット')"
+              :label="$t('-M : オフセット')"
               type="number"
               @update:model-value="updatecache('resizeOptions.m', $event)" />
             <q-input
               v-model="resizeOptions.e"
-              :label="$t('-E 出力ファイルの拡張子')"
+              :label="$t('-E : 出力ファイルの拡張子')"
               @update:model-value="updatecache('resizeOptions.e', $event)" />
             <q-input
               v-model="resizeOptions.t"
-              :label="$t('-T アドオン名先頭への追加文字')"
+              :label="$t('-T : アドオン名先頭への追加文字')"
               @update:model-value="updatecache('resizeOptions.t', $event)" />
           </div>
           <div class="q-mb-md">
-            <label>{{ $t('-N ヘッダ書き換え') }}</label>
+            <label>{{ $t('-N : ヘッダ書き換え') }}</label>
             <q-option-group
               v-model="resizeOptions.n"
               :options="[
