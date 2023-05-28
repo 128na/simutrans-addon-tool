@@ -17,11 +17,23 @@
           />
           <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
 
+          <SubTitle>
+            {{ $t('用途別プリセット') }}
+          </SubTitle>
+          <ResizeobjPresets @select-preset="setOptions" />
+
+          <SubTitle>
+            {{ $t('オプション') }}
+          </SubTitle>
+
           <div>
-            <q-toggle
-              v-model="showOption"
-              :label="$t('オプションを表示')"
+            <q-btn
+              color="secondary"
+              outline
+              dense
+              :label="$t('表示する')"
               class="q-mb-md"
+              @click="showOption=!showOption"
             />
           </div>
 
@@ -118,8 +130,8 @@
                   color="negative"
                   dense
                   outline
-                  @click="resetOption"
-                >{{ $t('オプション初期化') }}</q-btn>
+                  @click="setOptions()"
+                >{{ $t('オプションをリセット') }}</q-btn>
               </div>
             </div>
           </q-slide-transition>
@@ -150,23 +162,24 @@ import LogViewer from '../components/LogViewer.vue';
 import SelectDir from '../components/SelectDir.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
-import SubTitle from 'src/components/SubTitle.vue';
+import ResizeobjPresets from 'src/components/ResizeobjPresets.vue';
 import { useI18n } from 'vue-i18n';
 import { ResizeobjOptions } from 'app/types/global';
 import { useSettingsStore } from 'src/stores/settings';
 import InputPakSize from 'src/components/InputPakSize.vue';
 import ExternalLink from 'src/components/ExternalLink.vue';
+import SubTitle from 'src/components/SubTitle.vue';
 
 const splitterModel = ref(50);
 
 const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string);
 
 const showOption = ref(false);
-const defaultOption: ResizeobjOptions = { a: 0, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
+const defaultOption: ResizeobjOptions = { a: 100, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
 const options = ref(Object.assign({}, defaultOption, (await window.electronAPI.getCache('resizeobj.options')) || {}) as unknown as ResizeobjOptions);
-const resetOption = () => {
-  options.value = Object.assign({}, defaultOption);
-  updatecache('resizeobj.options', defaultOption);
+const setOptions = (opt:ResizeobjOptions = {}) => {
+  options.value = Object.assign({}, defaultOption, opt);
+  updatecache('resizeobj.options', Object.assign({}, defaultOption, opt));
 };
 
 const logger = ref(new Logger());
