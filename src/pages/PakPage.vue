@@ -12,20 +12,20 @@
           <SelectDir
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
-            @update:model-value="updatecache('sourcePath', $event)" />
+            @update:model-value="updatecache('pak.sourcePath', $event)" />
           <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"
             :title="$t('Pakサイズ')"
-            @update:model-value="updatecache('size', $event)" />
+            @update:model-value="updatecache('pak.size', $event)" />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
           <SaveFile
             v-model="pakPath"
             :title="$t('Pak出力先')"
             default-path="output.pak"
-            @update:model-value="updatecache('pakPath', $event)" />
+            @update:model-value="updatecache('pak.pakPath', $event)" />
           <InfoText>
             {{ $t('生成したPakファイルの保存先を選択します。') }}<br />
             {{ $t('未選択の場合はソースフォルダ、サブフォルダ内にアドオン単位で生成されます。') }}
@@ -68,9 +68,9 @@ import { useSettingsStore } from 'src/stores/settings';
 
 const splitterModel = ref(50);
 
-const sourcePath = ref(((await window.electronAPI.getCache('sourcePath')) || '') as string);
-const pakPath = ref(((await window.electronAPI.getCache('pakPath')) || '') as string);
-const size = ref(((await window.electronAPI.getCache('size')) || 128) as number);
+const sourcePath = ref(((await window.electronAPI.getCache('pak.sourcePath')) || '') as string);
+const pakPath = ref(((await window.electronAPI.getCache('pak.pakPath')) || '') as string);
+const size = ref(((await window.electronAPI.getCache('pak.size')) || 128) as number);
 const logger = ref(new Logger());
 logger.value.info('ここに実行結果が出力されます。');
 
