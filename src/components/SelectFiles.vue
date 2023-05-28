@@ -1,8 +1,10 @@
 <template>
   <q-input
-    :model-value="modelValue || $t(unselectLabel)"
+    :model-value="modelValue.join('\n') || $t(unselectLabel)"
     :readonly="true"
     :label="title"
+    autogrow
+    type="textarea"
     class="q-mb-sm"
     @click="modelValue || handle()"
   />
@@ -29,7 +31,7 @@
       outline
       dense
       color="secondary"
-      :disable="!modelValue"
+      :disable="!modelValue.length"
       @click="open"
     >
       {{ $t(openLabel) }}
@@ -37,14 +39,17 @@
   </q-btn-group>
 </template>
 <script setup lang="ts">
+import type { FileFilter } from 'electron';
+
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue: string[];
     title: string;
     unselectLabel?: string;
     selectLabel?: string;
     openLabel?: string;
     clearLabel?: string;
+    filters?: FileFilter[];
     disable?: boolean;
   }>(),
   {
@@ -52,14 +57,15 @@ const props = withDefaults(
     selectLabel: '選択',
     openLabel: 'フォルダ表示',
     clearLabel: 'クリア',
+    filters: () => [],
     disable: false,
   }
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string];
+  'update:modelValue': [value: string[]];
 }>();
-const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.selectDir());
-const clear = async () => props.disable === false && emit('update:modelValue', '');
-const open = () => window.electronAPI.openDir(props.modelValue);
+const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.selectMultiFiles({ filters: props.filters }));
+const clear = async () => props.disable === false && emit('update:modelValue', []);
+const open = () => window.electronAPI.openDir(props.modelValue[0]);
 </script>

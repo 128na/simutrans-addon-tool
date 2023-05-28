@@ -94,5 +94,6 @@ module.exports = {
     'vue/html-indent': ['error', 2, {
       'alignAttributesVertically': false,
     }],
+    'vue/html-closing-bracket-newline':'error',
   },
 };

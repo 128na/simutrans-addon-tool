@@ -11,10 +11,11 @@
   },
   "scripts": {
     "lint:check": "eslint --ext .js,.ts,.vue ./",
-    "lint": "eslint --fix --ext .js,.ts,.vue ./",
+    "lint": "npm run format:js && eslint --fix --ext .js,.ts,.vue ./",
+    "format:js": "prettier --write \"**/*.{js,ts,vue}\"",
     "format": "prettier --write \"**/*.{scss,html,md}\"",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev -m electron",
+    "dev": "chcp 65001 && quasar dev -m electron",
     "build": "quasar build -m electron",
     "build:debug": "quasar build -m electron -d",
     "lang:check": "ts-node ./tools/validate-translate.ts",

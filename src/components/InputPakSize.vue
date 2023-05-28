@@ -8,18 +8,18 @@
     :max="32767"
     :readonly="disable"
     class="q-mb-sm"
-    @input:model-value="$emit('update:modelValue', Number($event.target.value))"
-    @change:model-value="$emit('update:modelValue', Number($event.target.value))" />
-
+    @update:model-value="$emit('update:modelValue', Number($event))"
+  />
   <q-btn-group outline>
     <q-btn
       v-for="size in sizes"
       :key="size"
-      outline
       dense
-      color="secondary"
+      :outline="modelValue === size ? false : true"
+      :color="modelValue === size ? 'primary' : 'secondary'"
       :disable="disable"
-      @click="$emit('update:modelValue', size)">
+      @click="$emit('update:modelValue', size)"
+    >
       {{ size }}
     </q-btn>
   </q-btn-group>

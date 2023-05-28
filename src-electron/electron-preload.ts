@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { listOption, startAutoPakOption, startPakOption, updatePakArgs } from 'app/types/global';
+import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -37,25 +37,31 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectDir: () => ipcRenderer.invoke('selectDir'),
   showError: (message: string) => ipcRenderer.invoke('showError', message),
   selectSingleFile: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: false, ...options }),
+  selectMultiFiles: (options?: OpenDialogOptions) => ipcRenderer.invoke('selectFile', { multiSelections: true, ...options }),
   saveFile: (options: SaveDialogOptions) => ipcRenderer.invoke('saveFile', options),
   openUrl: (path: string) => ipcRenderer.invoke('openUrl', path),
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),
   getCache: (key: string) => ipcRenderer.invoke('getCache', key),
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
+
+  ipcMessenger: (callback: ipcMessengerCb) => ipcRenderer.on('ipcMessenger', callback),
 });
 
 contextBridge.exposeInMainWorld('makeobjApi', {
   startPak: (options: startPakOption) => ipcRenderer.send('startPak', options),
   stopPak: () => ipcRenderer.send('stopPak'),
-  updatePak: (callback: updatePakArgs) => ipcRenderer.on('updatePak', callback),
 
   startAutoPak: (options: startAutoPakOption) => ipcRenderer.send('startAutoPak', options),
   stopAutoPak: () => ipcRenderer.send('stopAutoPak'),
-  updateAutoPak: (callback: updatePakArgs) => ipcRenderer.on('updateAutoPak', callback),
+
   listFromPak: (options: listOption) => ipcRenderer.invoke('listFromPak', options),
   listFromDat: (options: listOption) => ipcRenderer.invoke('listFromDat', options),
 });
 
 contextBridge.exposeInMainWorld('githubAPI', {
   getLatestRelease: () => ipcRenderer.invoke('getLatestRelease'),
+});
+
+contextBridge.exposeInMainWorld('resizeobjAPI', {
+  resizeobj: (args: ResizeobjArgs) => ipcRenderer.send('resizeobj', args),
 });

@@ -2,7 +2,8 @@
   <q-page>
     <q-splitter
       v-model="splitterModel"
-      class="max-height-without-header">
+      class="max-height-without-header"
+    >
       <template #before>
         <q-page padding>
           <MainTitle>
@@ -13,14 +14,16 @@
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
             :disable="watching"
-            @update:model-value="updatecache('sourcePath', $event)" />
-          <InfoText>{{ $t('datファイルのあるフォルダを選択します。') }}</InfoText>
+            @update:model-value="updatecache('autoPak.sourcePath', $event)"
+          />
+          <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
           <InputPakSize
             v-model="size"
             :title="$t('Pakサイズ')"
             :disable="watching"
-            @update:model-value="updatecache('size', $event)" />
+            @update:model-value="updatecache('autoPak.size', $event)"
+          />
           <InfoText>{{ $t('Pakサイズを指定します。（16～32767）') }}</InfoText>
 
           <SaveFile
@@ -28,18 +31,21 @@
             :title="$t('Pak出力先')"
             default-path="output.pak"
             :disable="watching"
-            @update:model-value="updatecache('pakPath', $event)" />
+            @update:model-value="updatecache('autoPak.pakPath', $event)"
+          />
           <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
           <template v-if="watching">
             <q-btn
               color="negative"
-              @click="stopAutoPak">{{ $t('停止') }}</q-btn>
+              @click="stopAutoPak"
+            >{{ $t('停止') }}</q-btn>
           </template>
           <template v-else>
             <q-btn
               color="primary"
-              @click="startAutoPak">{{ $t('開始') }}</q-btn>
+              @click="startAutoPak"
+            >{{ $t('開始') }}</q-btn>
           </template>
         </q-page>
       </template>
@@ -47,7 +53,8 @@
       <template #after>
         <q-page
           padding
-          class="bg-dark">
+          class="bg-dark"
+        >
           <SubTitle class="text-white">{{ $t('実行ログ') }}</SubTitle>
           <LogViewer :logger="logger" />
         </q-page>
@@ -71,9 +78,9 @@ import { useSettingsStore } from 'src/stores/settings';
 const splitterModel = ref(50);
 const watching = ref(false);
 
-const sourcePath = ref(((await window.electronAPI.getCache('sourcePath')) || '') as string);
-const pakPath = ref(((await window.electronAPI.getCache('pakPath')) || '') as string);
-const size = ref(((await window.electronAPI.getCache('size')) || 128) as number);
+const sourcePath = ref(((await window.electronAPI.getCache('autoPak.sourcePath')) || '') as string);
+const pakPath = ref(((await window.electronAPI.getCache('autoPak.pakPath')) || '') as string);
+const size = ref(((await window.electronAPI.getCache('autoPak.size')) || 128) as number);
 const logger = ref(new Logger());
 logger.value.info('ここに実行結果が出力されます。');
 
@@ -87,13 +94,13 @@ const stopAutoPak = () => {
 };
 const startAutoPak = () => {
   if (!sourcePath.value) {
-    return window.electronAPI.showError(t('ソースフォルダが選択されていません'));
+    return window.electronAPI.showError(t('ソースフォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません'));
+    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
   }
   if (!store.simutransPath) {
-    return window.electronAPI.showError(t('Simutransが選択されていません'));
+    return window.electronAPI.showError(t('Simutransが選択されていません。'));
   }
   if (!pakPath.value) {
     return window.electronAPI.showError('pak出力先が選択されていません');
@@ -109,7 +116,9 @@ const startAutoPak = () => {
   });
 };
 
-window.makeobjApi.updateAutoPak((event, level, message, args = undefined) => {
-  logger.value[level](message, args);
+window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {
+  if (channel === 'autoPak') {
+    logger.value[level](message, args);
+  }
 });
 </script>

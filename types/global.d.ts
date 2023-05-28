@@ -9,20 +9,21 @@ declare global {
       showError: (message: string) => Promise<string>;
       selectDir: () => Promise<string>;
       selectSingleFile: (options: Electron.OpenDialogOptions) => Promise<string>;
+      selectMultiFiles: (options: Electron.OpenDialogOptions) => Promise<string[]>;
       saveFile: (options: Electron.SaveDialogOptions) => Promise<string>;
       openUrl: (url: string) => Promise<void>;
       openDir: (path: string) => Promise<string>;
       getCache: (key: string) => Promise<unknown>;
       setCache: (key: string, value: unknown) => Promise<void>;
+
+      ipcMessenger: (callback: ipcMessengerCb) => void;
     };
     makeobjApi: {
       startPak: (options: startPakOption) => void;
       stopPak: () => void;
-      updatePak: (callback: updatePakArgs) => void;
 
       startAutoPak: (options: startAutoPakOption) => void;
       stopAutoPak: () => void;
-      updateAutoPak: (callback: updatePakArgs) => void;
 
       listFromPak: (options: listOption) => Promise<PakConvertedAddon[]>;
       listFromDat: (options: listOption) => Promise<DatAddon[]>;
@@ -31,6 +32,9 @@ declare global {
       getLatestRelease: () => Promise<OctokitResponse>;
     };
 
+    resizeobjAPI: {
+      resizeobj: (args: ResizeobjArgs) => Promise<unknown>;
+    };
   }
 }
 
@@ -54,8 +58,10 @@ interface listOption {
   target: string;
 }
 
-interface updatePakArgs {
-  (event: Electron.IpcRendererEvent, level: Level, message: string, args?: unknown): void;
+type IpcChannel = 'pak' | 'autoPak' | 'resizeobj';
+
+interface ipcMessengerCb {
+  (event: Electron.IpcRendererEvent, channel: IpcChannel, level: Level, message: string, args?: unknown): void;
 }
 
 interface DatAddon {
@@ -73,4 +79,23 @@ interface PakAddon {
 interface PakConvertedAddon {
   file: string;
   objs: string[];
+}
+
+interface ResizeobjArgs {
+  resizeobjPath: string;
+  target: string[];
+  options: ResizeobjOptions;
+}
+interface ResizeobjOptions {
+  [key: string]: unknown;
+  a?: number;
+  s?: 0 | 1 | 2;
+  w?: number;
+  k?: boolean;
+  ka?: boolean;
+  x?: boolean;
+  m?: number;
+  e?: string;
+  t?: string;
+  n?: boolean;
 }
