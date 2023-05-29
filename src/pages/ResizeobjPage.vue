@@ -172,7 +172,7 @@ import SelectFiles from 'src/components/SelectFiles.vue';
 
 const splitterModel = ref(50);
 
-const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string[]);
+const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || []) as string[]);
 
 const showOption = ref(false);
 const defaultOption: ResizeobjOptions = { a: 100, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
@@ -189,7 +189,7 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const store = useSettingsStore();
 const { t } = useI18n();
-const start = async () => {
+const start = () => {
   if (!targetPath.value.length) {
     return window.electronAPI.showError(t('Pakファイルが選択されていません。'));
   }
@@ -197,12 +197,11 @@ const start = async () => {
     return window.electronAPI.showError(t('resizeが選択されていません'));
   }
 
-  const result = await window.resizeobjAPI.resizeobj({
+  window.resizeobjAPI.resizeobj({
     resizeobjPath: store.resizeobjPath,
     target: [...targetPath.value],
     options: Object.assign({}, options.value),
   });
-  console.log({ result });
 };
 
 window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {
