@@ -43,6 +43,16 @@
         </q-item>
         <q-item
           clickable
+          :to="{ name: 'image' }"
+        >
+          <q-item-section avatar><q-icon name="brush" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('画像変換') }}</q-item-label>
+            <q-item-label caption>{{ $t('透過色や特殊色の操作') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
           :to="{ name: 'pak' }"
         >
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>

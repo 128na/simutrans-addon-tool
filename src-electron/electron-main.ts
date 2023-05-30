@@ -11,6 +11,7 @@ import ListDatApi from './apis/ListDatApi';
 import GithubApi from './apis/GithubApi';
 import ElectronApi from './apis/ElectronApi';
 import MenuApi from './apis/MenuApi';
+import MergeImageApi from './apis/MergeImageApi';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -19,7 +20,7 @@ try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'));
   }
-} catch (_) {}
+} catch (_) { }
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -53,6 +54,7 @@ function createWindow() {
   new PakApi(new Messenger(mainWindow, 'pak'));
   new AutoPakApi(new Messenger(mainWindow, 'autoPak'));
   new ResizeobjApi(new Messenger(mainWindow, 'resizeobj'));
+  new MergeImageApi(new Messenger(mainWindow, 'mergeImage'));
 
   mainWindow.loadURL(process.env.APP_URL);
 

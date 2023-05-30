@@ -13,6 +13,7 @@
           <SelectFiles
             v-model="targetPath"
             :title="$t('Pakファイル')"
+            :filters="[{ name: 'pak', extensions: ['pak'] }]"
             @update:model-value="updatecache('resizeobj.targetPath', $event)"
           />
           <InfoText>{{ $t('Pakファイルを選択します。') }}</InfoText>

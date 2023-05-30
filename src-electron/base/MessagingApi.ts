@@ -1,5 +1,6 @@
 import Messenger from '../services/Messenger';
 import FileManager from '../services/FileManager';
+import { SpawnOptionsWithoutStdio, spawn } from 'child_process';
 
 export default abstract class MessagingApi {
   messenger: Messenger;
@@ -13,6 +14,27 @@ export default abstract class MessagingApi {
   }
 
   protected abstract register(): void;
+
+  protected spawn(exePath: string, args: string[] = [], options: SpawnOptionsWithoutStdio = {}) {
+    return new Promise<number | null>((ok) => {
+      const child = spawn(exePath, args, options);
+      child.stdout.on('data', (data) => this.onStdout(data));
+      child.stderr.on('data', (data) => this.onStderr(data));
+      child.on('close', (code) => ok(code));
+    });
+  }
+
+  protected onStdout(data: Buffer): void {
+    return this.messenger.send('MessagingApi.onStdout', 'success', this.bufferToString(data));
+  }
+
+  protected onStderr(data: Buffer): void {
+    return this.messenger.send('MessagingApi.onStderr', 'error', this.bufferToString(data));
+  }
+
+  protected bufferToString(buf: Buffer): string {
+    return buf.toString().replace(/\r\n/gi, '\n').replace(/\r/gi, '\n');
+  }
 
   /**
    * エラーキャッチ

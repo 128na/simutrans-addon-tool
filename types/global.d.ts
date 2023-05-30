@@ -33,8 +33,13 @@ declare global {
     };
 
     resizeobjAPI: {
-      resizeobj: (args: ResizeobjArgs) => Promise<unknown>;
+      resizeobj: (args: ResizeobjArgs) => Promise<void>;
     };
+
+    imageAPI: {
+      merge: (options: mergeImageOption) => Promise<void>;
+    };
+
   }
 }
 
@@ -58,7 +63,7 @@ interface listOption {
   target: string;
 }
 
-type IpcChannel = 'pak' | 'autoPak' | 'resizeobj';
+type IpcChannel = 'pak' | 'autoPak' | 'resizeobj' | 'mergeImage';
 
 interface ipcMessengerCb {
   (event: Electron.IpcRendererEvent, channel: IpcChannel, level: Level, message: string, args?: unknown): void;
@@ -98,4 +103,41 @@ interface ResizeobjOptions {
   e?: string;
   t?: string;
   n?: boolean;
+}
+
+interface MergeImageOption {
+  definitions: MergeDefinition[]
+}
+interface MergeDefinition {
+  outputPath: string;
+  rules: MergeRule[];
+}
+interface MergeRule {
+  /* ルール名 */
+  name: string;
+}
+
+/* 画像合成ルール */
+interface MergeImageRule extends MergeRule {
+  name: 'mergeImage';
+  /* ファイルパス */
+  pathes: string[]
+  /* 合成方式 */
+  mode: 'normal'
+}
+/* 透明を透過色にする */
+interface RemoveTransparentRule extends MergeRule {
+  name: 'removeTransparent';
+  /* 透明色に置換するアルファの閾値(0-255) */
+  threthold: number
+}
+/* 指定色置換 */
+interface ReplaceColorRule extends MergeRule {
+  name: 'replaceColor';
+  from: RGB;
+  to: RGB;
+}
+/* 特殊色削除 */
+interface RemoveSpecialColorRule extends MergeRule {
+  name: 'removeSpecialColor';
 }
