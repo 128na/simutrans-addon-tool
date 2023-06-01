@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb, MergeImageOption } from 'app/types/global';
+import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb, ImageMergeOption } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -43,6 +43,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openDir: (path: string) => ipcRenderer.invoke('openDir', path),
   getCache: (key: string) => ipcRenderer.invoke('getCache', key),
   setCache: (key: string, value: unknown) => ipcRenderer.invoke('setCache', key, value),
+  readFile: (filepath: string) => ipcRenderer.invoke('readFile', filepath),
+  writeFile: (filepath: string, data: string) => ipcRenderer.invoke('writeFile', filepath, data),
 
   ipcMessenger: (callback: ipcMessengerCb) => ipcRenderer.on('ipcMessenger', callback),
 });
@@ -66,6 +68,6 @@ contextBridge.exposeInMainWorld('resizeobjAPI', {
   resizeobj: (args: ResizeobjArgs) => ipcRenderer.send('resizeobj', args),
 });
 
-contextBridge.exposeInMainWorld('imageAPI', {
-  merge: (options: MergeImageOption) => ipcRenderer.send('merge', options),
+contextBridge.exposeInMainWorld('imageMergerAPI', {
+  merge: (options: ImageMergeOption) => ipcRenderer.send('merge', options),
 });

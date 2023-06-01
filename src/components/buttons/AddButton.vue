@@ -1,0 +1,9 @@
+<template>
+  <q-btn
+    round
+    outline
+    size="sm"
+    color="secondary"
+    icon="add"
+  />
+</template>

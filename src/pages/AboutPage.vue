@@ -47,5 +47,4 @@ const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
 
 const latest = await window.githubAPI.getLatestRelease();
-console.log({ latest });
 </script>

@@ -1,0 +1,62 @@
+<template>
+  <q-expansion-item
+    expand-separator
+    :default-opened="true"
+    :label="`${index + 1}. ${$t('画像合成')}`"
+    :caption="modelValue.comment"
+  >
+    <q-list>
+      <q-item v-show="modelValue.pathes.length < 1">
+        <q-item-section>{{ $t('画像が選択されていません。') }}</q-item-section>
+      </q-item>
+      <q-item
+        v-for="(path, i) in modelValue.pathes"
+        :key="i"
+      >
+        <q-item-section side>
+          <UpButton
+            :disable="i === 0"
+            @click="swap(i, i - 1)"
+          />
+          <DownButton
+            :disable="i === modelValue.pathes.length - 1"
+            @click="swap(i, i + 1)"
+          />
+        </q-item-section>
+        <q-item-section>
+          <span class="breakable">{{ path }}</span>
+          <q-img :src="`local-image://${path}`" />
+        </q-item-section>
+        <q-item-section side>
+          <DeleteButton @click="remove(i)" />
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <AddButton @click="add" />
+      </q-item>
+    </q-list>
+  </q-expansion-item>
+</template>
+<script setup lang="ts">
+import { MergeImageRule } from 'app/types/global';
+import UpButton from '../buttons/UpButton.vue';
+import DownButton from '../buttons/DownButton.vue';
+import DeleteButton from '../buttons/DeleteButton.vue';
+import AddButton from '../buttons/AddButton.vue';
+import { useI18n } from 'vue-i18n';
+const props = defineProps<{
+  modelValue: MergeImageRule;
+  index: number;
+}>();
+const { t } = useI18n();
+const add = async () => {
+  const pathes = await window.electronAPI.selectMultiFiles({ filters: [{ name: 'image', extensions: ['png'] }] });
+  props.modelValue.pathes.splice(-1, 0, ...pathes);
+};
+const remove = async (index: number) => {
+  window.confirm(t('削除しますか？')) && props.modelValue.pathes.splice(index, 1);
+};
+const swap = (index1: number, index2: number) => {
+  props.modelValue.pathes[index1] = props.modelValue.pathes.splice(index2, 1, props.modelValue.pathes[index1])[0];
+};
+</script>

@@ -11,7 +11,8 @@ import ListDatApi from './apis/ListDatApi';
 import GithubApi from './apis/GithubApi';
 import ElectronApi from './apis/ElectronApi';
 import MenuApi from './apis/MenuApi';
-import MergeImageApi from './apis/MergeImageApi';
+import ImageMergerApi from './apis/ImageMergerApi';
+import { registerProtocol } from './apis/FileProtocol';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -20,7 +21,7 @@ try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'));
   }
-} catch (_) { }
+} catch (_) {}
 
 let mainWindow: BrowserWindow | undefined;
 
@@ -54,7 +55,7 @@ function createWindow() {
   new PakApi(new Messenger(mainWindow, 'pak'));
   new AutoPakApi(new Messenger(mainWindow, 'autoPak'));
   new ResizeobjApi(new Messenger(mainWindow, 'resizeobj'));
-  new MergeImageApi(new Messenger(mainWindow, 'mergeImage'));
+  new ImageMergerApi(new Messenger(mainWindow, 'imageMerger'));
 
   mainWindow.loadURL(process.env.APP_URL);
 
@@ -88,4 +89,8 @@ app.on('activate', () => {
   if (mainWindow === undefined) {
     createWindow();
   }
+});
+
+app.on('ready', () => {
+  registerProtocol();
 });

@@ -15,6 +15,8 @@ declare global {
       openDir: (path: string) => Promise<string>;
       getCache: (key: string) => Promise<unknown>;
       setCache: (key: string, value: unknown) => Promise<void>;
+      readFile: (filepath: string) => Promise<string | undefined>;
+      writeFile: (filepath: string, data: string) => Promise<undefined>;
 
       ipcMessenger: (callback: ipcMessengerCb) => void;
     };
@@ -36,10 +38,9 @@ declare global {
       resizeobj: (args: ResizeobjArgs) => Promise<void>;
     };
 
-    imageAPI: {
-      merge: (options: mergeImageOption) => Promise<void>;
+    imageMergerAPI: {
+      merge: (options: ImageMergeOption) => Promise<void>;
     };
-
   }
 }
 
@@ -63,7 +64,7 @@ interface listOption {
   target: string;
 }
 
-type IpcChannel = 'pak' | 'autoPak' | 'resizeobj' | 'mergeImage';
+type IpcChannel = 'pak' | 'autoPak' | 'resizeobj' | 'imageMerger';
 
 interface ipcMessengerCb {
   (event: Electron.IpcRendererEvent, channel: IpcChannel, level: Level, message: string, args?: unknown): void;
@@ -105,47 +106,47 @@ interface ResizeobjOptions {
   n?: boolean;
 }
 
-interface MergeImageOption {
+interface ImageMergeOption {
   version: number;
-  definitions: MergeDefinition[];
-  comment?: string
+  definitions: Definition[];
+  comment?: string;
 }
-interface MergeDefinition {
+interface Definition {
   outputPath: string;
-  rules: MergeRule[];
-  comment?: string
+  rules: Rule[];
+  comment?: string;
 }
-interface MergeRule {
+interface Rule {
   /* ルール名 */
-  name: string;
-  comment?: string
+  name: 'mergeImage' | 'removeTransparent' | 'replaceColor' | 'removeSpecialColor';
+  comment?: string;
 }
 
 /* 画像合成ルール */
-interface MergeImageRule extends MergeRule {
+interface MergeImageRule extends Rule {
   name: 'mergeImage';
   /* ファイルパス */
   pathes: string[];
   /* 合成方式 */
   mode: 'normal';
   offset: {
-    x: number,
-    y: number,
-  }
+    x: number;
+    y: number;
+  };
 }
 /* 透明を透過色にする */
-interface RemoveTransparentRule extends MergeRule {
+interface RemoveTransparentRule extends Rule {
   name: 'removeTransparent';
   /* 透明色に置換するアルファの閾値(0-255) */
-  threthold: number
+  threthold: number;
 }
 /* 指定色置換 */
-interface ReplaceColorRule extends MergeRule {
+interface ReplaceColorRule extends Rule {
   name: 'replaceColor';
   search: RGB;
   replace: RGBA;
 }
 /* 特殊色削除 */
-interface RemoveSpecialColorRule extends MergeRule {
+interface RemoveSpecialColorRule extends Rule {
   name: 'removeSpecialColor';
 }

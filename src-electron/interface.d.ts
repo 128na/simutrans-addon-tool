@@ -13,7 +13,7 @@ interface pixelHandlerArgs {
 }
 
 interface pixelHandler {
-  (option: pixelHandlerArgs): RGBA
+  (option: pixelHandlerArgs): RGBA;
 }
 
 type RGBA = {

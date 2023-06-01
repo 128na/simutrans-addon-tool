@@ -43,16 +43,6 @@
         </q-item>
         <q-item
           clickable
-          :to="{ name: 'image' }"
-        >
-          <q-item-section avatar><q-icon name="brush" /></q-item-section>
-          <q-item-section>
-            <q-item-label>{{ $t('画像変換') }}</q-item-label>
-            <q-item-label caption>{{ $t('透過色や特殊色の操作') }}</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
           :to="{ name: 'pak' }"
         >
           <q-item-section avatar><q-icon name="refresh" /></q-item-section>
@@ -69,6 +59,16 @@
           <q-item-section>
             <q-item-label>{{ $t('自動Pak') }}</q-item-label>
             <q-item-label caption>{{ $t('ソース更新を検知して自動Pak作成') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          :to="{ name: 'imageMerger' }"
+        >
+          <q-item-section avatar><q-icon name="brush" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('画像変換') }}</q-item-label>
+            <q-item-label caption>{{ $t('画像合成や透過色・特殊色の操作') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item

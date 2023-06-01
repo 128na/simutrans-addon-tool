@@ -1,7 +1,7 @@
 import type { BrowserWindow } from 'electron';
 import { dialog, ipcMain, shell } from 'electron';
 import Store from 'electron-store';
-import { existsSync, lstatSync } from 'node:fs';
+import { existsSync, lstatSync, readFile, writeFile } from 'node:fs';
 import { dirname } from 'node:path';
 import Api from '../base/Api';
 
@@ -44,6 +44,36 @@ export default class ElectronApi extends Api {
       });
 
       return multiSelections ? result.filePaths : result.filePaths[0] || '';
+    });
+
+    /**
+     * ファイル読み取り
+     */
+    ipcMain.removeHandler('readFile');
+    ipcMain.handle('readFile', async (event, filepath) => {
+      return new Promise<string | undefined>((ok, ng) => {
+        readFile(filepath, (err, data) => {
+          if (err) {
+            return ng(err);
+          }
+          return ok(data.toString());
+        });
+      });
+    });
+
+    /**
+     * ファイル書き込み
+     */
+    ipcMain.removeHandler('writeFile');
+    ipcMain.handle('writeFile', async (event, filepath, data) => {
+      return new Promise<undefined>((ok, ng) => {
+        writeFile(filepath, data, {}, (err) => {
+          if (err) {
+            return ng(err);
+          }
+          return ok(undefined);
+        });
+      });
     });
 
     /**
