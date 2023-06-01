@@ -35,6 +35,17 @@
       {{ $t('resizeobj実行ファイルを選択します。') }}<br />
       <ExternalLink url="https://github.com/wa-st/resizeobj/releases" />
     </InfoText>
+
+    <SelectFile
+      v-model="store.imageMergerPath"
+      :title="$t('resizeobj')"
+      :filters="[{ name: 'simutrans-image-merger', extensions: ['exe'] }]"
+      @update:model-value="updatecache('imageMergerPath', $event)"
+    />
+    <InfoText>
+      {{ $t('simutrans-image-merger実行ファイルを選択します。') }}<br />
+      <ExternalLink url="https://github.com/128na/simutrans-image-merger/releases" />
+    </InfoText>
   </q-page>
 </template>
 <script setup lang="ts">

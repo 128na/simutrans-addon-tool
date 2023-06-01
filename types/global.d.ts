@@ -106,24 +106,32 @@ interface ResizeobjOptions {
 }
 
 interface MergeImageOption {
-  definitions: MergeDefinition[]
+  version: number;
+  definitions: MergeDefinition[];
+  comment?: string
 }
 interface MergeDefinition {
   outputPath: string;
   rules: MergeRule[];
+  comment?: string
 }
 interface MergeRule {
   /* ルール名 */
   name: string;
+  comment?: string
 }
 
 /* 画像合成ルール */
 interface MergeImageRule extends MergeRule {
   name: 'mergeImage';
   /* ファイルパス */
-  pathes: string[]
+  pathes: string[];
   /* 合成方式 */
-  mode: 'normal'
+  mode: 'normal';
+  offset: {
+    x: number,
+    y: number,
+  }
 }
 /* 透明を透過色にする */
 interface RemoveTransparentRule extends MergeRule {
@@ -134,8 +142,8 @@ interface RemoveTransparentRule extends MergeRule {
 /* 指定色置換 */
 interface ReplaceColorRule extends MergeRule {
   name: 'replaceColor';
-  from: RGB;
-  to: RGB;
+  search: RGB;
+  replace: RGBA;
 }
 /* 特殊色削除 */
 interface RemoveSpecialColorRule extends MergeRule {
