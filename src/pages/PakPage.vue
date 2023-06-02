@@ -36,14 +36,14 @@
           </InfoText>
 
           <q-btn-group>
-            <q-btn
-              color="primary"
+            <PrimaryButton
+              :label="$t('実行')"
               @click="startPak"
-            >{{ $t('実行') }}</q-btn>
-            <q-btn
-              color="negative"
+            />
+            <NegativeButton
+              :label="$t('停止')"
               @click="stopPak"
-            >{{ $t('停止') }}</q-btn>
+            />
           </q-btn-group>
         </q-page>
       </template>
@@ -72,6 +72,8 @@ import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from 'src/stores/settings';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
+import NegativeButton from 'src/components/buttons/NegativeButton.vue';
 
 const splitterModel = ref(50);
 

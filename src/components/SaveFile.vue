@@ -7,36 +7,26 @@
     @click="modelValue || handle()"
   />
   <q-btn-group outline>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    <SmallSecondaryButton
       :disable="disable"
+      :label="$t(selectLabel)"
       @click="handle"
-    >
-      {{ $t(selectLabel) }}
-    </q-btn>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    />
+    <SmallSecondaryButton
       :disable="disable"
+      :label="$t(clearLabel)"
       @click="clear"
-    >
-      {{ $t(clearLabel) }}
-    </q-btn>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    />
+    <SmallSecondaryButton
       :disable="!modelValue"
+      :label="$t(openLabel)"
       @click="open"
-    >
-      {{ $t(openLabel) }}
-    </q-btn>
+    />
   </q-btn-group>
 </template>
 <script setup lang="ts">
+import SmallSecondaryButton from './buttons/SmallSecondaryButton.vue';
+
 const props = withDefaults(
   defineProps<{
     modelValue: string;

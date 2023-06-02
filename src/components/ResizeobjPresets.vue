@@ -1,9 +1,6 @@
 <template>
   <div>
-    <q-btn
-      color="secondary"
-      outline
-      dense
+    <SmallSecondaryButton
       :label="$t('表示する')"
       class="q-mb-md"
       @click="show = !show"
@@ -52,6 +49,7 @@
 <script setup lang="ts">
 import { ResizeobjOptions } from 'app/types/global';
 import { ref } from 'vue';
+import SmallSecondaryButton from './buttons/SmallSecondaryButton.vue';
 const emit = defineEmits<{
   selectPreset: [value: ResizeobjOptions];
 }>();

@@ -41,7 +41,7 @@
             :src="`local-image://${path}`"
             class="thumb"
           >
-            <div class="breakable absolute-bottom">{{ i + 1 }}.{{ path }}</div>
+            <div class="breakable absolute-bottom thumb-desc">{{ i + 1 }}. {{ path }}</div>
           </q-img>
         </q-item-section>
         <q-item-section side>
@@ -49,7 +49,10 @@
         </q-item-section>
       </q-item>
       <q-item>
-        <AddButton @click="add" />
+        <SmallSecondaryButton
+          :label="$t('画像を追加')"
+          @click="add"
+        />
       </q-item>
     </q-list>
   </q-card>
@@ -59,8 +62,8 @@ import { MergeImageRule } from 'app/types/global';
 import UpButton from '../buttons/UpButton.vue';
 import DownButton from '../buttons/DownButton.vue';
 import DeleteButton from '../buttons/DeleteButton.vue';
-import AddButton from '../buttons/AddButton.vue';
 import { useI18n } from 'vue-i18n';
+import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
 const props = defineProps<{
   modelValue: MergeImageRule;
 }>();
@@ -79,5 +82,8 @@ const swap = (index1: number, index2: number) => {
 <style>
 .thumb {
   max-width: 300px;
+}
+.thumb-desc {
+  padding:8px !important;
 }
 </style>

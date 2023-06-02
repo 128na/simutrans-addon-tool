@@ -28,10 +28,7 @@
           </SubTitle>
 
           <div>
-            <q-btn
-              color="secondary"
-              outline
-              dense
+            <SmallSecondaryButton
               :label="$t('表示する')"
               class="q-mb-md"
               @click="showOption = !showOption"
@@ -127,20 +124,18 @@
               </div>
 
               <div class="q-my-md">
-                <q-btn
-                  color="negative"
-                  dense
-                  outline
+                <SmallNegativeButton
+                  :label="$t('オプションをリセット')"
                   @click="setOptions()"
-                >{{ $t('オプションをリセット') }}</q-btn>
+                />
               </div>
             </div>
           </q-slide-transition>
 
-          <q-btn
-            color="primary"
+          <PrimaryButton
+            :label="$t('実行')"
             @click="start"
-          >{{ $t('実行') }}</q-btn>
+          />
         </q-page>
       </template>
 
@@ -170,6 +165,9 @@ import InputPakSize from 'src/components/InputPakSize.vue';
 import ExternalLink from 'src/components/ExternalLink.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import SelectFiles from 'src/components/SelectFiles.vue';
+import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
+import SmallNegativeButton from 'src/components/buttons/SmallNegativeButton.vue';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 
 const splitterModel = ref(50);
 

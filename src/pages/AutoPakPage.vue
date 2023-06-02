@@ -36,16 +36,16 @@
           <InfoText>{{ $t('生成したPakファイルの保存先を選択します。') }}</InfoText>
 
           <template v-if="watching">
-            <q-btn
-              color="negative"
+            <NegativeButton
+              :label="$t('停止')"
               @click="stopAutoPak"
-            >{{ $t('停止') }}</q-btn>
+            />
           </template>
           <template v-else>
-            <q-btn
-              color="primary"
+            <PrimaryButton
+              :label="$t('開始')"
               @click="startAutoPak"
-            >{{ $t('開始') }}</q-btn>
+            />
           </template>
         </q-page>
       </template>
@@ -74,6 +74,8 @@ import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from 'src/stores/settings';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
+import NegativeButton from 'src/components/buttons/NegativeButton.vue';
 
 const splitterModel = ref(50);
 const watching = ref(false);

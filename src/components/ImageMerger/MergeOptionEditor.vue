@@ -32,10 +32,8 @@
       </q-expansion-item>
     </q-list>
     <div class="q-mb-md">
-      <q-btn
+      <SmallSecondaryButton
         :label="$t('定義を追加')"
-        outline
-        color="secondary"
         @click="addDef"
       />
     </div>
@@ -45,6 +43,7 @@
 import { ImageMergeOption } from 'app/types/global';
 import SubTitle from '../SubTitle.vue';
 import DefinitionEditor from './DefinitionEditor.vue';
+import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
 const props = defineProps<{
   modelValue: ImageMergeOption;
 }>();
