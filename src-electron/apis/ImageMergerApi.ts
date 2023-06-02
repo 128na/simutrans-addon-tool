@@ -1,8 +1,8 @@
 import { app, ipcMain } from 'electron';
 import MessagingApi from '../base/MessagingApi';
-import { nanoid } from 'nanoid'
+import { v4 as uuidv4 } from 'uuid';
 import { join } from 'path';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
 export default class extends MessagingApi {
   protected register(): void {
     ipcMain.removeAllListeners('merge');
@@ -14,7 +14,8 @@ export default class extends MessagingApi {
 
     writeFileSync(tmppath, json);
 
-    this.spawn(imageMergerPath, [tmppath]);
+    await this.spawn(imageMergerPath, [tmppath]);
+    unlinkSync(tmppath);
   }
 
   private getTmppath(ext = ''): string {
@@ -22,6 +23,6 @@ export default class extends MessagingApi {
     if (!existsSync(dir)) {
       mkdirSync(dir);
     }
-    return join(dir, nanoid() + ext);
+    return join(dir, uuidv4() + ext);
   }
 }
