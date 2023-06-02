@@ -29,7 +29,7 @@
       <template #after>
         <q-page padding>
           <SubTitle>{{ $t('アドオン一覧') }}</SubTitle>
-          {{$t('コピー')}}
+          {{ $t('コピー') }}
           <q-btn-group outline>
             <SmallSecondaryButton
               :label="$t('テキスト')"

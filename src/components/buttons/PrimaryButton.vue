@@ -1,7 +1,5 @@
 <template>
-  <q-btn
-    color="primary"
-  >
+  <q-btn color="primary">
     <slot />
   </q-btn>
 </template>

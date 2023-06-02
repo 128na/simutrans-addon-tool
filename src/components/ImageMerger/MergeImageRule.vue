@@ -84,6 +84,6 @@ const swap = (index1: number, index2: number) => {
   max-width: 300px;
 }
 .thumb-desc {
-  padding:8px !important;
+  padding: 8px !important;
 }
 </style>
