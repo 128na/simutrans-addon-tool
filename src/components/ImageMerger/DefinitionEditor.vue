@@ -9,11 +9,9 @@
         v-model="modelValue.comment"
         :label="$t('コメント')"
       />
-    </q-card-section>
-    <q-card-section>
-      <q-item-label header>{{ $t('コマンド一覧') }}</q-item-label>
+      <q-item-label header>{{ $t('処理一覧') }}</q-item-label>
       <div v-show="modelValue.rules.length < 1">
-        <p>{{ $t('コマンドがありません。') }}</p>
+        <p>{{ $t('処理がありません。') }}</p>
       </div>
 
       <q-expansion-item
@@ -45,10 +43,9 @@ defineProps<{
 }>();
 
 const components = {
-  mergeImage: {component:MergeImageRule, label:'画像合成'},
-  removeSpecialColor: {component:RemoveSpecialColor, label:'特殊色削除'},
-  removeTransparent: {component:RemoveTransparent, label:'透過色置換'},
-  replaceColor: {component:ReplaceColor, label:'指定色置換'},
+  mergeImage: { component: MergeImageRule, label: '画像合成' },
+  removeSpecialColor: { component: RemoveSpecialColor, label: '特殊色削除' },
+  removeTransparent: { component: RemoveTransparent, label: '透過色置換' },
+  replaceColor: { component: ReplaceColor, label: '指定色置換' },
 };
-
 </script>

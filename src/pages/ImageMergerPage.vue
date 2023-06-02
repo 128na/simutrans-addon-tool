@@ -58,7 +58,7 @@
   </q-page>
 </template>
 <script setup lang="ts">
-import { Ref,  ref, watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 import Logger from '../services/logger';
 import LogViewer from '../components/LogViewer.vue';
 import MainTitle from 'src/components/MainTitle.vue';
@@ -80,7 +80,7 @@ const getDefault = (): ImageMergeOption => {
 const readMergeOption = async (): Promise<ImageMergeOption> => {
   const data = await window.electronAPI.readFile(definitionPath.value);
   if (data) {
-      return JSON.parse(data);
+    return JSON.parse(data);
   }
   return getDefault();
 };
@@ -91,13 +91,11 @@ const writeMergeOption = async (): Promise<void> => {
 const mergeOption: Ref<ImageMergeOption> = ref(definitionPath.value ? await readMergeOption() : getDefault());
 
 const clear = async () => {
-  mergeOption.value = definitionPath.value
-    ? await readMergeOption()
-    : getDefault();
+  mergeOption.value = definitionPath.value ? await readMergeOption() : getDefault();
   updateOriginal(mergeOption.value);
 };
 
-const updatecache = async(key: string, val: unknown) => {
+const updatecache = async (key: string, val: unknown) => {
   window.electronAPI.setCache(key, val);
   mergeOption.value = await readMergeOption();
 };
@@ -116,9 +114,13 @@ const start = () => {
 
 let original: string | undefined = undefined;
 const hasChange = ref(false);
-watch(mergeOption, (v) => {
-  hasChange.value = original !== JSON.stringify(v);
-}, { deep: true });
+watch(
+  mergeOption,
+  (v) => {
+    hasChange.value = original !== JSON.stringify(v);
+  },
+  { deep: true }
+);
 const updateOriginal = (option: ImageMergeOption) => {
   original = JSON.stringify(option);
 };

@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-list>
-      <q-item >
+      <q-item>
         <q-item-section>{{ $t('オフセット') }}</q-item-section>
         <q-item-section>
           <q-input
@@ -37,8 +37,12 @@
           />
         </q-item-section>
         <q-item-section>
-          <span class="breakable">{{ path }}</span>
-          <q-img :src="`local-image://${path}`" />
+          <q-img
+            :src="`local-image://${path}`"
+            class="thumb"
+          >
+            <div class="breakable absolute-bottom">{{ i + 1 }}.{{ path }}</div>
+          </q-img>
         </q-item-section>
         <q-item-section side>
           <DeleteButton @click="remove(i)" />
@@ -72,3 +76,8 @@ const swap = (index1: number, index2: number) => {
   props.modelValue.pathes[index1] = props.modelValue.pathes.splice(index2, 1, props.modelValue.pathes[index1])[0];
 };
 </script>
+<style>
+.thumb {
+  max-width: 300px;
+}
+</style>
