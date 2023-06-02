@@ -27,7 +27,7 @@
  *   }
  * }
  */
-import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb, ImageMergeOption } from 'app/types/global';
+import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';
@@ -69,5 +69,5 @@ contextBridge.exposeInMainWorld('resizeobjAPI', {
 });
 
 contextBridge.exposeInMainWorld('imageMergerAPI', {
-  merge: (options: ImageMergeOption) => ipcRenderer.send('merge', options),
+  merge: (imageMergerPath: string, json: string) => ipcRenderer.send('merge', imageMergerPath, json),
 });

@@ -1,15 +1,27 @@
-import { ipcMain } from 'electron';
+import { app, ipcMain } from 'electron';
 import MessagingApi from '../base/MessagingApi';
-import { ImageMergeOption } from 'app/types/global';
-
+import { nanoid } from 'nanoid'
+import { join } from 'path';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 export default class extends MessagingApi {
   protected register(): void {
-    ipcMain.removeHandler('merge');
-    ipcMain.handle('merge', (event, option: ImageMergeOption) => this.merge(option));
+    ipcMain.removeAllListeners('merge');
+    ipcMain.on('merge', (event, imageMergerPath: string, json: string) => this.merge(imageMergerPath, json));
   }
 
-  private async merge(option: ImageMergeOption) {
-    const json = JSON.stringify(option, null, 2);
-    console.log('[merge]', json);
+  private async merge(imageMergerPath: string, json: string) {
+    const tmppath = this.getTmppath('.json');
+
+    writeFileSync(tmppath, json);
+
+    this.spawn(imageMergerPath, [tmppath]);
+  }
+
+  private getTmppath(ext = ''): string {
+    const dir = join(app.getPath('temp'), process.env.APP_NAME || 'simutrans-addon-tool');
+    if (!existsSync(dir)) {
+      mkdirSync(dir);
+    }
+    return join(dir, nanoid() + ext);
   }
 }

@@ -1,11 +1,24 @@
 <template>
-  <q-expansion-item
-    expand-separator
-    :default-opened="true"
-    :label="`${index + 1}. ${$t('画像合成')}`"
-    :caption="modelValue.comment"
-  >
+  <q-card>
     <q-list>
+      <q-item >
+        <q-item-section>{{ $t('オフセット') }}</q-item-section>
+        <q-item-section>
+          <q-input
+            v-model="modelValue.offset.x"
+            type="number"
+            label="x"
+          />
+        </q-item-section>
+        <q-item-section>
+          <q-input
+            v-model="modelValue.offset.y"
+            type="number"
+            label="y"
+          />
+        </q-item-section>
+      </q-item>
+      <q-item-label header>{{ $t('画像一覧') }}</q-item-label>
       <q-item v-show="modelValue.pathes.length < 1">
         <q-item-section>{{ $t('画像が選択されていません。') }}</q-item-section>
       </q-item>
@@ -35,7 +48,7 @@
         <AddButton @click="add" />
       </q-item>
     </q-list>
-  </q-expansion-item>
+  </q-card>
 </template>
 <script setup lang="ts">
 import { MergeImageRule } from 'app/types/global';
@@ -46,7 +59,6 @@ import AddButton from '../buttons/AddButton.vue';
 import { useI18n } from 'vue-i18n';
 const props = defineProps<{
   modelValue: MergeImageRule;
-  index: number;
 }>();
 const { t } = useI18n();
 const add = async () => {

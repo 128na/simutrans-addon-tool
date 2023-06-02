@@ -39,7 +39,7 @@ declare global {
     };
 
     imageMergerAPI: {
-      merge: (options: ImageMergeOption) => Promise<void>;
+      merge: (imageMergerPath: string, json: string) => Promise<void>;
     };
   }
 }

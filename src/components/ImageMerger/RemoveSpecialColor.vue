@@ -1,10 +1,17 @@
 <template>
-  <q-card-section> {{ index + 1 }}. {{ $t('特殊色削除') }} </q-card-section>
+  <q-card>
+    <q-card-section>
+      <q-input
+        v-model="modelValue.comment"
+        :label="$t('コメント')"
+        class="q-mb-md"
+      />
+    </q-card-section>
+  </q-card>
 </template>
 <script setup lang="ts">
 import { Rule } from 'app/types/global';
 defineProps<{
   modelValue: Rule;
-  index: number;
 }>();
 </script>

@@ -19,16 +19,23 @@
       v-if="modelValue.definitions.length"
       class="q-mb-md"
     >
-      <DefinitionEditor
-        v-for="(_, index) in modelValue.definitions"
+      <q-expansion-item
+        v-for="(definition, index) in modelValue.definitions"
         :key="index"
-        v-model="modelValue.definitions[index]"
-        :definition-index="index"
-      />
+        expand-separator
+        :default-opened="false"
+        :label="`${$t('定義')} ${index + 1}`"
+        :caption="definition.comment"
+        class="bg-grey-2"
+      >
+        <DefinitionEditor v-model="modelValue.definitions[index]" />
+      </q-expansion-item>
     </q-list>
     <div class="q-mb-md">
       <q-btn
         :label="$t('定義を追加')"
+        outline
+        color="secondary"
         @click="addDef"
       />
     </div>
