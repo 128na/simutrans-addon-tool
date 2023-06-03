@@ -82,9 +82,12 @@ export default class ElectronApi extends Api {
      */
     ipcMain.removeHandler('saveFile');
     ipcMain.handle('saveFile', async (event, { defaultPath, filters }) => {
+      filters = filters
+        ? [...filters, { name: 'All Files', extensions: ['*'] }]
+        : undefined;
       const result = await dialog.showSaveDialog(this.mainWindow, {
         defaultPath,
-        filters: [...filters, { name: 'All Files', extensions: ['*'] }],
+        filters,
       });
 
       return result.filePath || '';
