@@ -1,13 +1,9 @@
 <template>
-  <q-card>
-    <q-card-section>
-      <q-input
-        v-model="modelValue.comment"
-        :label="$t('コメント')"
-        class="q-mb-md"
-      />
-    </q-card-section>
-  </q-card>
+  <q-input
+    v-model="modelValue.comment"
+    :label="$t('コメント')"
+    class="q-mb-md"
+  />
 </template>
 <script setup lang="ts">
 defineProps<{

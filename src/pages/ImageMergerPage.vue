@@ -10,34 +10,33 @@
             {{ $t('画像変換') }}
           </MainTitle>
 
-          <SelectFile
-            v-model="definitionPath"
-            :title="$t('定義ファイル')"
-            :filters="[{ name: 'definition', extensions: ['json'] }]"
-            @update:model-value="updatecache('imageMerger.definitionPath', $event)"
-          />
-          <InfoText>{{ $t('定義ファイルを選択します。') }}</InfoText>
+          <SubTitle>
+            {{ $t('定義ファイル') }}
+          </SubTitle>
 
-          <MergeOptionEditor v-model="mergeOption" />
-
-          <q-btn-group class="q-mb-md">
-            <q-btn
-              color="secondary"
+          <q-btn-group outline>
+            <SmallSecondaryButton
+              :label="$t('読み込む')"
+              @click="read"
+            />
+            <q-separator />
+            <SmallSecondaryButton
               :label="$t('変更を保存')"
               :disable="!hasChange"
-              @click="writeMergeOption"
+              @click="write"
             />
-            <q-btn
-              outline
-              color="negative"
+            <q-separator />
+            <SmallNegativeButton
               :label="$t('変更をクリア')"
               :disable="!hasChange"
               @click="clear"
             />
           </q-btn-group>
+
+          <MergeOptionEditor v-model="mergeOption" />
+
           <div class="q-mb-md">
-            <q-btn
-              color="primary"
+            <PrimaryButton
               :label="$t('変換を実行')"
               @click="start"
             />
@@ -62,48 +61,69 @@ import { Ref, ref, watch } from 'vue';
 import Logger from '../services/logger';
 import LogViewer from '../components/LogViewer.vue';
 import MainTitle from 'src/components/MainTitle.vue';
-import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
-import SelectFile from 'src/components/SelectFile.vue';
 import MergeOptionEditor from 'src/components/ImageMerger/MergeOptionEditor.vue';
 import { useSettingsStore } from 'src/stores/settings';
 import { useI18n } from 'vue-i18n';
+import SmallNegativeButton from 'src/components/buttons/SmallNegativeButton.vue';
+import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
+import { useQuasar } from 'quasar';
 
-const splitterModel = ref(50);
-
-const definitionPath = ref(((await window.electronAPI.getCache('imageMerger.definitionPath')) || '') as string);
+const $q = useQuasar();
+const store = useSettingsStore();
+const { t } = useI18n();
 
 const getDefault = (): ImageMergeOption => {
   return Object.create({ version: 1, definitions: [], comment: '' });
 };
-const readMergeOption = async (): Promise<ImageMergeOption> => {
-  const data = await window.electronAPI.readFile(definitionPath.value);
-  if (data) {
-    return JSON.parse(data);
+
+const splitterModel = ref(50);
+const mergeOption: Ref<ImageMergeOption> = ref(getDefault());
+
+const read = async () => {
+  try {
+    const path = await window.electronAPI.selectSingleFile({ filters: [{ name: 'Merge definition', extensions: ['json'] }] });
+    if (path) {
+      const json = await window.electronAPI.readFile(path);
+      if (json) {
+        mergeOption.value = JSON.parse(json) as ImageMergeOption;
+        updateOriginal(mergeOption.value);
+        $q.notify({ type: 'positive', message: t('ファイルを読み込みました。') });
+        return;
+      }
+    }
+    mergeOption.value = getDefault();
+  } catch (error) {
+    $q.notify({ type: 'negative', message: t('読み込みに失敗しました。') });
   }
-  return getDefault();
 };
-const writeMergeOption = async (): Promise<void> => {
-  const data = JSON.stringify(mergeOption.value, null, 2);
-  await window.electronAPI.writeFile(definitionPath.value, data);
+
+const write = async () => {
+  try {
+    const data = JSON.stringify(mergeOption.value, null, 2);
+    const path = await window.electronAPI.saveFile({ filters: [{ name: 'Merge definition', extensions: ['json'] }] });
+    if (path) {
+      await window.electronAPI.writeFile(path, data);
+      hasChange.value = false;
+      $q.notify({ type: 'positive', message: t('保存しました。') });
+    }
+  } catch (error) {
+    $q.notify({ type: 'negative', message: t('保存に失敗しました。') });
+  }
 };
-const mergeOption: Ref<ImageMergeOption> = ref(definitionPath.value ? await readMergeOption() : getDefault());
 
 const clear = async () => {
-  mergeOption.value = definitionPath.value ? await readMergeOption() : getDefault();
-  updateOriginal(mergeOption.value);
-};
-
-const updatecache = async (key: string, val: unknown) => {
-  window.electronAPI.setCache(key, val);
-  mergeOption.value = await readMergeOption();
+  if (window.confirm(t('変更をクリアしますか？'))) {
+    mergeOption.value = getDefault();
+    hasChange.value = false;
+    $q.notify({ type: 'positive', message: t('変更をクリアしました。') });
+  }
 };
 
 const logger = ref(new Logger());
 logger.value.info('ここに実行結果が出力されます。');
 
-const store = useSettingsStore();
-const { t } = useI18n();
 const start = () => {
   if (!store.imageMergerPath) {
     return window.electronAPI.showError(t('SimutransImageMergerが選択されていません。'));

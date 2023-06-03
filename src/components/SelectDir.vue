@@ -49,7 +49,14 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
-const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.selectDir());
+const handle = async () => {
+  if (props.disable === false) {
+    const result = await window.electronAPI.selectDir();
+    if (result) {
+      emit('update:modelValue', result);
+    }
+  }
+}
 const clear = async () => props.disable === false && emit('update:modelValue', '');
 const open = () => window.electronAPI.openDir(props.modelValue);
 </script>

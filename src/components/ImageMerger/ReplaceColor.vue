@@ -1,43 +1,39 @@
 <template>
-  <q-card>
-    <q-list>
-      <q-item>
-        <q-item-section>
-          <q-input
-            v-model="modelValue.comment"
-            :label="$t('コメント')"
-            class="q-mb-md"
-          />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section
-          side
-          top
-        >
-          {{ $t('対象の色') }}
-          <q-color
-            :model-value="rgb"
-            format-model="hex"
-            :palette="simuPalatte"
-            @change="(val) => (rgb = val)"
-          />
-        </q-item-section>
-        <q-item-section
-          side
-          top
-        >
-          {{ $t('置換後の色') }}
-          <q-color
-            :model-value="rgba"
-            format-model="hexa"
-            :palette="simuPalatte"
-            @change="(val) => (rgba = val)"
-          />
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </q-card>
+  <q-item>
+    <q-item-section>
+      <q-input
+        v-model="modelValue.comment"
+        :label="$t('コメント')"
+        class="q-mb-md"
+      />
+    </q-item-section>
+  </q-item>
+  <q-item>
+    <q-item-section
+      side
+      top
+    >
+      {{ $t('対象の色') }}
+      <q-color
+        :model-value="rgb"
+        format-model="hex"
+        :palette="simuPalatte"
+        @change="(val) => (rgb = val)"
+      />
+    </q-item-section>
+    <q-item-section
+      side
+      top
+    >
+      {{ $t('置換後の色') }}
+      <q-color
+        :model-value="rgba"
+        format-model="hexa"
+        :palette="simuPalatte"
+        @change="(val) => (rgba = val)"
+      />
+    </q-item-section>
+  </q-item>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';

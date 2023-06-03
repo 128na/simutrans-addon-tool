@@ -15,31 +15,35 @@
     />
 
     <SubTitle>{{ $t('定義一覧') }}</SubTitle>
-    <q-list
-      v-if="modelValue.definitions.length"
+    <InfoText>{{ $t('ドラッグで順序を変えられます。') }}</InfoText>
+    <draggable
+      v-model="modelValue.definitions"
+      item-key="getKey"
       class="q-mb-md"
     >
-      <q-item-label header>{{ $t('ドラッグで順序を変えられます。') }}</q-item-label>
-      <draggable
-        v-model="modelValue.definitions"
-        item-key="getKey"
-      >
-        <template #item="{ element, index }: { element: Definition, index: number }">
-          <q-expansion-item
-            expand-separator
-            :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
-            :caption="element.comment"
-            header-class="bg-grey-2 sortable"
-          >
-            <DefinitionEditor v-model="modelValue.definitions[index]" />
-          </q-expansion-item>
-        </template>
-      </draggable>
-    </q-list>
+      <template #item="{ element, index }: { element: Definition, index: number }">
+        <ExpandButton
+          :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
+          :header="element.comment"
+        >
+          <q-card>
+            <q-card-section>
+              <DefinitionEditor v-model="modelValue.definitions[index]" />
+              <div class="text-right">
+                <SmallNegativeButton
+                  :label="$t('削除')"
+                  @click="remove(index)"
+                />
+              </div>
+            </q-card-section>
+          </q-card>
+        </ExpandButton>
+      </template>
+    </draggable>
     <div class="q-mb-md">
       <SmallSecondaryButton
         :label="$t('定義を追加')"
-        @click="addDef"
+        @click="add"
       />
     </div>
   </div>
@@ -48,12 +52,20 @@
 import SubTitle from '../SubTitle.vue';
 import DefinitionEditor from './DefinitionEditor.vue';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
+import ExpandButton from '../buttons/ExpandButton.vue';
 import draggable from 'vuedraggable';
+import InfoText from '../InfoText.vue';
+import SmallNegativeButton from '../buttons/SmallNegativeButton.vue';
+import { useI18n } from 'vue-i18n';
 const props = defineProps<{
   modelValue: ImageMergeOption;
 }>();
+const { t } = useI18n();
 
-const addDef = () => {
+const add = () => {
   props.modelValue.definitions.push({ outputPath: '', comment: '', rules: [] });
+};
+const remove = (index: number) => {
+  window.confirm(t('削除しますか？')) && props.modelValue.definitions.splice(index, 1);
 };
 </script>

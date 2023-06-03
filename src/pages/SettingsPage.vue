@@ -38,7 +38,7 @@
 
     <SelectFile
       v-model="store.imageMergerPath"
-      :title="$t('resizeobj')"
+      :title="$t('SimutransImageMerger')"
       :filters="[{ name: 'simutrans-image-merger', extensions: ['exe'] }]"
       @update:model-value="updatecache('imageMergerPath', $event)"
     />

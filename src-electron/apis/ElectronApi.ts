@@ -81,9 +81,10 @@ export default class ElectronApi extends Api {
      * @see https://www.electronjs.org/ja/docs/latest/api/dialog#dialogshowsavedialogbrowserwindow-options
      */
     ipcMain.removeHandler('saveFile');
-    ipcMain.handle('saveFile', async (event, { defaultPath }) => {
+    ipcMain.handle('saveFile', async (event, { defaultPath, filters }) => {
       const result = await dialog.showSaveDialog(this.mainWindow, {
         defaultPath,
+        filters: [...filters, { name: 'All Files', extensions: ['*'] }],
       });
 
       return result.filePath || '';
