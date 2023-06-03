@@ -71,7 +71,7 @@ const formatArgs = (args: unknown) => {
   }
 };
 </script>
-<style>
+<style scoped>
 .message {
   white-space: pre-wrap;
   word-break: break-word;
