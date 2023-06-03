@@ -31,7 +31,7 @@ declare global {
       listFromDat: (options: listOption) => Promise<DatAddon[]>;
     };
     githubAPI: {
-      getLatestRelease: () => Promise<OctokitResponse>;
+      getLatestRelease: () => Promise<GithubVersionResponse>;
     };
 
     resizeobjAPI: {
@@ -42,6 +42,12 @@ declare global {
       merge: (imageMergerPath: string, json: string) => Promise<void>;
     };
   }
+}
+
+interface GithubVersionResponse {
+  version: string;
+  created_at: string;
+  url: string;
 }
 
 interface startPakOption {

@@ -38,6 +38,7 @@
 import ExternalLink from 'src/components/ExternalLink.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import SubTitle from 'src/components/SubTitle.vue';
+import { type GithubVersionResponse } from 'app/types/global';
 
 const histories = {
   '0.1': 'Pak作成、自動Pak作成機能を追加しました。',
@@ -46,5 +47,9 @@ const histories = {
 const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
 
-const latest = await window.githubAPI.getLatestRelease();
+const latest = await window.githubAPI.getLatestRelease().catch(err => {
+  console.error(err);
+  return { version: '?', created_at: '?', url: '' } as GithubVersionResponse
+
+});
 </script>

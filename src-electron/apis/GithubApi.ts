@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import { Octokit } from '@octokit/rest';
 import Api from '../base/Api';
+import { GithubVersionResponse } from 'app/types/global';
 
 export default class GithubApi extends Api {
   octokit: Octokit;
@@ -14,7 +15,7 @@ export default class GithubApi extends Api {
     ipcMain.handle('getLatestRelease', () => this.getLatestRelease());
   }
 
-  private async getLatestRelease() {
+  private async getLatestRelease(): Promise<GithubVersionResponse> {
     // https://github.com/128na/simutrans-addon-tool
     const response = await this.octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
       owner: '128na',
