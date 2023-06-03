@@ -30,7 +30,7 @@
             :default-opened="false"
             :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
             :caption="element.comment"
-            class="bg-grey-2"
+            header-class="bg-grey-2 sortable"
           >
             <DefinitionEditor v-model="modelValue.definitions[index]" />
           </q-expansion-item>

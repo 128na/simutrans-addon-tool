@@ -24,7 +24,7 @@
               :default-opened="true"
               :label="`${index + 1}. ${$t(components[element.name].label)}`"
               :caption="element.comment"
-              class="bg-grey-2"
+              header-class="bg-grey-2 sortable"
             >
               <component
                 :is="components[element.name].component"

@@ -22,32 +22,25 @@
       <q-item v-show="modelValue.pathes.length < 1">
         <q-item-section>{{ $t('画像が選択されていません。') }}</q-item-section>
       </q-item>
-      <q-item
-        v-for="(path, i) in modelValue.pathes"
-        :key="i"
+      <draggable
+        v-model="modelValue.pathes"
+        item-key="getKey"
       >
-        <q-item-section side>
-          <UpButton
-            :disable="i === 0"
-            @click="swap(i, i - 1)"
-          />
-          <DownButton
-            :disable="i === modelValue.pathes.length - 1"
-            @click="swap(i, i + 1)"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-img
-            :src="`local-image://${path}`"
-            class="thumb"
-          >
-            <div class="breakable absolute-bottom thumb-desc">{{ i + 1 }}. {{ path }}</div>
-          </q-img>
-        </q-item-section>
-        <q-item-section side>
-          <DeleteButton @click="remove(i)" />
-        </q-item-section>
-      </q-item>
+        <template #item="{element,index}:{element:string,index:number}">
+          <div class="img-frame sortable">
+            <q-img
+              :src="`local-image://${element}`"
+              class="thumb"
+            >
+              <div class="breakable absolute-bottom thumb-desc">{{ index + 1 }}. {{ element }}</div>
+            </q-img>
+            <DeleteButton
+              class="img-btn"
+              @click="remove(index)"
+            />
+          </div>
+        </template>
+      </draggable>
       <q-item>
         <SmallSecondaryButton
           :label="$t('画像を追加')"
@@ -59,11 +52,10 @@
 </template>
 <script setup lang="ts">
 import { MergeImageRule } from 'app/types/global';
-import UpButton from '../buttons/UpButton.vue';
-import DownButton from '../buttons/DownButton.vue';
 import DeleteButton from '../buttons/DeleteButton.vue';
 import { useI18n } from 'vue-i18n';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
+import draggable from 'vuedraggable'
 const props = defineProps<{
   modelValue: MergeImageRule;
 }>();
@@ -75,15 +67,17 @@ const add = async () => {
 const remove = async (index: number) => {
   window.confirm(t('削除しますか？')) && props.modelValue.pathes.splice(index, 1);
 };
-const swap = (index1: number, index2: number) => {
-  props.modelValue.pathes[index1] = props.modelValue.pathes.splice(index2, 1, props.modelValue.pathes[index1])[0];
-};
 </script>
-<style>
-.thumb {
-  max-width: 300px;
-}
+<style scoped>
 .thumb-desc {
   padding: 8px !important;
+}
+.img-frame {
+  position: relative;
+}
+.img-btn {
+  position: absolute;
+  top:8px;
+  right: 8px;
 }
 </style>

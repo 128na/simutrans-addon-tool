@@ -7,3 +7,7 @@
 .breakable {
   word-break: break-all;
 }
+
+.sortable {
+  cursor: ns-resize !important;
+}
