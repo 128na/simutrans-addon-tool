@@ -150,3 +150,5 @@ interface ReplaceColorRule extends Rule {
 interface RemoveSpecialColorRule extends Rule {
   name: 'removeSpecialColor';
 }
+
+type ExtendedRule = MergeImageRule | RemoveTransparentRule | ReplaceColorRule | RemoveSpecialColorRule;

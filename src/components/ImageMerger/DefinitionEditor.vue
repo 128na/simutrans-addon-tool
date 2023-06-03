@@ -13,32 +13,55 @@
       <div v-show="modelValue.rules.length < 1">
         <p>{{ $t('処理がありません。') }}</p>
       </div>
+      <div class="q-mb-md">
+        <q-expansion-item
+          v-for="(rule, index) in modelValue.rules"
+          :key="index"
+          expand-separator
+          :default-opened="true"
+          :label="`${index + 1}. ${$t(components[rule.name].label)}`"
+          :caption="rule.comment"
+          class="bg-grey-2"
+        >
+          <component
+            :is="components[rule.name].component"
+            v-model="modelValue.rules[index]"
+          />
+        </q-expansion-item>
+      </div>
 
-      <q-expansion-item
-        v-for="(rule, ruleIndex) in modelValue.rules"
-        :key="ruleIndex"
-        expand-separator
-        :default-opened="true"
-        :label="`${ruleIndex + 1}. ${$t(components[rule.name].label)}`"
-        :caption="rule.comment"
-        class="bg-grey-2"
+      <q-btn-dropdown
+        color="secondary"
+        dense
+        outline
+        :label="$t('処理を追加')"
       >
-        <component
-          :is="components[rule.name].component"
-          v-model="modelValue.rules[ruleIndex]"
-        />
-      </q-expansion-item>
+        <q-list>
+          <q-item
+            v-for="(rule,index) in rules"
+            :key="index"
+            v-close-popup
+            dense
+            clickable
+            @click="add(rule.value)"
+          >
+            <q-item-section>
+              <q-item-label>{{$t(rule.name)}}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
     </q-card-section>
   </q-card>
 </template>
 <script setup lang="ts">
-import { Definition } from 'app/types/global';
+import { Definition, ExtendedRule } from 'app/types/global';
 import SaveFile from '../SaveFile.vue';
 import MergeImageRule from './MergeImageRule.vue';
 import RemoveSpecialColor from './RemoveSpecialColor.vue';
 import RemoveTransparent from './RemoveTransparent.vue';
 import ReplaceColor from './ReplaceColor.vue';
-defineProps<{
+const props = defineProps<{
   modelValue: Definition;
 }>();
 
@@ -48,4 +71,13 @@ const components = {
   removeTransparent: { component: RemoveTransparent, label: '透過色置換' },
   replaceColor: { component: ReplaceColor, label: '指定色置換' },
 };
+const rules: { name: string, value: ExtendedRule }[] = [
+  { name: '画像合成', value: { name: 'mergeImage', comment: '', pathes: [], mode: 'normal', offset: { x: 0, y: 0 } } },
+  { name: '特殊色削除', value: { name: 'removeSpecialColor', comment: '' } },
+  { name: '透過色置換', value: { name: 'removeTransparent', comment: '', threthold: 128 } },
+  { name: '指定色置換', value: { name: 'replaceColor', comment: '', search: { r: 255, g: 0, b: 0 }, replace: { r: 0, g: 0, b: 255, a: 255 } } },
+];
+const add = (val: ExtendedRule) => {
+  props.modelValue.rules.push(Object.create(val));
+}
 </script>
