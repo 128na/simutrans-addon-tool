@@ -1,5 +1,4 @@
 import { ipcMain } from 'electron';
-import { ResizeobjArgs, ResizeobjOptions } from 'app/types/global';
 import { spawn } from 'child_process';
 import MessagingApi from '../base/MessagingApi';
 

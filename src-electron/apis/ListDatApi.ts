@@ -1,6 +1,5 @@
 import { ipcMain } from 'electron';
 import Api from '../base/Api';
-import { DatAddon, listOption } from 'app/types/global';
 import { readFileSync } from 'fs';
 
 export default class ListDatApi extends Api {

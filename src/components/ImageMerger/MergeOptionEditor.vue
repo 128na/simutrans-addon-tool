@@ -46,7 +46,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Definition, ImageMergeOption } from 'app/types/global';
 import SubTitle from '../SubTitle.vue';
 import DefinitionEditor from './DefinitionEditor.vue';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';

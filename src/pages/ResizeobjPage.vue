@@ -159,7 +159,6 @@ import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import ResizeobjPresets from 'src/components/ResizeobjPresets.vue';
 import { useI18n } from 'vue-i18n';
-import { ResizeobjOptions } from 'app/types/global';
 import { useSettingsStore } from 'src/stores/settings';
 import InputPakSize from 'src/components/InputPakSize.vue';
 import ExternalLink from 'src/components/ExternalLink.vue';

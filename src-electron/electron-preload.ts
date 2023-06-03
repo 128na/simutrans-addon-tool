@@ -27,7 +27,6 @@
  *   }
  * }
  */
-import { ResizeobjArgs, listOption, startAutoPakOption, startPakOption, ipcMessengerCb } from 'app/types/global';
 import type { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { RouteRecordRaw } from 'vue-router';

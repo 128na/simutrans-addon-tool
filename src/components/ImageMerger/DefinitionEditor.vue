@@ -60,7 +60,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { Definition, ExtendedRule } from 'app/types/global';
 import SaveFile from '../SaveFile.vue';
 import MergeImageRule from './MergeImageRule.vue';
 import RemoveSpecialColor from './RemoveSpecialColor.vue';

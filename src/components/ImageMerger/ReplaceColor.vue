@@ -46,7 +46,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { ReplaceColorRule } from 'app/types/global';
 import { computed } from 'vue';
 const props = defineProps<{
   modelValue: ReplaceColorRule;

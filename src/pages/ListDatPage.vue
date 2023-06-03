@@ -67,8 +67,7 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { Dat } from 'simutrans-dat-parser';
-import { DatConvertedAddon } from 'app/types/global';
+import { Dat, Obj } from 'simutrans-dat-parser';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 
@@ -86,7 +85,7 @@ const addonText = computed(() => {
   }
   return addons.value
     .map((a) => {
-      return `${a.file}\n${a.dat.objs.map((o) => o.name).join('\n')}`;
+      return `${a.file}\n${a.dat.objs.map((o: Obj) => o.name).join('\n')}`;
     })
     .join('\n');
 });
@@ -95,7 +94,7 @@ const addonObjs = computed(() => {
     return t('ここに実行結果が出力されます。');
   }
   return addons.value.map((a) => {
-    return { file: a.file, objs: a.dat.objs.map((o) => o.name) };
+    return { file: a.file, objs: a.dat.objs.map((o: Obj) => o.name) };
   });
 });
 const objCount = computed(() => {

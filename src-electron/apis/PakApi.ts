@@ -1,5 +1,4 @@
 import { ipcMain } from 'electron';
-import { startPakOption } from 'app/types/global';
 import BasePakApi from '../base/BasePakApi';
 
 export default class PakApi extends BasePakApi {

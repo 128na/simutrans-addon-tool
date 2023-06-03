@@ -47,7 +47,6 @@
   </q-slide-transition>
 </template>
 <script setup lang="ts">
-import { ResizeobjOptions } from 'app/types/global';
 import { ref } from 'vue';
 import SmallSecondaryButton from './buttons/SmallSecondaryButton.vue';
 const emit = defineEmits<{

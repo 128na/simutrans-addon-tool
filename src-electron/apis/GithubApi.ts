@@ -1,7 +1,6 @@
 import { ipcMain } from 'electron';
 import { Octokit } from '@octokit/rest';
 import Api from '../base/Api';
-import { GithubVersionResponse } from 'app/types/global';
 
 export default class GithubApi extends Api {
   octokit: Octokit;

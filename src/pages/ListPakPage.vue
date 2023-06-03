@@ -62,7 +62,6 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { PakConvertedAddon } from 'app/types/global';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 

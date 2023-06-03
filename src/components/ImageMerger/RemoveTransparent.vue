@@ -10,7 +10,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { Rule } from 'app/types/global';
 defineProps<{
   modelValue: Rule;
 }>();

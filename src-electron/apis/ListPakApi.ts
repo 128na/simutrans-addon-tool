@@ -1,6 +1,5 @@
 import { ipcMain } from 'electron';
 import Api from '../base/Api';
-import { PakAddon, PakConvertedAddon, listOption } from 'app/types/global';
 import { MakeobjAsync } from 'simutrans-makeobj-wrapper';
 
 export default class ListPakApi extends Api {

@@ -51,7 +51,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { MergeImageRule } from 'app/types/global';
 import DeleteButton from '../buttons/DeleteButton.vue';
 import { useI18n } from 'vue-i18n';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';

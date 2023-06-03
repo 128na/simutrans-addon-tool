@@ -64,7 +64,6 @@ import LogViewer from '../components/LogViewer.vue';
 import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import SubTitle from 'src/components/SubTitle.vue';
-import { ImageMergeOption } from 'app/types/global';
 import SelectFile from 'src/components/SelectFile.vue';
 import MergeOptionEditor from 'src/components/ImageMerger/MergeOptionEditor.vue';
 import { useSettingsStore } from 'src/stores/settings';
