@@ -19,17 +19,23 @@
       v-if="modelValue.definitions.length"
       class="q-mb-md"
     >
-      <q-expansion-item
-        v-for="(definition, index) in modelValue.definitions"
-        :key="index"
-        expand-separator
-        :default-opened="false"
-        :label="`${$t('定義')} ${index + 1}`"
-        :caption="definition.comment"
-        class="bg-grey-2"
+      <q-item-label header>{{ $t('ドラッグで順序を変えられます') }}</q-item-label>
+      <draggable
+        v-model="modelValue.definitions"
+        item-key="getKey"
       >
-        <DefinitionEditor v-model="modelValue.definitions[index]" />
-      </q-expansion-item>
+        <template #item="{element,index}:{element:Definition,index:number}">
+          <q-expansion-item
+            expand-separator
+            :default-opened="false"
+            :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
+            :caption="element.comment"
+            class="bg-grey-2"
+          >
+            <DefinitionEditor v-model="modelValue.definitions[index]" />
+          </q-expansion-item>
+        </template>
+      </draggable>
     </q-list>
     <div class="q-mb-md">
       <SmallSecondaryButton
@@ -40,10 +46,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ImageMergeOption } from 'app/types/global';
+import { Definition, ImageMergeOption } from 'app/types/global';
 import SubTitle from '../SubTitle.vue';
 import DefinitionEditor from './DefinitionEditor.vue';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
+import draggable from 'vuedraggable'
 const props = defineProps<{
   modelValue: ImageMergeOption;
 }>();

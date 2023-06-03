@@ -14,20 +14,25 @@
         <p>{{ $t('処理がありません。') }}</p>
       </div>
       <div class="q-mb-md">
-        <q-expansion-item
-          v-for="(rule, index) in modelValue.rules"
-          :key="index"
-          expand-separator
-          :default-opened="true"
-          :label="`${index + 1}. ${$t(components[rule.name].label)}`"
-          :caption="rule.comment"
-          class="bg-grey-2"
+        <draggable
+          v-model="modelValue.rules"
+          item-key="getKey"
         >
-          <component
-            :is="components[rule.name].component"
-            v-model="modelValue.rules[index]"
-          />
-        </q-expansion-item>
+          <template #item="{element,index}:{element:ExtendedRule,index:number}">
+            <q-expansion-item
+              expand-separator
+              :default-opened="true"
+              :label="`${index + 1}. ${$t(components[element.name].label)}`"
+              :caption="element.comment"
+              class="bg-grey-2"
+            >
+              <component
+                :is="components[element.name].component"
+                v-model="modelValue.rules[index]"
+              />
+            </q-expansion-item>
+          </template>
+        </draggable>
       </div>
 
       <q-btn-dropdown
@@ -61,6 +66,8 @@ import MergeImageRule from './MergeImageRule.vue';
 import RemoveSpecialColor from './RemoveSpecialColor.vue';
 import RemoveTransparent from './RemoveTransparent.vue';
 import ReplaceColor from './ReplaceColor.vue';
+import draggable from 'vuedraggable'
+
 const props = defineProps<{
   modelValue: Definition;
 }>();
