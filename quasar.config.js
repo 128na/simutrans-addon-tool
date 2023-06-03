@@ -66,7 +66,7 @@ module.exports = configure(function (/* ctx */) {
       env: {
         APP_NAME: package.productName,
         APP_REPOSITORY_URL: package.repository.url,
-        CSP: "default-src 'unsafe-inline' 'unsafe-eval' 'self'; img-src local-image://*", // unsafe-inline need for i18n
+        CSP: "default-src 'unsafe-inline' 'unsafe-eval' 'self'; img-src 'unsafe-inline' 'unsafe-eval' 'self' local-image://*", // unsafe-inline need for i18n
         ...require('dotenv').config().parsed,
       },
       // rawDefine: {}
