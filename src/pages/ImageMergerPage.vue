@@ -20,7 +20,7 @@
 
           <MergeOptionEditor v-model="mergeOption" />
 
-          <div class="q-mb-md">
+          <q-btn-group class="q-mb-md">
             <q-btn
               color="secondary"
               :label="$t('変更を保存')"
@@ -34,7 +34,7 @@
               :disable="!hasChange"
               @click="clear"
             />
-          </div>
+          </q-btn-group>
           <div class="q-mb-md">
             <q-btn
               color="primary"

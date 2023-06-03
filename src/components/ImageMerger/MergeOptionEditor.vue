@@ -19,7 +19,7 @@
       v-if="modelValue.definitions.length"
       class="q-mb-md"
     >
-      <q-item-label header>{{ $t('ドラッグで順序を変えられます') }}</q-item-label>
+      <q-item-label header>{{ $t('ドラッグで順序を変えられます。') }}</q-item-label>
       <draggable
         v-model="modelValue.definitions"
         item-key="getKey"

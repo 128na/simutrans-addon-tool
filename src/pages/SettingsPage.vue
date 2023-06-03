@@ -43,7 +43,7 @@
       @update:model-value="updatecache('imageMergerPath', $event)"
     />
     <InfoText>
-      {{ $t('simutrans-image-merger実行ファイルを選択します。') }}<br />
+      {{ $t('SimutransImageMerger実行ファイルを選択します。') }}<br />
       <ExternalLink url="https://github.com/128na/simutrans-image-merger/releases" />
     </InfoText>
   </q-page>
