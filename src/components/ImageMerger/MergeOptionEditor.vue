@@ -27,7 +27,6 @@
         <template #item="{ element, index }: { element: Definition, index: number }">
           <q-expansion-item
             expand-separator
-            :default-opened="false"
             :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
             :caption="element.comment"
             header-class="bg-grey-2 sortable"

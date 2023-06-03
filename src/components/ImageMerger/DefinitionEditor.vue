@@ -21,7 +21,6 @@
           <template #item="{ element, index }: { element: ExtendedRule, index: number }">
             <q-expansion-item
               expand-separator
-              :default-opened="true"
               :label="`${index + 1}. ${$t(components[element.name].label)}`"
               :caption="element.comment"
               header-class="bg-grey-2 sortable"

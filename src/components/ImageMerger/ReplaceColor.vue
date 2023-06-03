@@ -2,11 +2,13 @@
   <q-card>
     <q-list>
       <q-item>
-        <q-input
-          v-model="modelValue.comment"
-          :label="$t('コメント')"
-          class="q-mb-md"
-        />
+        <q-item-section>
+          <q-input
+            v-model="modelValue.comment"
+            :label="$t('コメント')"
+            class="q-mb-md"
+          />
+        </q-item-section>
       </q-item>
       <q-item>
         <q-item-section
@@ -18,11 +20,7 @@
             :model-value="rgb"
             format-model="hex"
             :palette="simuPalatte"
-            @change="
-              (val) => {
-                rgb = val;
-              }
-            "
+            @change="(val) => (rgb = val)"
           />
         </q-item-section>
         <q-item-section
@@ -34,11 +32,7 @@
             :model-value="rgba"
             format-model="hexa"
             :palette="simuPalatte"
-            @change="
-              (val) => {
-                rgba = val;
-              }
-            "
+            @change="(val) => (rgba = val)"
           />
         </q-item-section>
       </q-item>
