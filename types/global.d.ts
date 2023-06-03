@@ -1,6 +1,4 @@
-import type Electron from 'electron';
-import type Router from 'vue-router';
-import { Dat } from 'simutrans-dat-parser';
+import { Router } from 'vue-router';
 
 declare global {
   interface Window {
@@ -15,6 +13,8 @@ declare global {
       openDir: (path: string) => Promise<string>;
       getCache: (key: string) => Promise<unknown>;
       setCache: (key: string, value: unknown) => Promise<void>;
+      readFile: (filepath: string) => Promise<string | undefined>;
+      writeFile: (filepath: string, data: string) => Promise<undefined>;
 
       ipcMessenger: (callback: ipcMessengerCb) => void;
     };
@@ -29,73 +29,15 @@ declare global {
       listFromDat: (options: listOption) => Promise<DatAddon[]>;
     };
     githubAPI: {
-      getLatestRelease: () => Promise<OctokitResponse>;
+      getLatestRelease: () => Promise<GithubVersionResponse>;
     };
 
     resizeobjAPI: {
-      resizeobj: (args: ResizeobjArgs) => Promise<unknown>;
+      resizeobj: (args: ResizeobjArgs) => Promise<void>;
+    };
+
+    imageMergerAPI: {
+      merge: (imageMergerPath: string, json: string) => Promise<void>;
     };
   }
-}
-
-interface startPakOption {
-  makeobjPath: string;
-  size: number;
-  pakPath: string;
-  sourcePath: string;
-}
-
-interface startAutoPakOption {
-  makeobjPath: string;
-  size: number;
-  pakPath: string;
-  sourcePath: string;
-  simutransPath: string;
-}
-
-interface listOption {
-  makeobjPath: string;
-  target: string;
-}
-
-type IpcChannel = 'pak' | 'autoPak' | 'resizeobj';
-
-interface ipcMessengerCb {
-  (event: Electron.IpcRendererEvent, channel: IpcChannel, level: Level, message: string, args?: unknown): void;
-}
-
-interface DatAddon {
-  file: string;
-  dat: string;
-}
-interface DatConvertedAddon {
-  file: string;
-  dat: Dat;
-}
-interface PakAddon {
-  pak: string;
-  objs: string[];
-}
-interface PakConvertedAddon {
-  file: string;
-  objs: string[];
-}
-
-interface ResizeobjArgs {
-  resizeobjPath: string;
-  target: string[];
-  options: ResizeobjOptions;
-}
-interface ResizeobjOptions {
-  [key: string]: unknown;
-  a?: number;
-  s?: 0 | 1 | 2;
-  w?: number;
-  k?: boolean;
-  ka?: boolean;
-  x?: boolean;
-  m?: number;
-  e?: string;
-  t?: string;
-  n?: boolean;
 }

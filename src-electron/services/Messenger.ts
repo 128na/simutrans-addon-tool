@@ -1,4 +1,3 @@
-import { IpcChannel } from 'app/types/global';
 import { BrowserWindow } from 'electron';
 
 export default class Messenger {

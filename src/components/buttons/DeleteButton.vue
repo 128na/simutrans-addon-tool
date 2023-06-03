@@ -1,0 +1,9 @@
+<template>
+  <q-btn
+    round
+    size="xs"
+    color="negative"
+    text-color="white"
+    icon="close"
+  />
+</template>

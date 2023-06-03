@@ -46,6 +46,8 @@ const histories = {
 const releasePage = `${process.env.APP_REPOSITORY_URL}/release`;
 const issuePage = `${process.env.APP_REPOSITORY_URL}/issues`;
 
-const latest = await window.githubAPI.getLatestRelease();
-console.log({ latest });
+const latest = await window.githubAPI.getLatestRelease().catch((err) => {
+  console.error(err);
+  return { version: '?', created_at: '?', url: '' } as GithubVersionResponse;
+});
 </script>

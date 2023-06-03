@@ -94,6 +94,11 @@ module.exports = {
     'vue/html-indent': ['error', 2, {
       'alignAttributesVertically': false,
     }],
-    'vue/html-closing-bracket-newline':'error',
+    // 整え
+    'vue/html-closing-bracket-newline': 'error',
+    // 実装が煩雑になるだけなのでネストしているのはOK
+    'vue/no-mutating-props': ['error', {
+      'shallowOnly': true
+    }]
   },
 };

@@ -18,38 +18,31 @@
           />
           <InfoText>{{ $t('Datファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <q-btn-group>
-            <q-btn
-              color="primary"
-              :loading="running"
-              @click="startList"
-            >{{ $t('実行') }}</q-btn>
-          </q-btn-group>
+          <PrimaryButton
+            :label="$t('実行')"
+            :loading="running"
+            @click="startList"
+          />
         </q-page>
       </template>
 
       <template #after>
         <q-page padding>
           <SubTitle>{{ $t('アドオン一覧') }}</SubTitle>
+          {{ $t('コピー') }}
           <q-btn-group outline>
-            <q-btn
-              outline
-              color="secondary"
-              :label="$t('コピー（テキスト）')"
+            <SmallSecondaryButton
+              :label="$t('テキスト')"
               @click="copyText"
             />
             <q-separator />
-            <q-btn
-              outline
-              color="secondary"
-              :label="$t('コピー（json）')"
+            <SmallSecondaryButton
+              :label="$t('json')"
               @click="copyJson"
             />
             <q-separator />
-            <q-btn
-              outline
-              color="secondary"
-              :label="$t('コピー（json元データ）')"
+            <SmallSecondaryButton
+              :label="$t('json元データ')"
               @click="copyRawJson"
             />
           </q-btn-group>
@@ -74,8 +67,9 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { Dat } from 'simutrans-dat-parser';
-import { DatConvertedAddon } from 'app/types/global';
+import { Dat, Obj } from 'simutrans-dat-parser';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
+import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 
 const splitterModel = ref(50);
 const running = ref(false);
@@ -91,7 +85,7 @@ const addonText = computed(() => {
   }
   return addons.value
     .map((a) => {
-      return `${a.file}\n${a.dat.objs.map((o) => o.name).join('\n')}`;
+      return `${a.file}\n${a.dat.objs.map((o: Obj) => o.name).join('\n')}`;
     })
     .join('\n');
 });
@@ -100,7 +94,7 @@ const addonObjs = computed(() => {
     return t('ここに実行結果が出力されます。');
   }
   return addons.value.map((a) => {
-    return { file: a.file, objs: a.dat.objs.map((o) => o.name) };
+    return { file: a.file, objs: a.dat.objs.map((o: Obj) => o.name) };
   });
 });
 const objCount = computed(() => {

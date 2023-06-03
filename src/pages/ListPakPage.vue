@@ -18,31 +18,26 @@
           />
           <InfoText>{{ $t('Pakファイルのあるフォルダを選択します。') }}</InfoText>
 
-          <q-btn-group>
-            <q-btn
-              color="primary"
-              :loading="running"
-              @click="startList"
-            >{{ $t('実行') }}</q-btn>
-          </q-btn-group>
+          <PrimaryButton
+            :label="$t('実行')"
+            :loading="running"
+            @click="startList"
+          />
         </q-page>
       </template>
 
       <template #after>
         <q-page padding>
           <SubTitle>{{ $t('アドオン一覧') }}</SubTitle>
+          {{ $t('コピー') }}
           <q-btn-group outline>
-            <q-btn
-              outline
-              color="secondary"
-              :label="$t('コピー（テキスト）')"
+            <SmallSecondaryButton
+              :label="$t('テキスト')"
               @click="copyText"
             />
             <q-separator />
-            <q-btn
-              outline
-              color="secondary"
-              :label="$t('コピー（json）')"
+            <SmallSecondaryButton
+              :label="$t('json')"
               @click="copyJson"
             />
           </q-btn-group>
@@ -67,7 +62,8 @@ import { useI18n } from 'vue-i18n';
 import SelectDir from 'src/components/SelectDir.vue';
 import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
-import { PakConvertedAddon } from 'app/types/global';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
+import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 
 const splitterModel = ref(50);
 const running = ref(false);

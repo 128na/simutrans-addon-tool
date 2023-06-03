@@ -7,36 +7,26 @@
     @click="modelValue || handle()"
   />
   <q-btn-group outline>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    <SmallSecondaryButton
       :disable="disable"
+      :label="$t(selectLabel)"
       @click="handle"
-    >
-      {{ $t(selectLabel) }}
-    </q-btn>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    />
+    <SmallSecondaryButton
       :disable="disable"
+      :label="$t(clearLabel)"
       @click="clear"
-    >
-      {{ $t(clearLabel) }}
-    </q-btn>
-    <q-btn
-      outline
-      dense
-      color="secondary"
+    />
+    <SmallSecondaryButton
       :disable="!modelValue"
+      :label="$t(openLabel)"
       @click="open"
-    >
-      {{ $t(openLabel) }}
-    </q-btn>
+    />
   </q-btn-group>
 </template>
 <script setup lang="ts">
+import SmallSecondaryButton from './buttons/SmallSecondaryButton.vue';
+
 const props = withDefaults(
   defineProps<{
     modelValue: string;
@@ -61,7 +51,14 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:modelValue': [value: string | null];
 }>();
-const handle = async () => props.disable === false && emit('update:modelValue', await window.electronAPI.saveFile({ defaultPath: props.defaultPath }));
+const handle = async () => {
+  if (props.disable === false) {
+    const result = await window.electronAPI.saveFile({ defaultPath: props.defaultPath });
+    if (result) {
+      emit('update:modelValue', result);
+    }
+  }
+}
 const clear = async () => props.disable === false && emit('update:modelValue', '');
 const open = () => window.electronAPI.openDir(props.modelValue);
 </script>

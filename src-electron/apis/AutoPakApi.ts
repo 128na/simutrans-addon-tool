@@ -1,5 +1,4 @@
 import { ipcMain } from 'electron';
-import { startAutoPakOption } from 'app/types/global';
 import BasePakApi from '../base/BasePakApi';
 import Watcher from '../services/Watcher';
 import Simutrans from '../services/Simutrans';

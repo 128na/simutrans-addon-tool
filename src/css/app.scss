@@ -3,3 +3,11 @@
   height: calc(100vh - 50px);
   max-height: calc(100vh - 50px);
 }
+
+.breakable {
+  word-break: break-all;
+}
+
+.sortable {
+  cursor: ns-resize !important;
+}

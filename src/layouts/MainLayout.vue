@@ -63,6 +63,16 @@
         </q-item>
         <q-item
           clickable
+          :to="{ name: 'imageMerger' }"
+        >
+          <q-item-section avatar><q-icon name="brush" /></q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('画像変換') }}</q-item-label>
+            <q-item-label caption>{{ $t('画像合成や透過色・特殊色の操作') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
           :to="{ name: 'listPak' }"
         >
           <q-item-section avatar><q-icon name="format_list_numbered" /></q-item-section>

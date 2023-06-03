@@ -11,6 +11,8 @@ import ListDatApi from './apis/ListDatApi';
 import GithubApi from './apis/GithubApi';
 import ElectronApi from './apis/ElectronApi';
 import MenuApi from './apis/MenuApi';
+import ImageMergerApi from './apis/ImageMergerApi';
+import { registerProtocol } from './apis/FileProtocol';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -53,6 +55,7 @@ function createWindow() {
   new PakApi(new Messenger(mainWindow, 'pak'));
   new AutoPakApi(new Messenger(mainWindow, 'autoPak'));
   new ResizeobjApi(new Messenger(mainWindow, 'resizeobj'));
+  new ImageMergerApi(new Messenger(mainWindow, 'imageMerger'));
 
   mainWindow.loadURL(process.env.APP_URL);
 
@@ -86,4 +89,8 @@ app.on('activate', () => {
   if (mainWindow === undefined) {
     createWindow();
   }
+});
+
+app.on('ready', () => {
+  registerProtocol();
 });

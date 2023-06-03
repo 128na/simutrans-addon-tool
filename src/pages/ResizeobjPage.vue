@@ -13,6 +13,7 @@
           <SelectFiles
             v-model="targetPath"
             :title="$t('Pakファイル')"
+            :filters="[{ name: 'pak', extensions: ['pak'] }]"
             @update:model-value="updatecache('resizeobj.targetPath', $event)"
           />
           <InfoText>{{ $t('Pakファイルを選択します。') }}</InfoText>
@@ -27,10 +28,7 @@
           </SubTitle>
 
           <div>
-            <q-btn
-              color="secondary"
-              outline
-              dense
+            <SmallSecondaryButton
               :label="$t('表示する')"
               class="q-mb-md"
               @click="showOption = !showOption"
@@ -126,20 +124,18 @@
               </div>
 
               <div class="q-my-md">
-                <q-btn
-                  color="negative"
-                  dense
-                  outline
+                <SmallNegativeButton
+                  :label="$t('オプションをリセット')"
                   @click="setOptions()"
-                >{{ $t('オプションをリセット') }}</q-btn>
+                />
               </div>
             </div>
           </q-slide-transition>
 
-          <q-btn
-            color="primary"
+          <PrimaryButton
+            :label="$t('実行')"
             @click="start"
-          >{{ $t('実行') }}</q-btn>
+          />
         </q-page>
       </template>
 
@@ -163,16 +159,18 @@ import MainTitle from 'src/components/MainTitle.vue';
 import InfoText from 'src/components/InfoText.vue';
 import ResizeobjPresets from 'src/components/ResizeobjPresets.vue';
 import { useI18n } from 'vue-i18n';
-import { ResizeobjOptions } from 'app/types/global';
 import { useSettingsStore } from 'src/stores/settings';
 import InputPakSize from 'src/components/InputPakSize.vue';
 import ExternalLink from 'src/components/ExternalLink.vue';
 import SubTitle from 'src/components/SubTitle.vue';
 import SelectFiles from 'src/components/SelectFiles.vue';
+import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
+import SmallNegativeButton from 'src/components/buttons/SmallNegativeButton.vue';
+import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 
 const splitterModel = ref(50);
 
-const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || '') as string[]);
+const targetPath = ref(((await window.electronAPI.getCache('resizeobj.targetPath')) || []) as string[]);
 
 const showOption = ref(false);
 const defaultOption: ResizeobjOptions = { a: 100, s: 1, w: 64, k: false, ka: false, x: false, m: 4, e: '.64.pak', t: '', n: false };
@@ -189,7 +187,7 @@ const updatecache = (key: string, val: unknown) => window.electronAPI.setCache(k
 
 const store = useSettingsStore();
 const { t } = useI18n();
-const start = async () => {
+const start = () => {
   if (!targetPath.value.length) {
     return window.electronAPI.showError(t('Pakファイルが選択されていません。'));
   }
@@ -197,12 +195,11 @@ const start = async () => {
     return window.electronAPI.showError(t('resizeが選択されていません'));
   }
 
-  const result = await window.resizeobjAPI.resizeobj({
+  window.resizeobjAPI.resizeobj({
     resizeobjPath: store.resizeobjPath,
     target: [...targetPath.value],
     options: Object.assign({}, options.value),
   });
-  console.log({ result });
 };
 
 window.electronAPI.ipcMessenger((event, channel, level, message, args = undefined) => {

@@ -1,5 +1,4 @@
 import { ipcMain } from 'electron';
-import { ResizeobjArgs, ResizeobjOptions } from 'app/types/global';
 import { spawn } from 'child_process';
 import MessagingApi from '../base/MessagingApi';
 
@@ -26,7 +25,6 @@ export default class ResizeobjApi extends MessagingApi {
     try {
       this.messenger.send('ResizeobjManager.handler', 'info', '処理開始');
       const options = this.buildOption(args.options);
-      console.log({ options });
 
       const result = await new Promise<{ code: number | null; stdout: string; stderr: string }>((ok) => {
         // ダイアログ抑止オプションは必須なので固定
@@ -43,7 +41,6 @@ export default class ResizeobjApi extends MessagingApi {
           ok({ code, stdout, stderr });
         });
       });
-      console.log({ result });
       if (result.code === 0) {
         // スキップされたファイルなどはstderrに出力される
         this.messenger.send('ResizeobjManager.handler', 'success', result.stderr);
