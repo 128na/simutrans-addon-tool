@@ -24,7 +24,7 @@
       <template #item="{ element, index }: { element: Definition, index: number }">
         <ExpandButton
           :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
-          :header="element.comment"
+          :caption="element.comment"
         >
           <q-card>
             <q-card-section>

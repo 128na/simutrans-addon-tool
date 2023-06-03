@@ -1,6 +1,7 @@
 <template>
   <SaveFile
     v-model="modelValue.outputPath"
+    default-path="merge.png"
     :title="$t('画像の保存先')"
   />
   <q-input

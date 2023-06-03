@@ -9,11 +9,9 @@
           <MainTitle>
             {{ $t('画像変換') }}
           </MainTitle>
-
           <SubTitle>
             {{ $t('定義ファイル') }}
           </SubTitle>
-
           <q-btn-group outline>
             <SmallSecondaryButton
               :label="$t('読み込む')"
@@ -25,16 +23,14 @@
               :disable="!hasChange"
               @click="write"
             />
-            <q-separator />
+          </q-btn-group>
+          <MergeOptionEditor v-model="mergeOption" />
+          <div class="q-mb-md text-right">
             <SmallNegativeButton
-              :label="$t('変更をクリア')"
-              :disable="!hasChange"
+              :label="$t('クリア')"
               @click="clear"
             />
-          </q-btn-group>
-
-          <MergeOptionEditor v-model="mergeOption" />
-
+          </div>
           <div class="q-mb-md">
             <PrimaryButton
               :label="$t('変換を実行')"
@@ -75,7 +71,7 @@ const store = useSettingsStore();
 const { t } = useI18n();
 
 const getDefault = (): ImageMergeOption => {
-  return Object.create({ version: 1, definitions: [], comment: '' });
+  return Object.assign({}, { version: 1, comment: '', definitions: [] });
 };
 
 const splitterModel = ref(50);
@@ -136,6 +132,7 @@ const hasChange = ref(false);
 watch(
   mergeOption,
   (v) => {
+    console.log('change mergeOption')
     hasChange.value = original !== JSON.stringify(v);
   },
   { deep: true }
