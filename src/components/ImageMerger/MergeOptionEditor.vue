@@ -24,7 +24,7 @@
         v-model="modelValue.definitions"
         item-key="getKey"
       >
-        <template #item="{element,index}:{element:Definition,index:number}">
+        <template #item="{ element, index }: { element: Definition, index: number }">
           <q-expansion-item
             expand-separator
             :default-opened="false"
@@ -50,7 +50,7 @@ import { Definition, ImageMergeOption } from 'app/types/global';
 import SubTitle from '../SubTitle.vue';
 import DefinitionEditor from './DefinitionEditor.vue';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 const props = defineProps<{
   modelValue: ImageMergeOption;
 }>();

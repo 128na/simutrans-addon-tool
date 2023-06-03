@@ -26,7 +26,7 @@
         v-model="modelValue.pathes"
         item-key="getKey"
       >
-        <template #item="{element,index}:{element:string,index:number}">
+        <template #item="{ element, index }: { element: string, index: number }">
           <div class="img-frame sortable">
             <q-img
               :src="`local-image://${element}`"
@@ -55,7 +55,7 @@ import { MergeImageRule } from 'app/types/global';
 import DeleteButton from '../buttons/DeleteButton.vue';
 import { useI18n } from 'vue-i18n';
 import SmallSecondaryButton from '../buttons/SmallSecondaryButton.vue';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 const props = defineProps<{
   modelValue: MergeImageRule;
 }>();
@@ -77,7 +77,7 @@ const remove = async (index: number) => {
 }
 .img-btn {
   position: absolute;
-  top:8px;
+  top: 8px;
   right: 8px;
 }
 </style>

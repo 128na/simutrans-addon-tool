@@ -18,7 +18,7 @@
           v-model="modelValue.rules"
           item-key="getKey"
         >
-          <template #item="{element,index}:{element:ExtendedRule,index:number}">
+          <template #item="{ element, index }: { element: ExtendedRule, index: number }">
             <q-expansion-item
               expand-separator
               :default-opened="true"
@@ -43,7 +43,7 @@
       >
         <q-list>
           <q-item
-            v-for="(rule,index) in rules"
+            v-for="(rule, index) in rules"
             :key="index"
             v-close-popup
             dense
@@ -51,7 +51,7 @@
             @click="add(rule.value)"
           >
             <q-item-section>
-              <q-item-label>{{$t(rule.name)}}</q-item-label>
+              <q-item-label>{{ $t(rule.name) }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -66,7 +66,7 @@ import MergeImageRule from './MergeImageRule.vue';
 import RemoveSpecialColor from './RemoveSpecialColor.vue';
 import RemoveTransparent from './RemoveTransparent.vue';
 import ReplaceColor from './ReplaceColor.vue';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 
 const props = defineProps<{
   modelValue: Definition;
@@ -78,7 +78,7 @@ const components = {
   removeTransparent: { component: RemoveTransparent, label: '透過色置換' },
   replaceColor: { component: ReplaceColor, label: '指定色置換' },
 };
-const rules: { name: string, value: ExtendedRule }[] = [
+const rules: { name: string; value: ExtendedRule }[] = [
   { name: '画像合成', value: { name: 'mergeImage', comment: '', pathes: [], mode: 'normal', offset: { x: 0, y: 0 } } },
   { name: '特殊色削除', value: { name: 'removeSpecialColor', comment: '' } },
   { name: '透過色置換', value: { name: 'removeTransparent', comment: '', threthold: 128 } },
@@ -86,5 +86,5 @@ const rules: { name: string, value: ExtendedRule }[] = [
 ];
 const add = (val: ExtendedRule) => {
   props.modelValue.rules.push(Object.create(val));
-}
+};
 </script>
