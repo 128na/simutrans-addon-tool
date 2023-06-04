@@ -149,5 +149,12 @@ const appName = process.env.APP_NAME;
 const appVersion = process.env.APP_VERSION;
 const leftDrawerOpen = ref(true);
 
-const shouldKeep = ['PakPage', 'AutoPakPage'];
+const shouldKeep = [
+  'PakPage',
+  'AutoPakPage',
+  'ListPakPage',
+  'ListDatPage',
+  'ResizeobjPage',
+  'ImageMergerPage',
+];
 </script>
