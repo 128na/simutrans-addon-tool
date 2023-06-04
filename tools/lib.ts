@@ -35,10 +35,17 @@ export const readContent = (files: string[]): FileEnt => {
   }, {} as { [path: string]: string });
 };
 
-export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
-  const exists = [];
-  const notExists = [];
+const red = '\u001b[31m';
+const green = '\u001b[32m';
+const reset = '\u001b[0m';
+export const validateMissing = (messages: LangEnt, jsFiles: FileEnt) => {
   for (const lang in messages) {
+    if (lang === 'ja') {
+      continue; // ja is default language
+    }
+    console.log(`${lang}-------------------------\n`);
+    const exists = [];
+    const notExists = [];
     for (const key in messages[lang]) {
       const result = existsInJsFiles(key, jsFiles);
       if (result) {
@@ -47,8 +54,13 @@ export const validate = (messages: LangEnt, jsFiles: FileEnt) => {
         notExists.push(key);
       }
     }
+    if (exists.length) {
+      console.log(`${green}exists keys:\n${exists.join('\n')}${reset}\n`);
+    }
+    if (notExists.length) {
+      console.error(`${red}not exists keys:\n${notExists.join('\n')}${reset}\n`);
+    }
   }
-  return { exists, notExists };
 };
 
 export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null => {
@@ -58,4 +70,45 @@ export const existsInJsFiles = (value: string, jsFiles: FileEnt): string | null 
     }
   }
   return null;
+};
+
+export const extractLangText = (jsFiles: FileEnt): string[] => {
+  const regexp = /\\?t\('([^']+)'\)/g;
+  const lang: Set<string> = new Set();
+  for (const filename in jsFiles) {
+    const matches = jsFiles[filename].matchAll(regexp);
+    [...matches].forEach((match) => {
+      lang.add(match[1]);
+    });
+  }
+  return Array.from(lang);
+};
+
+export const existsInLangFiles = (key: string, messages: MessageEnt): boolean => {
+  return messages.hasOwnProperty(key);
+};
+
+export const validateUntranslated = (messages: LangEnt, keys: string[]) => {
+  for (const lang in messages) {
+    if (lang === 'ja') {
+      continue; // ja is default language
+    }
+    console.log(`${lang}-------------------------\n`);
+    const exists = [];
+    const notExists = [];
+    for (const key of keys) {
+      const result = existsInLangFiles(key, messages[lang]);
+      if (result) {
+        exists.push(key);
+      } else {
+        notExists.push(key);
+      }
+    }
+    if (exists.length) {
+      console.log(`${green}exists keys:\n${exists.join('\n')}${reset}\n`);
+    }
+    if (notExists.length) {
+      console.error(`${red}not exists keys:\n${notExists.join('\n')}${reset}\n`);
+    }
+  }
 };

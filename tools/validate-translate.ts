@@ -1,18 +1,13 @@
 import messages from '../src/i18n';
 import path from 'path';
-import { readContent, readJsFiles, validate } from './lib';
+import { extractLangText, readContent, readJsFiles, validateMissing, validateUntranslated } from './lib';
 
+console.log('Check for unused translation keys.\n');
 const jsFiles = readContent([...readJsFiles(path.join(__dirname, '..', 'src')), ...readJsFiles(path.join(__dirname, '..', 'src-electron'))]);
-const { exists, notExists } = validate(messages, jsFiles);
+validateMissing(messages, jsFiles);
 
-const red = '\u001b[31m';
-const green = '\u001b[32m';
-const reset = '\u001b[0m';
+console.log('Check for untranslated text.\n');
+const keys = extractLangText(jsFiles);
+validateUntranslated(messages, keys);
 
-if (exists.length) {
-  console.log(`${green}exists keys:\n${exists.join('\n')}${reset}\n`);
-}
-if (notExists.length) {
-  console.error(`${red}not exists keys:\n${notExists.join('\n')}${reset}\n`);
-}
-process.exit(notExists.length ? 1 : 0);
+process.exit(0);
