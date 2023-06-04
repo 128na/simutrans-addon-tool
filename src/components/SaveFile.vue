@@ -58,7 +58,7 @@ const handle = async () => {
       emit('update:modelValue', result);
     }
   }
-}
+};
 const clear = async () => props.disable === false && emit('update:modelValue', '');
 const open = () => window.electronAPI.openDir(props.modelValue);
 </script>

@@ -132,7 +132,7 @@ const hasChange = ref(false);
 watch(
   mergeOption,
   (v) => {
-    console.log('change mergeOption')
+    console.log('change mergeOption');
     hasChange.value = original !== JSON.stringify(v);
   },
   { deep: true }
