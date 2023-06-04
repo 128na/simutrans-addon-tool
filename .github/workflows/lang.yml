@@ -33,4 +33,4 @@ jobs:
 
       - run: npm install -g ts-node typescript
 
-      - run: npm run lang:check
+      - run: npm run check:lang

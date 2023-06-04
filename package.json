@@ -10,7 +10,7 @@
     "url": "https://github.com/128na/simutrans-addon-tool"
   },
   "scripts": {
-    "lint:check": "eslint --ext .js,.ts,.vue ./",
+    "check:lint": "eslint --ext .js,.ts,.vue ./",
     "lint": "npm run format:js && eslint --fix --ext .js,.ts,.vue ./",
     "format:js": "prettier --write \"**/*.{js,ts,vue}\"",
     "format": "prettier --write \"**/*.{scss,html,md}\"",
@@ -18,9 +18,9 @@
     "dev": "chcp 65001 && quasar dev -m electron",
     "build": "quasar build -m electron",
     "build:debug": "quasar build -m electron -d",
-    "lang:check": "ts-node ./tools/validate-translate.ts",
-    "typecheck": "tsc --noEmit",
-    "check:all": "npm run lint &&npm run typecheck &&npm run format && npm run lang:check"
+    "check:lang": "ts-node ./tools/validate-translate.ts",
+    "check:type": "tsc --noEmit",
+    "check:all": "npm run lint && npm run check:type && npm run format && npm run check:lang"
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",

@@ -42,7 +42,7 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
-      - run: npm run lint:check
+      - run: npm run check:lint
 
   # This job just check code style for in-template contributions.
   code-style:

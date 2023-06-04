@@ -37,8 +37,8 @@ permissions:
   contents: write
 
 jobs:
-  typechecking:
-    uses: ./.github/workflows/typechecking.yml
+  check:typeing:
+    uses: ./.github/workflows/check:typeing.yml
   # tests:
   #   uses: ./.github/workflows/tests.yml
   draft_release:
