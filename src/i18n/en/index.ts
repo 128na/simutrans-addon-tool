@@ -57,7 +57,7 @@ export default {
   'json': 'json',
   'json元データ': 'json raw data',
   'resizeobj': 'resizeobj',
-  'resizeobj実行ファイルが選択されていません': 'resizeobj executable is not selected',
+  'resizeobj実行ファイルが選択されていません。': 'resizeobj executable is not selected.',
   'resizeobj実行ファイルを選択します。': 'Select the resizeobj executable.',
   'resizeobj実行機能を追加しました。': 'Added resizeobj execution feature.',
   'ここに実行結果が出力されます。': 'The execution results are output here.',
