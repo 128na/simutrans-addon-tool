@@ -9,6 +9,12 @@
           <MainTitle>
             {{ $t('画像変換') }}
           </MainTitle>
+
+          <WarningCard v-show="!store.imageMergerPath">
+            {{ $t('SimutransImageMerger実行ファイルが選択されていません。') }}<br />
+            {{ $t('設定画面から実行ファイルを選択してください。') }}
+          </WarningCard>
+
           <SubTitle>
             {{ $t('定義ファイル') }}
           </SubTitle>
@@ -65,6 +71,7 @@ import SmallNegativeButton from 'src/components/buttons/SmallNegativeButton.vue'
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import { useQuasar } from 'quasar';
+import WarningCard from 'src/components/WarningCard.vue';
 
 const $q = useQuasar();
 const store = useSettingsStore();
@@ -122,7 +129,7 @@ logger.value.info('ここに実行結果が出力されます。');
 
 const start = () => {
   if (!store.imageMergerPath) {
-    return window.electronAPI.showError(t('SimutransImageMergerが選択されていません。'));
+    return window.electronAPI.showError(t('SimutransImageMerger実行ファイルが選択されていません。'));
   }
   window.imageMergerAPI.merge(store.imageMergerPath, JSON.stringify(mergeOption.value));
 };

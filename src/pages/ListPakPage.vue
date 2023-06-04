@@ -10,6 +10,11 @@
             {{ $t('Pakリスト') }}
           </MainTitle>
 
+          <WarningCard v-show="!store.makeobjPath">
+            {{ $t('makeobj実行ファイルが選択されていません。') }}<br />
+            {{ $t('設定画面から実行ファイルを選択してください。') }}
+          </WarningCard>
+
           <SelectDir
             v-model="targetPakDir"
             :disable="running"
@@ -64,6 +69,7 @@ import { copyToClipboard, useQuasar } from 'quasar';
 import { useSettingsStore } from 'src/stores/settings';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
+import WarningCard from 'src/components/WarningCard.vue';
 
 const splitterModel = ref(50);
 const running = ref(false);
@@ -119,7 +125,7 @@ const startList = async () => {
     return window.electronAPI.showError(t('フォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
+    return window.electronAPI.showError(t('makeobj実行ファイルが選択されていません。'));
   }
 
   try {

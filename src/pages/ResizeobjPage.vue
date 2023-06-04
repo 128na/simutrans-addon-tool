@@ -10,6 +10,11 @@
             {{ $t('resizeobj') }}
           </MainTitle>
 
+          <WarningCard v-show="!store.resizeobjPath">
+            {{ $t('resizeobj実行ファイルが選択されていません。') }}<br />
+            {{ $t('設定画面から実行ファイルを選択してください。') }}
+          </WarningCard>
+
           <SelectFiles
             v-model="targetPath"
             :title="$t('Pakファイル')"
@@ -192,7 +197,7 @@ const start = () => {
     return window.electronAPI.showError(t('Pakファイルが選択されていません。'));
   }
   if (!store.resizeobjPath) {
-    return window.electronAPI.showError(t('resizeobjが選択されていません'));
+    return window.electronAPI.showError(t('resizeobj実行ファイルが選択されていません'));
   }
 
   window.resizeobjAPI.resizeobj({

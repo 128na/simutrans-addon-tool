@@ -10,6 +10,16 @@
             {{ $t('自動Pak') }}
           </MainTitle>
 
+          <WarningCard v-show="!store.simutransPath">
+            {{ $t('Simutrans実行ファイルが選択されていません。') }}<br />
+            {{ $t('設定画面から実行ファイルを選択してください。') }}
+          </WarningCard>
+
+          <WarningCard v-show="!store.makeobjPath">
+            {{ $t('makeobj実行ファイルが選択されていません。') }}<br />
+            {{ $t('設定画面から実行ファイルを選択してください。') }}
+          </WarningCard>
+
           <SelectDir
             v-model="sourcePath"
             :title="$t('ソースフォルダ')"
@@ -76,6 +86,7 @@ import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from 'src/stores/settings';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import NegativeButton from 'src/components/buttons/NegativeButton.vue';
+import WarningCard from 'src/components/WarningCard.vue';
 
 const splitterModel = ref(50);
 const watching = ref(false);
@@ -99,10 +110,10 @@ const startAutoPak = () => {
     return window.electronAPI.showError(t('ソースフォルダが選択されていません。'));
   }
   if (!store.makeobjPath) {
-    return window.electronAPI.showError(t('Makeobjが選択されていません。'));
+    return window.electronAPI.showError(t('makeobj実行ファイルが選択されていません。'));
   }
   if (!store.simutransPath) {
-    return window.electronAPI.showError(t('Simutransが選択されていません。'));
+    return window.electronAPI.showError(t('Simutrans実行ファイルが選択されていません。'));
   }
   if (!pakPath.value) {
     return window.electronAPI.showError('pak出力先が選択されていません');
