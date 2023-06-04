@@ -1,5 +1,10 @@
 <template>
-  <q-banner dense>
+  <div class="q-my-sm text-info">
+    <q-icon
+      name="info"
+      class="q-mr-sm"
+    />
     <slot />
-  </q-banner>
+  </div>
+
 </template>

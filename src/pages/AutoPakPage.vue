@@ -10,15 +10,15 @@
             {{ $t('自動Pak') }}
           </MainTitle>
 
-          <WarningCard v-show="!store.simutransPath">
+          <WarningText v-show="!store.simutransPath">
             {{ $t('Simutrans実行ファイルが選択されていません。') }}<br />
             {{ $t('設定画面から実行ファイルを選択してください。') }}
-          </WarningCard>
+          </WarningText>
 
-          <WarningCard v-show="!store.makeobjPath">
+          <WarningText v-show="!store.makeobjPath">
             {{ $t('makeobj実行ファイルが選択されていません。') }}<br />
             {{ $t('設定画面から実行ファイルを選択してください。') }}
-          </WarningCard>
+          </WarningText>
 
           <SelectDir
             v-model="sourcePath"
@@ -86,7 +86,7 @@ import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from 'src/stores/settings';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import NegativeButton from 'src/components/buttons/NegativeButton.vue';
-import WarningCard from 'src/components/WarningCard.vue';
+import WarningText from 'src/components/WarningText.vue';
 
 const splitterModel = ref(50);
 const watching = ref(false);

@@ -10,10 +10,10 @@
             {{ $t('Datリスト') }}
           </MainTitle>
 
-          <WarningCard v-show="!store.makeobjPath">
+          <WarningText v-show="!store.makeobjPath">
             {{ $t('makeobj実行ファイルが選択されていません。') }}<br />
             {{ $t('設定画面から実行ファイルを選択してください。') }}
-          </WarningCard>
+          </WarningText>
 
           <SelectDir
             v-model="targetDatDir"
@@ -75,7 +75,7 @@ import { useSettingsStore } from 'src/stores/settings';
 import { Dat, Obj } from 'simutrans-dat-parser';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
-import WarningCard from 'src/components/WarningCard.vue';
+import WarningText from 'src/components/WarningText.vue';
 
 const splitterModel = ref(50);
 const running = ref(false);

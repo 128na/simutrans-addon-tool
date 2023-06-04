@@ -10,10 +10,10 @@
             {{ $t('画像変換') }}
           </MainTitle>
 
-          <WarningCard v-show="!store.imageMergerPath">
+          <WarningText v-show="!store.imageMergerPath">
             {{ $t('SimutransImageMerger実行ファイルが選択されていません。') }}<br />
             {{ $t('設定画面から実行ファイルを選択してください。') }}
-          </WarningCard>
+          </WarningText>
 
           <SubTitle>
             {{ $t('定義ファイル') }}
@@ -71,7 +71,7 @@ import SmallNegativeButton from 'src/components/buttons/SmallNegativeButton.vue'
 import SmallSecondaryButton from 'src/components/buttons/SmallSecondaryButton.vue';
 import PrimaryButton from 'src/components/buttons/PrimaryButton.vue';
 import { useQuasar } from 'quasar';
-import WarningCard from 'src/components/WarningCard.vue';
+import WarningText from 'src/components/WarningText.vue';
 
 const $q = useQuasar();
 const store = useSettingsStore();

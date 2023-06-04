@@ -10,10 +10,10 @@
             {{ $t('resizeobj') }}
           </MainTitle>
 
-          <WarningCard v-show="!store.resizeobjPath">
+          <WarningText v-show="!store.resizeobjPath">
             {{ $t('resizeobj実行ファイルが選択されていません。') }}<br />
             {{ $t('設定画面から実行ファイルを選択してください。') }}
-          </WarningCard>
+          </WarningText>
 
           <SelectFiles
             v-model="targetPath"

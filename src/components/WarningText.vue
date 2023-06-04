@@ -1,6 +1,5 @@
 <template>
   <q-card
-    bordered
     flat
     class="bg-warning q-mb-md"
   >
