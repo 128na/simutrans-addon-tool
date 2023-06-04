@@ -192,7 +192,7 @@ const start = () => {
     return window.electronAPI.showError(t('Pakファイルが選択されていません。'));
   }
   if (!store.resizeobjPath) {
-    return window.electronAPI.showError(t('resizeが選択されていません'));
+    return window.electronAPI.showError(t('resizeobjが選択されていません'));
   }
 
   window.resizeobjAPI.resizeobj({
