@@ -24,4 +24,4 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
-      - run: npm run typecheck --if-present
+      - run: npm run check:type
