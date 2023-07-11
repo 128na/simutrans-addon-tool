@@ -43,7 +43,7 @@ const props = withDefaults(
     openLabel: 'フォルダ表示',
     clearLabel: 'クリア',
     disable: false,
-  }
+  },
 );
 
 const emit = defineEmits<{

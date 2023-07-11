@@ -17,7 +17,7 @@
       v-model="modelValue.rules"
       item-key="getKey"
     >
-      <template #item="{ element, index }: { element: ExtendedRule, index: number }">
+      <template #item="{ element, index }: { element: ExtendedRule; index: number }">
         <ExpandButton
           :label="`${index + 1}. ${$t(components[element.name].label)}`"
           :caption="element.comment"

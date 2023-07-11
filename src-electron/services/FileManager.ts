@@ -44,7 +44,7 @@ export default class FileManager {
         if (existsSync(f)) {
           unlink(f);
         }
-      })
+      }),
     );
   }
 

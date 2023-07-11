@@ -24,7 +24,7 @@
     v-model="modelValue.pathes"
     item-key="getKey"
   >
-    <template #item="{ element, index }: { element: string, index: number }">
+    <template #item="{ element, index }: { element: string; index: number }">
       <div class="img-frame sortable">
         <q-img
           :src="`local-image://${element}`"

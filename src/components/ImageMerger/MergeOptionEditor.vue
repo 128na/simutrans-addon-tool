@@ -21,7 +21,7 @@
       item-key="getKey"
       class="q-mb-md"
     >
-      <template #item="{ element, index }: { element: Definition, index: number }">
+      <template #item="{ element, index }: { element: Definition; index: number }">
         <ExpandButton
           :label="`${index + 1}. ${element.outputPath || $t('定義')}`"
           :caption="element.comment"
