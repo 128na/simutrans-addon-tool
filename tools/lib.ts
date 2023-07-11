@@ -29,10 +29,13 @@ export const readJsFiles = (dir: string) => {
 };
 
 export const readContent = (files: string[]): FileEnt => {
-  return files.reduce((prev, current) => {
-    prev[current] = fs.readFileSync(current).toString();
-    return prev;
-  }, {} as { [path: string]: string });
+  return files.reduce(
+    (prev, current) => {
+      prev[current] = fs.readFileSync(current).toString();
+      return prev;
+    },
+    {} as { [path: string]: string },
+  );
 };
 
 const red = '\u001b[31m';

@@ -34,7 +34,7 @@ export default class AutoPakApi extends BasePakApi {
     this.watcher.start(
       this.fileManager.getWatchTarget(this.sourcePath),
       (pathes) => this.onReady(pathes),
-      (path) => this.onUpdate(path)
+      (path) => this.onUpdate(path),
     );
   }
 

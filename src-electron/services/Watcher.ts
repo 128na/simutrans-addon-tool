@@ -9,7 +9,7 @@ export default class Watcher {
     options = {
       ignoreInitial: true,
       awaitWriteFinish: { stabilityThreshold: 1000 },
-    }
+    },
   ) {
     this.options = options;
   }

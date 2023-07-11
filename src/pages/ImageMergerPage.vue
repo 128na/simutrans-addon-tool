@@ -142,7 +142,7 @@ watch(
     console.log('change mergeOption');
     hasChange.value = original !== JSON.stringify(v);
   },
-  { deep: true }
+  { deep: true },
 );
 const updateOriginal = (option: ImageMergeOption) => {
   original = JSON.stringify(option);

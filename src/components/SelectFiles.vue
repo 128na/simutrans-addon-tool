@@ -48,7 +48,7 @@ const props = withDefaults(
     clearLabel: 'クリア',
     filters: () => [],
     disable: false,
-  }
+  },
 );
 
 const emit = defineEmits<{

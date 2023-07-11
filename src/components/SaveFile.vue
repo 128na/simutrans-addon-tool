@@ -45,7 +45,7 @@ const props = withDefaults(
     clearLabel: 'クリア',
     defaultPath: undefined,
     disable: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
