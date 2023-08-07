@@ -47,7 +47,7 @@
     "@types/node": "18.15.0",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/parser": "^6.2.1",
     "autoprefixer": "^10.4.14",
     "electron": "^25.3.2",
     "electron-packager": "^17.1.1",
