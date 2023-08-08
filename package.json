@@ -49,7 +49,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.14",
-    "electron": "^25.3.2",
+    "electron": "^25.4.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
