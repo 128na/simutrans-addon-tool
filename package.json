@@ -36,7 +36,7 @@
     "simutrans-makeobj-wrapper": "^1.2.1",
     "uuid": "^9.0.1",
     "vue": "^3.3.8",
-    "vue-i18n": "^9.6.2",
+    "vue-i18n": "^9.6.5",
     "vue-router": "^4.2.4",
     "vuedraggable": "^4.1.0"
   },
