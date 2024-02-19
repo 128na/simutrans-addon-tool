@@ -31,7 +31,7 @@
     "electron-store": "^8.1.0",
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",
-    "quasar": "^2.14.3",
+    "quasar": "^2.14.4",
     "simutrans-dat-parser": "^1.1.1",
     "simutrans-makeobj-wrapper": "^1.2.1",
     "uuid": "^9.0.1",
