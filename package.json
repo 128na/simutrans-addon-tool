@@ -28,7 +28,7 @@
     "@quasar/extras": "^1.16.11",
     "chokidar": "^3.6.0",
     "dotenv": "^16.4.5",
-    "electron-store": "^8.2.0",
+    "electron-store": "^9.0.0",
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",
     "quasar": "^2.15.4",
