@@ -30,7 +30,7 @@
     "dotenv": "^16.4.5",
     "electron-store": "^10.0.0",
     "luxon": "^3.5.0",
-    "pinia": "^2.2.0",
+    "pinia": "^2.2.1",
     "quasar": "^2.16.7",
     "simutrans-dat-parser": "^1.1.1",
     "simutrans-makeobj-wrapper": "^1.2.1",
