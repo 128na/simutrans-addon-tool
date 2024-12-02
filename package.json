@@ -37,7 +37,7 @@
     "uuid": "^11.0.3",
     "vue": "^3.5.13",
     "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5",
+    "vue-router": "^4.5.0",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
