@@ -27,7 +27,7 @@
     "@octokit/rest": "^21.0.2",
     "@quasar/extras": "^1.16.14",
     "chokidar": "^4.0.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "electron-store": "^10.0.0",
     "luxon": "^3.5.0",
     "pinia": "^2.2.6",
