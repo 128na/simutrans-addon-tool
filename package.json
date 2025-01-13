@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",
-    "@octokit/rest": "^21.0.2",
+    "@octokit/rest": "^21.1.0",
     "@quasar/extras": "^1.16.15",
     "chokidar": "^4.0.3",
     "dotenv": "^16.4.7",
