@@ -41,7 +41,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^6.0.5",
+    "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@quasar/app-vite": "^2.2.0",
     "@types/luxon": "^3.6.2",
     "@types/node": "18.15.0",
