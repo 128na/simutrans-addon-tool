@@ -29,7 +29,7 @@
     "chokidar": "^4.0.3",
     "dotenv": "^17.0.1",
     "electron-store": "^10.1.0",
-    "luxon": "^3.6.1",
+    "luxon": "^3.7.1",
     "pinia": "^3.0.3",
     "quasar": "^2.18.1",
     "simutrans-dat-parser": "^1.1.1",
