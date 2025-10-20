@@ -46,7 +46,7 @@
     "@types/luxon": "^3.7.1",
     "@types/node": "18.15.0",
     "@types/uuid": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.0",
     "autoprefixer": "^10.4.21",
     "electron": "^38.3.0",
